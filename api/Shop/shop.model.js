@@ -1,40 +1,49 @@
 //Définition des champs Pour "Shop" dans la bdd
 module.exports = (sequelize, Sequelize) =>  {
-    const Shop = sequelize.define(
+    return Shop = sequelize.define(
         "Shop",
         {
          pseudo: {
-             type: Sequelize.STRING
+             type: Sequelize.STRING,
+             default: undefined
          },
          password: {
-             type: Sequelize.STRING
+             type: Sequelize.STRING,
+             default: undefined
          },
          full_name: {
-             type: Sequelize.STRING
+             type: Sequelize.STRING,
+             default: undefined
          },
          email: {
-             type: Sequelize.STRING
+             type: Sequelize.STRING,
+             default: undefined
          },
          phone: {
-             type: Sequelize.STRING
+             type: Sequelize.STRING,
+             default: undefined
          },
          society: {
-             type: Sequelize.STRING
+             type: Sequelize.STRING,
+             default: undefined
          },
          fonction: {
-             type: Sequelize.STRING
+             type: Sequelize.STRING,
+             default: undefined
          },
          postal: {
-            type: Sequelize.STRING
+             type: Sequelize.STRING,
+             default: undefined
         },
          city: {
-            type: Sequelize.STRING
+             type: Sequelize.STRING,
+             default: undefined
         },
          theme: {
-            type: Sequelize.STRING
+             type: Sequelize.STRING,
+             default: undefined
         }
      },
      { freezeTableName: true }   
     );
-    return Shop;
 };

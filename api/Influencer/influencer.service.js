@@ -1,12 +1,7 @@
-const jwt = require("jsonwebtoken");
-const db = require("../_helpers/db");
-const User = db.user;
-const Boutique = db.boutique;
-
-module.exports = {
-    login,
-    register
-};
+const   jwt = require("jsonwebtoken"),
+        db = require("../_helpers/db"),
+        User = db.Influencer,
+        config = require("../config");
 
 //Vérifie que le shop existe dans la bdd
 async function login(params) {
@@ -26,8 +21,9 @@ async function login(params) {
 }
 
 //Créer un shop dans la bdd en fonction des params
-async function register({params}) {
-    if (await User.findOne({ where: { pseudo: params.pseudo}})) {
+async function register(params) {
+    if (params === undefined ||
+        await User.findOne({ where: { pseudo: params.pseudo}})) {
         throw 'Pseudo "' + pseudo + '" is already taken';
     }
     User.create({
@@ -44,4 +40,10 @@ async function register({params}) {
         snapchat: params.snapchat,
         instagram: params.instagram
     });
+    //console.log(db);
 }
+
+module.exports = {
+    login,
+    register
+};

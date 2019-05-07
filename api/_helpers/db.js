@@ -1,5 +1,6 @@
 const env = require("./env");
 const Sequelize = require("sequelize");
+
 //Connection à la base de donées
 const sequelize = new Sequelize(env.database, env.username, env.password, {
     host: env.host,
@@ -24,11 +25,8 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 //Création des champs de la bdd via leur route
+db.Influencer = require("../Influencer/influencer.model")(sequelize, Sequelize);
+db.Shop = require("../Shop/shop.model")(sequelize, Sequelize);
 
-db.Influencer = require("../Influencer/influencer.model");
-db.Shop = require("../Shop/shop.model");
-
-db.Influencer(sequelize, Sequelize);
-db.Shop(sequelize, Sequelize);
 
 module.exports = db;

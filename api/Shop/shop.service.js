@@ -1,16 +1,11 @@
-const jwt = require("jsonwebtoken");
-const db = require("../_helpers/db");
-const User = db.user;
-const Shop = db.Shop;
-
-module.exports = {
-    login,
-    register
-};
+const   jwt = require("jsonwebtoken"),
+        db = require("../_helpers/db"),
+        Shop = db.Shop,
+        config = require("../config");
 
 //Vérifie que le shop existe dans la bdd
 async function login(params) {
-    const user = await Boutique.findOne({
+    const user = await Shop.findOne({
         where: {
             pseudo: params.pseudo,
             password: params.password
@@ -27,7 +22,8 @@ async function login(params) {
 
 //Créer un shop dans la bdd en fonction des params
 async function register(params) {
-    if (await Shop.findOne({ where: { pseudo: params.pseudo}})) {
+    if (params === undefined ||
+        await Shop.findOne({ where: { pseudo: params.pseudo}})) {
         throw 'Pseudo "' + pseudo + '" is already taken';
     }
     Shop.create({
@@ -43,3 +39,8 @@ async function register(params) {
         theme: params.theme,
     });
 }
+
+module.exports = {
+    login,
+    register
+};
