@@ -1,0 +1,43 @@
+version: "2"
+services:
+  api:
+    container_name: api
+    restart: always
+    build: ./api
+    ports:
+    - "8080:8080"
+    links:
+    - db
+    volumes:
+    - ./api:/api
+    command: sh -c 'npm install; npm start'
+
+
+  db:
+    container_name: db
+    image: postgres
+    hostname: postgres
+    ports:
+    - "6543:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: NeoConnect
+    volumes:
+    - postgres-data:/var/lib/postgresql/data
+    restart: always
+
+
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+    - db
+    ports:
+    - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    restart: always
+
+volumes:
+  postgres-data:
