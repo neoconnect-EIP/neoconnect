@@ -1,6 +1,6 @@
-const express = require("express");
-const router = express.Router();
-const userService = require("./influencer.service");
+const   express = require("express"),
+        router = express.Router(),
+        userService = require("./influencer.service");
 
 router.post("/login/inf", login);
 router.post("/register/inf", register);

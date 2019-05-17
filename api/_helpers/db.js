@@ -1,13 +1,13 @@
-const env = require("./env");
-const Sequelize = require("sequelize");
+const   env = require("./env"),
+        Sequelize = require("sequelize");
 
-//Connection à la base de donées
+//Connection to DB
 const sequelize = new Sequelize(env.database, env.username, env.password, {
     host: env.host,
     dialect: env.dialect
 });
 
-//lance la base de données
+//Start DB
 sequelize
     .authenticate()
     .then(() => {

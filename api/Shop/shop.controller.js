@@ -1,6 +1,6 @@
-const express = require("express");
-const router = express.Router();
-const userService = require("./shop.service");
+const   express = require("express"),
+        router = express.Router(),
+        userService = require("./shop.service");
 
 router.post("/login/shop", login);
 router.post("/register/shop", register);
