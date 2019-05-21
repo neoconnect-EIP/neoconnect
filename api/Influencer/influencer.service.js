@@ -1,6 +1,7 @@
 const   jwt = require("jsonwebtoken"),
         db = require("../_helpers/db"),
         User = db.Influencer,
+        Shop = db.Shop,
         config = require("../config");
 
 //Vérifie que le shop existe dans la bdd
@@ -43,7 +44,15 @@ async function register(params) {
     //console.log(db);
 }
 
+async function listShop() {
+    const list = await Shop.findAll({
+       attributes: ['pseudo', 'full_name']
+    });
+    return (list);
+}
+
 module.exports = {
     login,
-    register
+    register,
+    listShop
 };

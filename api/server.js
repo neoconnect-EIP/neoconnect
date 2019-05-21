@@ -21,6 +21,10 @@ app.use(cors());
 app.use("/", require("./Shop/shop.controller"));
 app.use("/", require("./Influencer/influencer.controller"));
 
+app.get("/", (req, res) => {
+   res.send("api is Up");
+});
+
 //Start server
 app.listen(port, function() {
     console.log(`Running on port ${port}`);
