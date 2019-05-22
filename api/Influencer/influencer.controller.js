@@ -23,7 +23,11 @@ function login(req, res, next) {
 function register(req, res, next) {
     userService
         .register(req.body)
-        .then(() => res.json({}).status(200))
+        .then(user =>
+            user
+                ? res.json(user)
+                : res.status(400).json({ message: "Bad request" })
+                )
         .catch(err => next(err));
 }
 
