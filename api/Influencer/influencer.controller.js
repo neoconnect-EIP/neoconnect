@@ -4,6 +4,7 @@ const   express = require("express"),
 
 router.post("/inf/login", login);
 router.post("/inf/register", register);
+router.get("/inf/me", getUserProfile);
 router.get("/inf/listShop", listShop);
 module.exports = router;
 
@@ -31,10 +32,26 @@ function register(req, res, next) {
         .catch(err => next(err));
 }
 
+function getUserProfile(req, res, next) {
+    userService
+        .getUserProfile(req)
+        .then(list => {
+            if (list !== undefined)
+                res.json(list).status(200);
+            else
+                res.status(400).json({ message: "Bad Token" })
+        })
+        .catch(err => next(err));
+}
+
 function listShop(req, res, next) {
     userService
-        .listShop()
-        .then(list =>
-            res.json(list).status(200))
+        .listShop(req)
+        .then(list => {
+            if (list !== undefined)
+                res.json(list).status(200);
+            else
+                res.status(400).json({ message: "Bad Token" })
+        })
         .catch(err => next(err));
 }

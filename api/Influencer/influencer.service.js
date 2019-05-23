@@ -1,8 +1,9 @@
-const   jwt = require("jsonwebtoken"),
-        db = require("../_helpers/db"),
+const   db = require("../_helpers/db"),
+        //jwt = require("jsonwebtoken"),
         bcrypt = require("bcrypt"),
         User = db.Influencer,
         Shop = db.Shop,
+        jwtUtils = require("../utils/jwt.utils"),
         config = require("../config");
 
 //Vérifie que le shop existe dans la bdd
@@ -13,10 +14,10 @@ async function login(params) {
         }
     });
     if (user && bcrypt.compareSync(params.password, user.password)) {
-        const token = jwt.sign({ sub: user.id }, config.secretJWT);
         return {
-            token
-        };
+            "userId" : user.id,
+            "token" : jwtUtils.generateTokenForUser(user)
+        }
     }
     else
         return (undefined);
@@ -31,7 +32,7 @@ async function register(params) {
             return (undefined);
 
     let hash = bcrypt.hashSync(params.password, 5);
-    const user = User.create({
+    const user = await User.create({
             pseudo: params.pseudo,
             password: hash,
             full_name: params.full_name,
@@ -45,15 +46,35 @@ async function register(params) {
             snapchat: params.snapchat,
             instagram: params.instagram
         });
-        const token = jwt.sign({ sub: user.id }, config.secretJWT);
-        return {
-            token
-        };
+    return {
+        "token" : jwtUtils.generateTokenForUser(user)
+    }
 }
 
-async function listShop() {
+async function getUserProfile(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+
+    if (userId < 0)
+        return (undefined);
+
+    const list = await User.findOne({
+        where: { id: userId },
+        attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
+            'facebook', 'twitter', 'snapchat', 'instagram']
+    });
+    return (list);
+}
+
+async function listShop(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+
+    if (userId < 0)
+        return (undefined);
+
     const list = await Shop.findAll({
-       attributes: ['pseudo', 'full_name']
+        attributes: ['pseudo', 'full_name']
     });
     return (list);
 }
@@ -61,5 +82,6 @@ async function listShop() {
 module.exports = {
     login,
     register,
+    getUserProfile,
     listShop
 };
