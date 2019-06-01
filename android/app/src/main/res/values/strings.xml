@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">Neoconnect</string>
+    <string name="prompt_email" translatable="false">Email</string>
+    <string name="prompt_password" translatable="false">Password (optional)</string>
+    <string name="action_sign_in" translatable="false">Sign in or register</string>
+    <string name="action_sign_in_short" translatable="false">Sign in</string>
+    <string name="error_invalid_email" translatable="false">This email address is invalid</string>
+    <string name="error_invalid_password" translatable="false">This password is too short</string>
+    <string name="error_incorrect_password" translatable="false">This password is incorrect</string>
+    <string name="error_field_required" translatable="false">This field is required</string>
+    <string name="permission_rationale" translatable="false">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!--Titre de page-->
+    <string name="inf" translatable="false">Influenceur</string>
+    <string name="shop" translatable="false">^Boutique</string>
+    <string name="authMenuTitle" translatable="false">Authentification</string>
+
+    <string name="registerInf" translatable="false">Inscription Influenceur</string>
+    <string name="registerShop" translatable="false">Inscription Boutique</string>
+    <string name="loginInf" translatable="false">Connexion Influenceur</string>
+    <string name="loginShop" translatable="false">Connexion Boutiques</string>
+
+    <!--Formulaire-->
+    <!--Champ formulaire Inscription / Connexion-->
+    <string name="input_email" translatable="false">Adresse Email</string>
+    <string name="input_password" translatable="false">Mot de passe</string>
+    <string name="input_pseudo" translatable="false">Pseudo</string>
+    <string name="input_name" translatable="false">Nom</string>
+    <string name="input_phone" translatable="false">Telephone</string>
+    <string name="input_society" translatable="false">Nom de Boutique</string>
+    <string name="input_fonction" translatable="false">Poste / Fonction</string>
+    <string name="input_postal" translatable="false">Code Postal</string>
+    <string name="input_city" translatable="false">Ville</string>
+    <string name="input_sujet" translatable="false">Thèmes favoris</string>
+    <string name="input_twitter" translatable="false">Twitter</string>
+    <string name="input_facebook" translatable="false">Facebook</string>
+    <string name="input_instagram" translatable="false">Instagram</string>
+    <string name="input_snapchat" translatable="false">Snapchat</string>
+
+    <!--Erreur Champ Formulaire Inscription / Connexion -->
+    <string name="error_input_email" translatable="false">Adresse Email requise</string>
+    <string name="error_input_password" translatable="false">Mot de passe requis</string>
+    <string name="error_input_pseudo" translatable="false">Pseudo requis</string>
+    <string name="error_input_name" translatable="false">Nom requis</string>
+    <string name="error_input_phone" translatable="false">Telephone requis</string>
+    <string name="error_input_society" translatable="false">Nom de Boutique requis</string>
+    <string name="error_input_fonction" translatable="false">Poste / Fonction requis</string>
+    <string name="error_input_postal" translatable="false">Code Postal requis</string>
+    <string name="error_input_city" translatable="false">Ville requise</string>
+    <string name="error_input_sujet" translatable="false">Thèmes favoris requis</string>
+    <string name="error_input_twitter" translatable="false">Twitter requis</string>
+    <string name="error_input_facebook" translatable="false">Facebook requis</string>
+    <string name="error_input_instagram" translatable="false">Instagram requis</string>
+    <string name="error_input_snapchat" translatable="false">Snapchat requis</string>
+
+    <!--Bouton-->
+    <string name="switchToInf">Je suis un influenceur</string>
+    <string name="switchToShop">Je représente une boutique</string>
+    <string name="switchToLogin">J\'ai déjà un compte</string>
+    <string name="switchToRegister" translatable="false">Je n\'ai pas encore de compte</string>
+    <string name="register" translatable="false">S\'inscrire</string>
+    <string name="login" translatable="false">Se connecter</string>
+    <string name="retour" translatable="false">Retour</string>
+</resources>
