@@ -1,10 +1,11 @@
 package c.eip.neoconnect.services
 
+import c.eip.neoconnect.model.Boutique
 import c.eip.neoconnect.model.Influenceur
+import c.eip.neoconnect.model.LoginModel
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface AuthService {
     @POST("/inf/register")
@@ -14,7 +15,16 @@ interface AuthService {
 
     @POST("/inf/login")
     fun loginInfluencer(
-        @Query("pseudo") pseudo: String,
-        @Query("password") password: String
+        @Body loginModel: LoginModel
     ): Call<Influenceur>
+
+    @POST("/shop/register")
+    fun registerShop(@Body shop: Boutique): Call<Boutique>
+
+
+    @POST("/shop/login")
+    fun loginShop(
+        @Body loginModel: LoginModel
+    ): Call<Boutique>
+
 }

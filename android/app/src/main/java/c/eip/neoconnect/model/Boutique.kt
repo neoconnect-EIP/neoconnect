@@ -2,7 +2,7 @@ package c.eip.neoconnect.model
 
 import com.google.gson.annotations.SerializedName
 
-class Influenceur(
+class Boutique(
     @SerializedName("pseudo")
     var pseudo: String? = "",
     @SerializedName("password")
@@ -19,12 +19,8 @@ class Influenceur(
     var postal: String? = "",
     @SerializedName("sujet")
     var sujet: String? = "",
-    @SerializedName("facebook")
-    var facebook: String? = "",
-    @SerializedName("twitter")
-    var twitter: String? = "",
-    @SerializedName("snapchat")
-    var snapchat: String? = "",
-    @SerializedName("instagram")
-    var instagram: String = ""
+    @SerializedName("society")
+    var society: String? = "",
+    @SerializedName("fonction")
+    var fonction: String? = ""
 )
