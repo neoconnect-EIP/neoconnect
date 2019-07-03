@@ -27,6 +27,7 @@ db.sequelize = sequelize;
 //Création des champs de la bdd via leur route
 db.Influencer = require("../Influencer/influencer.model")(sequelize, Sequelize);
 db.Shop = require("../Shop/shop.model")(sequelize, Sequelize);
+db.Offre = require("../Offers/offres.model")(sequelize, Sequelize);
 
 
 module.exports = db;

@@ -20,10 +20,7 @@ app.use(cors());
 //Create router
 app.use("/", require("./Shop/shop.controller"));
 app.use("/", require("./Influencer/influencer.controller"));
-
-app.get("/", (req, res) => {
-   res.send("api is Up");
-});
+app.use("/", require("./Offers/offres.controller"));
 
 //Start server
 app.listen(port, function() {

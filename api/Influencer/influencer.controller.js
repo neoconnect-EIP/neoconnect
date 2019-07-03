@@ -14,7 +14,7 @@ function login(req, res, next) {
         .login(req.body)
         .then(user =>
             user
-                ? res.json(user)
+                ? res.json(user).status(200)
                 : res.status(400).json({ message: "Username or password is incorrect" })
                 )
         .catch(err => next(err));        
@@ -26,7 +26,7 @@ function register(req, res, next) {
         .register(req.body)
         .then(user =>
             user
-                ? res.json(user)
+                ? res.json(user).status(200)
                 : res.status(400).json({ message: "Bad request" })
                 )
         .catch(err => next(err));
