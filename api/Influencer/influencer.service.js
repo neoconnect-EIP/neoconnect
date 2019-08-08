@@ -3,8 +3,7 @@ const   db = require("../_helpers/db"),
         bcrypt = require("bcrypt"),
         User = db.Influencer,
         Shop = db.Shop,
-        jwtUtils = require("../utils/jwt.utils"),
-        config = require("../config");
+        jwtUtils = require("../utils/jwt.utils");
 
 //Vérifie que le shop existe dans la bdd
 async function login(params) {
@@ -67,6 +66,30 @@ async function getUserProfile(req) {
     return (list);
 }
 
+async function modifyUserProfile(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+
+    let user = await User.findOne({
+        where: {id: userId}
+    });
+
+    Object.keys(req.body).forEach(function (item) {
+        console.log(item); // key
+        console.log(req.body[item]); // value
+        user[item] = req.body[item];
+    });
+
+    user.save().then(() => {});
+    //console.log(req.body);
+    //console.log(req.body.pseudo);
+
+    return (user.get( { plain: true } ))
+
+}
+
 async function listShop(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
@@ -84,5 +107,6 @@ module.exports = {
     login,
     register,
     getUserProfile,
+    modifyUserProfile,
     listShop
 };

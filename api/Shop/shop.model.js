@@ -27,7 +27,7 @@ module.exports = (sequelize, Sequelize) =>  {
              type: Sequelize.STRING,
              default: undefined
          },
-         fonction: {
+         function: {
              type: Sequelize.STRING,
              default: undefined
          },

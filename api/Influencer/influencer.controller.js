@@ -4,7 +4,10 @@ const   express = require("express"),
 
 router.post("/inf/login", login);
 router.post("/inf/register", register);
+
 router.get("/inf/me", getUserProfile);
+router.put("/inf/me", modifyUserProfile);
+
 router.get("/inf/listShop", listShop);
 module.exports = router;
 
@@ -40,6 +43,18 @@ function getUserProfile(req, res, next) {
                 res.json(list).status(200);
             else
                 res.status(400).json({ message: "Bad Token" })
+        })
+        .catch(err => next(err));
+}
+
+function modifyUserProfile(req, res, next) {
+    userService
+        .modifyUserProfile(req)
+        .then(list => {
+            if (list !== undefined)
+                res.json(list).status(200);
+            else
+                res.status(400).json({ message: "Bad request" })
         })
         .catch(err => next(err));
 }
