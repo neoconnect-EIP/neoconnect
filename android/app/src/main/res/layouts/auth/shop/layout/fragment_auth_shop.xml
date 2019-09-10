@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".navigation.auth.shop.AuthShopFragment">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/auth_shop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/shop"
+                        android:textAlignment="center"
+                        android:textSize="42sp" />
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <Button
+                            android:id="@+id/navigate_shop_register"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/register" />
+
+                    <Button
+                            android:id="@+id/navigate_shop_login"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/login" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp" tools:src="@drawable/chat"
+                    android:id="@+id/chatSImg"/>
+            <TextView
+                    android:text="@string/linkS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/linkSTitle" android:textAlignment="center"/>
+            <TextView
+                    android:text="@string/linkSBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/linkSBio"/>
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp" tools:src="@drawable/delivery"
+                    android:id="@+id/deliveryImg"/>
+            <TextView
+                    android:text="@string/delivery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/deliveryS" android:textAlignment="center"/>
+            <TextView
+                    android:text="@string/deliveryBio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/deliverySBio"/>
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp" tools:src="@drawable/queue"
+                    android:id="@+id/queueImg"/>
+            <TextView
+                    android:text="@string/waitS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/waitS" android:textAlignment="center"/>
+            <TextView
+                    android:text="@string/waitSBio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/waitSBio"/>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

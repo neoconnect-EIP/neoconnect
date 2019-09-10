@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".navigation.loggedIn.influenceur.EditProfil">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Modification de mon profil"
+                android:textSize="32sp" />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Pseudo :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pseudoInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="pseudo du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Mot de passe :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="mot de passe du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Email :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="email du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Telephone :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phoneInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="telephone du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Nom :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nomInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="nom du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Facebook :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="facebook du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Twitter :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/twitterInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="twitter du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Instagram :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/instagramInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="instagram du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Snapchat :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/snapchatInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="snapchat du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Ville :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/villeInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="ville du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Code Postal :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/postalInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="postal du profil" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Theme :" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/themeInf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="theme du profil" />
+        </LinearLayout>
+
+        <Button
+                android:id="@+id/saveInfProfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Modifier mes informations" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

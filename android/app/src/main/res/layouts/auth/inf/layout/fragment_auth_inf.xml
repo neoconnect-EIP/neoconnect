@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".navigation.auth.influenceur.AuthInfFragment">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/auth_inf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/inf"
+                        android:textAlignment="center"
+                        android:textSize="42sp" />
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <Button
+                            android:id="@+id/navigate_influenceur_register"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/register" />
+
+                    <Button
+                            android:id="@+id/navigate_influenceur_login"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/login" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp" tools:src="@drawable/chat_red"
+                    android:id="@+id/chatIImg" android:contentDescription="@string/linkI"/>
+            <TextView
+                    android:text="@string/linkI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/linkITitle" android:textAlignment="center"/>
+            <TextView
+                    android:text="@string/linkIBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/linkIBio"/>
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp" tools:src="@drawable/social_share_red"
+                    android:id="@+id/shareImg" android:contentDescription="@string/publish"/>
+            <TextView
+                    android:text="@string/publish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/publishI" android:textAlignment="center"/>
+            <TextView
+                    android:text="@string/publishBio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/publishIBio"/>
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp" tools:src="@drawable/followers_red"
+                    android:id="@+id/followerImg" android:contentDescription="@string/waitS"/>
+            <TextView
+                    android:text="@string/waitI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/waitI" android:textAlignment="center"/>
+            <TextView
+                    android:text="@string/waitIBio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/waitIBio"/>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

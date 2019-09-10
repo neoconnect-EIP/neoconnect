@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".FaqFragment" android:orientation="vertical">
+
+    <TextView
+            android:text="@string/faq"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="32dp"
+            android:textAlignment="center"
+            android:textSize="52sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView5"/>
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                    android:text="Est-ce gratuit ?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/ask1"/>
+            <TextView
+                    android:text="Oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/answer1"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                    android:text="Pourquoi utiliser Neoconnect ?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/ask2"/>
+            <TextView
+                    android:text="Pq pas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/answer2"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

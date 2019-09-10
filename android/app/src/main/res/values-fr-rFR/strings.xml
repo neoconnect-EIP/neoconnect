@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Neoconnect</string>
-    <string name="switchToShop">Je représente une boutique</string>
-    <string name="switchToLogin">J\'ai déjà un compte</string>
-    <string name="switchToInf">Je suis un influenceur</string>
-</resources>
