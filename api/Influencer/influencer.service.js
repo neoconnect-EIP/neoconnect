@@ -76,6 +76,9 @@ async function modifyUserProfile(req) {
         where: {id: userId}
     });
 
+    if (user === null)
+        return (undefined);
+
     Object.keys(req.body).forEach(function (item) {
         console.log(item); // key
         console.log(req.body[item]); // value
@@ -83,8 +86,6 @@ async function modifyUserProfile(req) {
     });
 
     user.save().then(() => {});
-    //console.log(req.body);
-    //console.log(req.body.pseudo);
 
     return (user.get( { plain: true } ))
 

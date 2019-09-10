@@ -1,12 +1,14 @@
 require("rootpath")();
-const swaggerDocument =  require('./swagger.json');
+const swaggerDocument =  require('./swagger/swagger.json');
 const swaggerUi =  require('swagger-ui-express');
 const express = require("express"),
         bodyParser = require("body-parser"),
         cors = require("cors"),
         app = express(),
         db = require("./_helpers/db"),
-        port = process.env.PORT || 8080 ;
+        port = process.env.PORT || 8080,
+        basicAuth = require('basic-auth');
+
 
 
 //create and check db is create
@@ -15,6 +17,22 @@ db.sequelize.sync({force: true}).then(() => {
 });
 
 //Middleware
+let auth = function (req, res, next) {
+    let user = basicAuth(req);
+    if (!user || !user.name || !user.pass) {
+        res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+        res.sendStatus(401);
+    }
+    if (user.name === 'amy' && user.pass === 'passwd123') {
+        next();
+    } else {
+        res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+        res.sendStatus(401);
+    }
+};
+
+app.all("/swagger/*", auth);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());

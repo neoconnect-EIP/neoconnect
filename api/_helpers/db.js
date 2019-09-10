@@ -28,6 +28,6 @@ db.sequelize = sequelize;
 db.Influencer = require("../Influencer/influencer.model")(sequelize, Sequelize);
 db.Shop = require("../Shop/shop.model")(sequelize, Sequelize);
 db.Offre = require("../Offers/offres.model")(sequelize, Sequelize);
-
+db.OfferApply = require("../Offers/offerApply.model")(sequelize, Sequelize);
 
 module.exports = db;

@@ -2,8 +2,8 @@ module.exports = (sequelize, Sequelize) =>  {
     return sequelize.define(
         "Offer",
         {
-         _id: {
-             type: Sequelize.STRING,
+         idUser: {
+             type: Sequelize.INTEGER,
              default: undefined
          },
          productImg: {
