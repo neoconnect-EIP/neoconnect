@@ -43,7 +43,7 @@ module.exports = (sequelize, Sequelize) =>  {
             type: Sequelize.STRING,
             default: undefined
         },
-        snaptchat: {
+        snapchat: {
             type: Sequelize.STRING,
             default: undefined
         },
