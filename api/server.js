@@ -1,7 +1,7 @@
 require("rootpath")();
-const swaggerDocument =  require('./swagger/swagger.json');
-const swaggerUi =  require('swagger-ui-express');
-const express = require("express"),
+const swaggerDocument =  require('./swagger/swagger.json'),
+        swaggerUi =  require('swagger-ui-express'),
+        express = require("express"),
         bodyParser = require("body-parser"),
         cors = require("cors"),
         app = express(),
