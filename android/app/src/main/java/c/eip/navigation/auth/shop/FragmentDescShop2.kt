@@ -1,4 +1,4 @@
-package c.eip
+package c.eip.navigation.auth.shop
 
 
 import android.os.Bundle
@@ -6,13 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import c.eip.R
 
-class FaqFragment : Fragment() {
+class FragmentDescShop2 : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_faq, container, false)
+        return inflater.inflate(R.layout.fragment_desc_shop2, container, false)
     }
+
 }

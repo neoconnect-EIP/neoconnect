@@ -1,0 +1,21 @@
+package c.eip.navigation.auth.influenceur
+
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import c.eip.R
+
+class FragmentDescInf1 : Fragment() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_desc_inf1, container, false)
+    }
+
+
+}

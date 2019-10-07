@@ -9,13 +9,18 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/shopPrimary"
+            android:gravity="center"
             android:orientation="vertical">
 
         <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="15dp"
                 android:text="@string/registerShop"
+                android:textColor="@color/white"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -30,114 +35,438 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/pseudo"
-                        style="@style/Widget.AppCompat.AutoCompleteTextView"
+                <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/input_pseudo"
-                        android:inputType="text"
-                        android:singleLine="true" />
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/input_password"
-                        android:inputType="textPassword" />
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/input_email"
-                        android:inputType="textEmailAddress" />
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/user"
+                                android:scaleType="centerCrop" />
+                    </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/name"
-                        style="@style/Widget.AppCompat.AutoCompleteTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/input_name"
-                        android:inputType="textPersonName"
-                        android:singleLine="true" />
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/input_phone"
-                        android:inputType="phone" />
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/pseudo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/input_pseudo"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/city"
+                <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/input_city"
-                        android:inputType="text" />
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/postal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/input_postal"
-                        android:inputType="text" />
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/theme"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/input_sujet"
-                        android:inputType="text" />
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/lock"
+                                android:scaleType="centerCrop" />
+                    </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/society"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/input_society"
-                        android:inputType="text" />
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/fonction"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/input_fonction"
-                        android:inputType="text" />
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/input_password"
+                                android:inputType="textPassword"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white" />
 
-                <Button
-                        android:id="@+id/registerShop"
-                        style="?android:textAppearanceSmall"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="@string/register"
-                        android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
 
-                <Button
-                        android:id="@+id/switchLoginShop"
-                        style="?android:textAppearanceSmall"
+                <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="@string/switchToLogin" />
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="horizontal">
 
-                <Button
-                        android:id="@+id/switchSideToShop"
-                        style="?android:textAppearanceSmall"
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/mail_black"
+                                android:scaleType="centerCrop" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/email"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/input_email"
+                                android:inputType="textEmailAddress"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="@string/switchToInf" />
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="horizontal">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/name"
+                                android:scaleType="centerCrop" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/name"
+                                style="@style/Widget.AppCompat.AutoCompleteTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/input_name"
+                                android:inputType="textPersonName"
+                                android:singleLine="true"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="horizontal">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/telephone"
+                                android:scaleType="centerCrop" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/input_phone"
+                                android:inputType="phone"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="horizontal">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/home_address"
+                                android:scaleType="centerCrop" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/city"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/input_city"
+                                android:inputType="text"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="horizontal">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/mailbox"
+                                android:scaleType="centerCrop" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/postal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/input_postal"
+                                android:inputType="text"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="horizontal">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/list"
+                                android:scaleType="centerCrop" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/theme"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/input_sujet"
+                                android:inputType="text"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="horizontal">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/shop"
+                                android:scaleType="centerCrop" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/society"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/input_society"
+                                android:inputType="text"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="horizontal">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/job"
+                                android:scaleType="centerCrop" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/fonction"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/input_fonction"
+                                android:inputType="text"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                    <Button
+                            android:id="@+id/registerShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/shopSecondary"
+                            android:text="@string/register"
+                            android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="10dp">
+
+                        <TextView
+                                android:id="@+id/switchToLoginTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="@string/switchToLogin"
+                                android:textColor="#91abd7" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
+
+                        <Button
+                                android:id="@+id/switchLoginShop"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="#00FFFFFF"
+                                android:text="@string/login"
+                                android:textColor="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
+
+                        <Button
+                                android:id="@+id/switchSideToShop"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="#00FFFFFF"
+                                android:text="@string/switchToInf"
+                                android:textColor="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

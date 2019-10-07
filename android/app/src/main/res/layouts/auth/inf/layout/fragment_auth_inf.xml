@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -9,81 +8,176 @@
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/infPrimary">
+
         <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="40dp"
                     android:orientation="horizontal">
 
-                <TextView
-                        android:id="@+id/auth_inf"
+                <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/inf"
-                        android:textAlignment="center"
-                        android:textSize="42sp" />
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="15dp">
+
+                    <TextView
+                            android:id="@+id/auth_inf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/inf"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="42sp" />
+                </LinearLayout>
 
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                    <Button
-                            android:id="@+id/navigate_influenceur_register"
+                    <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/register" />
+                            android:layout_height="match_parent">
 
-                    <Button
-                            android:id="@+id/navigate_influenceur_login"
+                        <Button
+                                android:id="@+id/navigate_influenceur_register"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="#00FFFFFF"
+                                android:text="@string/register"
+                                android:textColor="@color/white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/login" />
+                            android:layout_height="match_parent">
+
+                        <Button
+                                android:id="@+id/navigate_influenceur_login"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="#00FFFFFF"
+                                android:text="@string/login"
+                                android:textColor="@color/white" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <ImageView
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="140dp" tools:src="@drawable/chat_red"
-                    android:id="@+id/chatIImg" android:contentDescription="@string/linkI"/>
-            <TextView
-                    android:text="@string/linkI"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/infSecondary"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                <TextView
+                        android:id="@+id/linkITitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="30sp"
+                        android:gravity="center"
+                        android:text="@string/linkI"
+                        android:textColor="@color/white"
+                        android:textSize="30sp" />
+
+                <ImageView
+                        android:id="@+id/chatIImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        tools:src="@drawable/chat_red" />
+
+
+                <TextView
+                        android:id="@+id/linkIBio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/linkIBio"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/linkITitle" android:textAlignment="center"/>
-            <TextView
-                    android:text="@string/linkIBio"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                <TextView
+                        android:id="@+id/publishI"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="30sp"
+                        android:gravity="center"
+                        android:text="@string/publish"
+                        android:textColor="@color/white"
+                        android:textSize="30sp" />
+
+                <ImageView
+                        android:id="@+id/shareImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        tools:src="@drawable/social_share_red" />
+
+
+                <TextView
+                        android:id="@+id/publishIBio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/publishBio"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/linkIBio"/>
-            <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp" tools:src="@drawable/social_share_red"
-                    android:id="@+id/shareImg" android:contentDescription="@string/publish"/>
-            <TextView
-                    android:text="@string/publish"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/publishI" android:textAlignment="center"/>
-            <TextView
-                    android:text="@string/publishBio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/publishIBio"/>
-            <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp" tools:src="@drawable/followers_red"
-                    android:id="@+id/followerImg" android:contentDescription="@string/waitS"/>
-            <TextView
-                    android:text="@string/waitI"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/waitI" android:textAlignment="center"/>
-            <TextView
-                    android:text="@string/waitIBio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/waitIBio"/>
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/infSecondary"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                <TextView
+                        android:id="@+id/waitI"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/waitI"
+                        android:textColor="@color/white"
+                        android:textSize="30sp" />
+
+                <ImageView
+                        android:id="@+id/followerImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        tools:src="@drawable/followers_red" />
+
+
+                <TextView
+                        android:id="@+id/waitIBio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/waitIBio"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

@@ -8,9 +8,14 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/infPrimary"
             android:orientation="vertical">
 
         <TextView
+                android:padding="15dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Modification de mon profil"
@@ -19,224 +24,446 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Pseudo :" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pseudoInf"
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/user"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/pseudoInf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_pseudo"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:orientation="horizontal">
+
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="pseudo du profil" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/lock"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/passwordInf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Mot de passe :" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordInf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="mot de passe du profil" />
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/mail_black"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emailInf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_email"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Email :" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailInf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="email du profil" />
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/telephone"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phoneInf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_phone"
+                        android:inputType="phone"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Telephone :" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phoneInf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="telephone du profil" />
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/name"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nomInf"
+                        style="@style/Widget.AppCompat.AutoCompleteTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_name"
+                        android:inputType="textPersonName"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Nom :" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nomInf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="nom du profil" />
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/home_address"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/villeInf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_city"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Facebook :" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/facebook"
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/mailbox"
+                        android:scaleType="centerCrop"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/postalInf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_postal"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:orientation="horizontal">
+
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="facebook du profil" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/list"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/themeInf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_sujet"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Twitter :" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/twitterInf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="twitter du profil" />
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/instagram"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/instagramInf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_instagram"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Instagram :" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/instagramInf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="instagram du profil" />
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/facebook_black"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/facebook"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_facebook"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Snapchat :" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/snapchatInf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="snapchat du profil" />
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/twitter"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/twitterInf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_twitter"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Ville :" />
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/villeInf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="ville du profil" />
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/snapchat"
+                        android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/snapchatInf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/input_snapchat"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="25dp"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Code Postal :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/postalInf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="postal du profil" />
+            <Button
+                    android:id="@+id/saveInfProfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/infSecondary"
+                    android:text="Enregistrer"
+                    android:textColor="@color/white" />
         </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Theme :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/themeInf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="theme du profil" />
-        </LinearLayout>
-
-        <Button
-                android:id="@+id/saveInfProfil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Modifier mes informations" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

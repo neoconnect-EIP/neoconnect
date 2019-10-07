@@ -1,12 +1,25 @@
 package c.eip.navigation.auth
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.BlurMaskFilter
+import android.media.Image
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
+import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import c.eip.R
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.auth_fragment.*
+import java.io.File
+import java.nio.file.Paths
 
 class AuthFragment : Fragment() {
     override fun onCreateView(
@@ -18,9 +31,12 @@ class AuthFragment : Fragment() {
         return inflater.inflate(R.layout.auth_fragment, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val picasso = Picasso.Builder(context!!).build()
+        picasso.load("https://i.imgur.com/vhlRC2D.jpg").into(goToShop)
+        picasso.load("https://i.imgur.com/XdLn9Mg.jpg").into(goToInf)
         val optionsInf = navOptions {
             anim {
                 enter = R.anim.slide_in_right
@@ -37,14 +53,17 @@ class AuthFragment : Fragment() {
                 popExit = R.anim.slide_in_left
             }
         }
-        view.findViewById<Button>(R.id.navigate_influenceur_auth)?.setOnClickListener {
+        view.findViewById<ImageView>(R.id.goToInf)?.setOnClickListener {
             findNavController().navigate(R.id.influenceur_auth, null, optionsInf)
         }
-        view.findViewById<Button>(R.id.navigate_shop_auth)?.setOnClickListener {
+        view.findViewById<ImageView>(R.id.goToShop)?.setOnClickListener {
             findNavController().navigate(R.id.shop_auth, null, optionsShop)
         }
         view.findViewById<Button>(R.id.navigate_faq)?.setOnClickListener {
             findNavController().navigate(R.id.faq, null)
+        }
+        view.findViewById<Button>(R.id.navigate_contact)?.setOnClickListener {
+            findNavController().navigate(R.id.contact, null)
         }
     }
 

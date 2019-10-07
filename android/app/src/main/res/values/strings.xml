@@ -24,6 +24,7 @@
     <string name="faq">FAQ</string>
     <string name="profile">Profil</string>
     <string name="offer">Offre</string>
+
     <!--Formulaire-->
     <!--Champ formulaire Inscription / Connexion-->
     <string name="input_email">Adresse Email</string>
