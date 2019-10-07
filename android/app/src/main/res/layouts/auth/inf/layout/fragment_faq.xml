@@ -1,51 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context=".FaqFragment" android:orientation="vertical">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".navigation.FaqFragment">
 
     <TextView
-            android:text="@string/faq"
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"
+            android:text="@string/faq"
             android:textAlignment="center"
-            android:textSize="52sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/textView5"/>
+            android:textSize="52sp" />
+
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp">
+
         <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
             <TextView
-                    android:text="Est-ce gratuit ?"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/ask1"/>
+                    android:id="@+id/ask4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Qui sommes nous ?"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
             <TextView
-                    android:text="Oui"
+                    android:id="@+id/answer4"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/answer1"/>
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Neoconnect est une plateforme de mise en relation entre les influenceurs et les marques. Nous permettons à nos utilisateurs d'évoluer ensemble.\n Le principe est qu'un influenceur voit une offre qui l'intéresse, nous l'aidons à entrer en contact avec la marque de l'offre, la marque lui envoie le produit, l'influenceur le partage sur ses réseaux." />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp">
+
         <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
             <TextView
-                    android:text="Pourquoi utiliser Neoconnect ?"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/ask2"/>
+                    android:id="@+id/ask1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Est-ce gratuit ?"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
             <TextView
-                    android:text="Pq pas"
+                    android:id="@+id/answer1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/answer2"/>
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Si vous êtes un influenceur, oui c'est totalement gratuit !
+                    Si vous êtes une marque ou une boutique, vous aurez un abonnement à payer" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/ask2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Pourquoi utiliser Neoconnect ?"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/answer2"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="En tant qu'influenceur, utiliser Neoconnect peut vous permettre de gagner en visibilité (et donc en followers) ainsi que gagner un produit qui peut vous intéresser. Et tout ça juste en publiant sur vos réseaux sociaux favoris !
+\nEn tant que marque, utiliser Neoconnect peut vous permettre de gagner en visiblité sans passer par une agence de commiunication et donc de dépenser une fortune !
+\nVous pourrez ainsi grandir et évoluer ensemble en collaborant" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/ask3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Pourquoi nous et pas quelque chose d'autre ?"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/answer3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Avec nous, n'importe votre domaine, ça peut être High-Tech, Gaming ou Cosmétique, que ce soit en influenceur ou en marque, vous aurez votre place !" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </LinearLayout>

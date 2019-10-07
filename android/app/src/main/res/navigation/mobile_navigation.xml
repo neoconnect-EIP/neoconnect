@@ -15,6 +15,9 @@
         <action android:id="@+id/navigate_shop_auth" app:destination="@id/shop_auth"
                 app:enterAnim="@anim/slide_in_right" app:exitAnim="@anim/slide_in_left"/>
         <action android:id="@+id/navigate_faq" app:destination="@id/faq"/>
+        <action
+                android:id="@+id/navigate_to_contact"
+                app:destination="@id/contact" />
     </fragment>
     <fragment android:id="@+id/influenceur_auth" android:name="c.eip.navigation.auth.influenceur.AuthInfFragment"
               android:label="fragment_login_inf"
@@ -45,7 +48,7 @@
     </fragment>
     <fragment android:id="@+id/shop_register" android:name="c.eip.navigation.auth.shop.RegisterFragment" android:label="fragment_shop_register"
               tools:layout="@layout/fragment_shop_register"/>
-    <fragment android:id="@+id/faq" android:name="c.eip.FaqFragment" android:label="fragment_faq"
+    <fragment android:id="@+id/faq" android:name="c.eip.navigation.FaqFragment" android:label="fragment_faq"
               tools:layout="@layout/fragment_faq"/>
     <fragment
             android:id="@+id/loggedInShop"
@@ -109,4 +112,9 @@
             android:name="c.eip.navigation.loggedIn.influenceur.EditProfil"
             android:label="fragment_influenceur_edit_profil"
             tools:layout="@layout/fragment_influenceur_edit_profil" />
+    <fragment
+            android:id="@+id/contact"
+            android:name="c.eip.navigation.ContactFragment"
+            android:label="fragment_contact"
+            tools:layout="@layout/fragment_contact" />
 </navigation>

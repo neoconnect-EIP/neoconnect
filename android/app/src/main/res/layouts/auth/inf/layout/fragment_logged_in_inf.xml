@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/infPrimary"
         tools:context=".navigation.loggedIn.influenceur.LoggedInfFragment">
 
     <TextView
@@ -14,6 +15,7 @@
             android:layout_marginBottom="32dp"
             android:text="@string/inf"
             android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="52sp"
             app:layout_constraintBottom_toTopOf="@+id/navigate_influenceur_profile"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +32,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="8dp"
+            android:background="@color/infSecondary"
             android:text="@string/profile"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/navigate_influenceur_offer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -45,7 +49,9 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="8dp"
+            android:background="@color/infSecondary"
             android:text="@string/offer"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

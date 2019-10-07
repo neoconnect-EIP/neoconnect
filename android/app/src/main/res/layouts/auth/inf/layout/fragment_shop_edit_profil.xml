@@ -8,206 +8,405 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/shopPrimary"
             android:orientation="vertical">
 
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="15dp"
                 android:text="Modification de mon profil"
-                android:textSize="32sp" />
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                android:textStyle="bold" />
 
         <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/email_login_form"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/user"
+                            android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pseudoShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/input_pseudo"
+                            android:inputType="text"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/lock"
+                            android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/passwordShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/input_password"
+                            android:inputType="textPassword"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/mail_black"
+                            android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/emailShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/input_email"
+                            android:inputType="textEmailAddress"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/name"
+                            android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/nomShop"
+                            style="@style/Widget.AppCompat.AutoCompleteTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/input_name"
+                            android:inputType="textPersonName"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/telephone"
+                            android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/phoneShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/input_phone"
+                            android:inputType="phone"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/home_address"
+                            android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/villeShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/input_city"
+                            android:inputType="text"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/mailbox"
+                            android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/postalShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/input_postal"
+                            android:inputType="text"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/list"
+                            android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/themeShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/input_sujet"
+                            android:inputType="text"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/shop"
+                            android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/society"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/input_society"
+                            android:inputType="text"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/job"
+                            android:scaleType="centerCrop" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/posteShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/input_fonction"
+                            android:inputType="text"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+
+
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="25dp"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Pseudo :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pseudoShop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="pseudo du profil" />
+            <Button
+                    android:id="@+id/saveShopProfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/shopSecondary"
+                    android:text="Enregistrer"
+                    android:textColor="@color/white" />
         </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Mot de passe :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordShop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="mot de passe du profil" />
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Email :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailShop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="email du profil" />
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Telephone :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phoneShop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="telephone du profil" />
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Nom :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nomShop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="nom du profil" />
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Société :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/society"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="société du profil" />
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Poste :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/posteShop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="poste du profil" />
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Ville :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/villeShop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="ville du profil" />
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Code Postal :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/postalShop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="postal du profil" />
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="Theme :" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/themeShop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="theme du profil" />
-        </LinearLayout>
-
-        <Button
-                android:id="@+id/saveShopProfil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Modifier mes informations" />
 
     </LinearLayout>
 

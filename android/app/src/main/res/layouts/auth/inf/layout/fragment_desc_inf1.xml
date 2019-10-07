@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".navigation.auth.influenceur.FragmentDescInf1">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/infPrimary"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/linkITitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30sp"
+                    android:gravity="center"
+                    android:text="@string/linkI"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+            <ImageView
+                    android:id="@+id/chatIImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    tools:src="@drawable/chat_red" />
+
+
+            <TextView
+                    android:id="@+id/linkIBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/linkIBio"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
