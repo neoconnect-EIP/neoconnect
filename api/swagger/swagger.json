@@ -4,7 +4,7 @@
   "info": {
     "version": "1.0.0",
     "title": "NeoConnect-React-NodeJS-REST-API",
-    "description": "A minimal and easy to follow example of what you need to create a CRUD style API in NodeJs using TypeScript",
+    "description": "ATTENTION CHAQUE REQUETE SAUF LOGIN + REGISTER ON BESOIN D'UN TOKEN POUR FONCTIONNER POUR CELA IL SUFFIT DE METTRE DANS LE HEADER DE LA REQUETE \"Bearer\" token NE PAS OUBLIER ESPACE ENTRE LES 2 \nBIEN SUR CERTAINE REQUETE NECCESSITE LE BON PROFILE UTILISATEUR POUR FONCTIONNER COMMME LES MODIF DU COMPTE PAR EXAMPLE",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -24,6 +24,14 @@
     {
       "name": "Influencers",
       "description": "API for influencers in the system"
+    },
+    {
+      "name": "Shop",
+      "description": "API for Shop in the system"
+    },
+    {
+      "name": "Offers",
+      "description": "API for Offers in the system"
     }
   ],
   "consumes": [
@@ -33,53 +41,6 @@
     "application/json"
   ],
   "paths": {
-    "/cats": {
-      "get": {
-        "tags": [
-          "Cats"
-        ],
-        "summary": "Get all cats in system",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Cats"
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Cats"
-        ],
-        "summary": "Create a new cat in system",
-        "requestBody": {
-          "description": "Cat Object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/Cat"
-              }
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          "400": {
-            "description": "Failed. Bad post data."
-          }
-        }
-      }
-    },
     "/inf/register": {
       "post": {
         "tags": [
@@ -87,7 +48,7 @@
         ],
         "summary": "Create a new Influencers user type",
         "requestBody": {
-          "description": "Cat Object",
+          "description": "Inf Object",
           "required": true,
           "content": {
             "application/json": {
@@ -143,7 +104,7 @@
       ],
       "summary": "login to account to  Influencers user type",
       "requestBody": {
-        "description": "Cat Object",
+        "description": "Inf Object",
         "required": true,
         "content": {
           "application/json": {
@@ -194,29 +155,416 @@
         }
       }
     }
-
     },
-    "/cats/{id}": {
+    "/inf/me": {
+      "get": {
+        "tags": [
+          "Influencers"
+        ],
+        "summary": "get information of Influencers user account",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InfOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Influencers"
+        ],
+        "summary": "modify Influencers account user type",
+        "requestBody": {
+          "description": "Inf Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/InfOut"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InfOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inf/listShop": {
+      "get": {
+        "tags": [
+          "Influencers"
+        ],
+        "summary": "get all Shop",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ]
+      }
+    },
+    "/shop/register": {
+      "post": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "Create a new Shop user type",
+        "requestBody": {
+          "description": "Shop Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Shop"
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "pseudo": "Sardoche",
+                    "password": "password1234"
+                  }
+                },
+                "Example with more arguments": {
+                  "value": {
+                    "pseudo": "Master",
+                    "password": "password1234",
+                    "full_name": "Jean Dupont",
+                    "email": "jean.dupont@gmail.com",
+                    "city": "paris"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ResponseToken"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/login": {
+      "post": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "login to account to  Shop user type",
+        "requestBody": {
+          "description": "Shop Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pseudo": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "pseudo",
+                  "password"
+                ]
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "pseudo": "Sardoche",
+                    "password": "password1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ResponseToken"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/me": {
+      "get": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "get information of Shop user account",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ShopOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "modify Shop account user type",
+        "requestBody": {
+          "description": "Shop Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/ShopOut"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ShopOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/listInf": {
+      "get": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "get all Influencers",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ]
+      }
+    },
+    "/offer/insert": {
+      "post": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Create a new Shop Offers",
+        "requestBody": {
+          "description": "Offers Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Offers"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/OffersOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/list": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "get all Offers",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/OffersOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/{id}": {
       "parameters": [
         {
           "name": "id",
           "in": "path",
           "required": true,
-          "description": "ID of the cat that we want to match",
+          "description": "ID of the Offers that we want to match",
           "type": "string"
         }
       ],
       "get": {
         "tags": [
-          "Cats"
+          "Offers"
         ],
-        "summary": "Get cat with given ID",
+        "summary": "Get Offers by id",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "Cat with id",
+            "description": "Offer with id",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -226,7 +574,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Cat"
+              "$ref": "#/definitions/OffersOut"
             }
           },
           "404": {
@@ -235,17 +583,17 @@
         }
       },
       "put": {
-        "summary": "Update cat with given ID",
+        "summary": "Update Offer with given ID",
         "tags": [
-          "Cats"
+          "Offers"
         ],
         "requestBody": {
-          "description": "Cat Object",
+          "description": "Offer Object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Cat"
+                "$ref": "#/definitions/Offers"
               }
             }
           }
@@ -255,7 +603,7 @@
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "Cat with new values of properties",
+            "description": "Offers with new values of properties",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -265,28 +613,25 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Cat"
+              "$ref": "#/definitions/Offers"
             }
           },
           "400": {
             "description": "Failed. Bad post data."
-          },
-          "404": {
-            "description": "Failed. Cat not found."
           }
         }
       },
       "delete": {
-        "summary": "Delete cat with given ID",
+        "summary": "Delete Offers with given ID",
         "tags": [
-          "Cats"
+          "Offers"
         ],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "Delete Cat with id",
+            "description": "Delete Offer with id",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -300,7 +645,138 @@
             }
           },
           "404": {
-            "description": "Failed. Cat not found."
+            "description": "Failed. Offer not found."
+          }
+        }
+      }
+    },
+    "/offer/shop/{id}": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Get all Offers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offers with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OffersOut"
+            }
+          },
+          "404": {
+            "description": "Failed"
+          }
+        }
+      }
+    },
+    "/offer/apply/{id}": {
+      "put": {
+        "summary": "Apply Offer with given ID",
+        "tags": [
+          "Offers"
+        ],
+        "requestBody": {
+          "description": "Offer Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Offers"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offers with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OffersOut"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    },
+    "/offer/apply/offer/{id}": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Get all user who apply at this Offer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offers with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OffersOut"
+            }
+          },
+          "404": {
+            "description": "Failed"
+          }
+        }
+      }
+    },
+    "/offer/apply/user/{id}": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Get all Offer who is apply by the user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offers with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OffersOut"
+            }
+          },
+          "404": {
+            "description": "Failed"
           }
         }
       }
@@ -314,31 +790,12 @@
         }
       }
     },
-    "Cat": {
+    "Header": {
       "type": "object",
       "properties": {
-        "genus": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "isHungry": {
-          "type": "boolean"
-        },
-        "lastFedDate": {
-          "type": "string"
-        }
-      }
-    },
-    "Cats": {
-      "type": "object",
-      "properties": {
-        "cats": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/Cat"
-          }
+        "authorization": {
+          "type": "string",
+          "description": "Bearer token"
         }
       }
     },
@@ -386,6 +843,158 @@
         "pseudo",
         "password"
       ]
+    },
+    "InfOut": {
+      "type": "object",
+      "properties": {
+        "pseudo": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "postal": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "facebook": {
+          "type": "string"
+        },
+        "twitter": {
+          "type": "string"
+        },
+        "snapchat": {
+          "type": "string"
+        },
+        "instagram": {
+          "type": "string"
+        }
+      }
+    },
+    "Shop": {
+      "type": "object",
+      "properties": {
+        "pseudo": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "society": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "postal": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "pseudo",
+        "password"
+      ]
+    },
+    "ShopOut": {
+      "type": "object",
+      "properties": {
+        "pseudo": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "society": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "postal": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        }
+      }
+    },
+    "Offers": {
+      "type": "object",
+      "properties": {
+        "productImg": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productSex": {
+          "type": "string"
+        },
+        "productDesc": {
+          "type": "string"
+        },
+        "productSubject": {
+          "type": "string"
+        }
+      }
+    },
+    "OffersOut": {
+      "type": "object",
+      "properties": {
+        "idUser": {
+          "type": "integer"
+        },
+        "productImg": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productSex": {
+          "type": "string"
+        },
+        "productDesc": {
+          "type": "string"
+        },
+        "productSubject": {
+          "type": "string"
+        }
+      }
     },
     "ResponseToken": {
       "type": "object",

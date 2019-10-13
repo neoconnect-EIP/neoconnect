@@ -1,7 +1,7 @@
 require("rootpath")();
-const swaggerDocument =  require('./swagger/swagger.json');
-const swaggerUi =  require('swagger-ui-express');
-const express = require("express"),
+const swaggerDocument =  require('./swagger/swagger.json'),
+        swaggerUi =  require('swagger-ui-express'),
+        express = require("express"),
         bodyParser = require("body-parser"),
         cors = require("cors"),
         app = express(),
@@ -42,6 +42,7 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", require("./Shop/shop.controller"));
 app.use("/", require("./Influencer/influencer.controller"));
 app.use("/", require("./Offers/offres.controller"));
+//app.use("/", require("./Contact/contact.controller"));
 
 //Start server
 app.listen(port, function() {
