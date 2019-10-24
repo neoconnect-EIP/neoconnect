@@ -12,8 +12,8 @@ const swaggerDocument =  require('./swagger/swagger.json'),
 
 
 //create and check db is create
-db.sequelize.sync({force: true}).then(() => {
-    console.log("DB Created");
+db.sequelize.sync({force: false}).then(() => {
+    console.log("DB Create");
 });
 
 //Middleware
