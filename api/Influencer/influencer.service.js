@@ -15,6 +15,7 @@ async function login(params) {
     if (user && bcrypt.compareSync(params.password, user.password)) {
         return {
             "userId" : user.id,
+            "userType" : user.userType,
             "token" : jwtUtils.generateTokenForUser(user)
         }
     }
@@ -35,6 +36,7 @@ async function register(params) {
     const user = await User.create({
             pseudo: params.pseudo,
             password: hash,
+            userType: "influencer",
             full_name: params.full_name,
             email: params.email,
             phone: params.phone,
@@ -60,7 +62,7 @@ async function getUserProfile(req) {
 
     const list = await User.findOne({
         where: { id: userId },
-        attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
+        attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
             'facebook', 'twitter', 'snapchat', 'instagram']
     });
     return (list);
