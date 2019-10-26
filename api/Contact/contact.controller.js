@@ -8,7 +8,7 @@ router.post("/contact", contact);
 
 module.exports = router;
 
-const contact = (request, response) => {
+function contact (request, response) {
     const { pseudo, email, subject, message } = request.body
     var transporter = nodemailer.createTransport({
       service: 'gmail',

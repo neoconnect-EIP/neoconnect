@@ -42,7 +42,7 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", require("./Shop/shop.controller"));
 app.use("/", require("./Influencer/influencer.controller"));
 app.use("/", require("./Offers/offres.controller"));
-//app.use("/", require("./Contact/contact.controller"));
+app.use("/", require("./Contact/contact.controller"));
 
 //Start server
 app.listen(port, function() {
