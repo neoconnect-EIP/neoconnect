@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) =>  {
             },
             userType: {
                 type: Sequelize.STRING,
-                default: "influencer"
+                default: undefined
             },
             full_name: {
                 type: Sequelize.STRING,

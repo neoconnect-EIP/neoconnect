@@ -25,7 +25,6 @@ async function login(params) {
 
 //Créer un shop dans la bdd en fonction des params
 async function register(params) {
-    console.log(params);
     if (params === undefined ||
         params.pseudo === undefined ||
         params.password === undefined ||
