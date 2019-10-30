@@ -1,13 +1,7 @@
 package c.eip.navigation.auth
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.BlurMaskFilter
-import android.media.Image
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.ImageView
@@ -18,8 +12,6 @@ import androidx.navigation.navOptions
 import c.eip.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.auth_fragment.*
-import java.io.File
-import java.nio.file.Paths
 
 class AuthFragment : Fragment() {
     override fun onCreateView(

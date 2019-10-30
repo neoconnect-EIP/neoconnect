@@ -45,7 +45,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    fun loginShop(pseudo: String, password: String) {
+    private fun loginShop(pseudo: String, password: String) {
         shop.pseudo = pseudo
         shop.password = password
         val authService = retrofit.create(AuthAPI.AuthService::class.java)

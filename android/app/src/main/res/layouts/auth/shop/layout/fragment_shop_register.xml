@@ -51,6 +51,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/user"
+                                android:contentDescription="@string/userIcon"
                                 android:scaleType="centerCrop" />
                     </LinearLayout>
 
@@ -87,6 +88,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/lock"
+                                android:contentDescription="@string/passwordIcon"
                                 android:scaleType="centerCrop" />
                     </LinearLayout>
 
@@ -123,6 +125,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/mail_black"
+                                android:contentDescription="@string/emailIcon"
                                 android:scaleType="centerCrop" />
                     </LinearLayout>
 
@@ -158,6 +161,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/name"
+                                android:contentDescription="@string/nameIcon"
                                 android:scaleType="centerCrop" />
                     </LinearLayout>
 
@@ -196,6 +200,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/telephone"
+                                android:contentDescription="@string/phoneIcon"
                                 android:scaleType="centerCrop" />
                     </LinearLayout>
 
@@ -232,6 +237,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/home_address"
+                                android:contentDescription="@string/addressIcon"
                                 android:scaleType="centerCrop" />
                     </LinearLayout>
 
@@ -268,6 +274,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/mailbox"
+                                android:contentDescription="@string/postalIcon"
                                 android:scaleType="centerCrop" />
                     </LinearLayout>
 
@@ -303,6 +310,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/list"
+                                android:contentDescription="@string/listIcon"
                                 android:scaleType="centerCrop" />
                     </LinearLayout>
 
@@ -339,6 +347,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/shop"
+                                android:contentDescription="@string/shopIcon"
                                 android:scaleType="centerCrop" />
                     </LinearLayout>
 
@@ -375,6 +384,7 @@
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/job"
+                                android:contentDescription="@string/jobIcon"
                                 android:scaleType="centerCrop" />
                     </LinearLayout>
 
@@ -454,18 +464,13 @@
                         android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
-                    <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent">
-
-                        <Button
-                                android:id="@+id/switchSideToShop"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="#00FFFFFF"
-                                android:text="@string/switchToInf"
-                                android:textColor="@color/white" />
-                    </LinearLayout>
+                    <Button
+                            android:id="@+id/switchSideToShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#00FFFFFF"
+                            android:text="@string/switchToInf"
+                            android:textColor="@color/white" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

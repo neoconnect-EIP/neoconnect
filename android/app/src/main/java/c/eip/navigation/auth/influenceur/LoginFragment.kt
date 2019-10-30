@@ -46,7 +46,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    fun loginInf(pseudo: String, password: String) {
+    private fun loginInf(pseudo: String, password: String) {
         inf.pseudo = pseudo
         inf.password = password
         val authService = retrofit.create(AuthAPI.AuthService::class.java)

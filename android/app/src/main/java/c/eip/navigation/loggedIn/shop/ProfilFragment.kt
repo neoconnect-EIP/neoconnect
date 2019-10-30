@@ -40,7 +40,7 @@ class ProfilFragment : Fragment() {
         }
     }
 
-    fun getInfo(token: String?) {
+    private fun getInfo(token: String?) {
         val profilService = retrofit.create(ProfilService::class.java)
         val call = profilService.getShopProfil(token)
         call.enqueue(object : Callback<Boutique> {

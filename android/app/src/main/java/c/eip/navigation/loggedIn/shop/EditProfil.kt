@@ -77,8 +77,8 @@ class EditProfil : Fragment() {
         }
     }
 
-    fun updateData(
-        token:String?,
+    private fun updateData(
+        token: String?,
         pseudo: String,
         password: String,
         city: String,

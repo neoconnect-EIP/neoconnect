@@ -29,7 +29,7 @@ object AuthAPI {
         ): Call<Boutique>
     }
 
-    class DataGetter(){
+    class DataGetter {
         fun saveData(context: Context, token: String?) {
             context.getSharedPreferences("user", 0).edit().putString("token", token!!).apply()
         }
@@ -37,6 +37,7 @@ object AuthAPI {
         fun getToken(context: Context): String? {
             return context.getSharedPreferences("user", 0).getString("token", "")
         }
+
         companion object {
             val INSTANCE: DataGetter = DataGetter()
         }

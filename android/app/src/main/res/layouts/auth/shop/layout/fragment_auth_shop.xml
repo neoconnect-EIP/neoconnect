@@ -72,13 +72,14 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/shopSecondary"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@color/shopSecondary"
-                    android:layout_marginBottom="20dp"
                     android:padding="20dp">
 
                 <TextView
@@ -95,6 +96,7 @@
                         android:id="@+id/chatSImg"
                         android:layout_width="match_parent"
                         android:layout_height="140dp"
+                        android:contentDescription="@string/chatSImgCD"
                         tools:src="@drawable/chat" />
 
 
@@ -111,9 +113,9 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:layout_marginBottom="20dp"
                     android:padding="20dp">
 
                 <TextView
@@ -130,6 +132,7 @@
                         android:id="@+id/deliveryImg"
                         android:layout_width="match_parent"
                         android:layout_height="140dp"
+                        android:contentDescription="@string/deliverySImgCD"
                         tools:src="@drawable/delivery" />
 
                 <TextView
@@ -141,13 +144,14 @@
                         android:textColor="@color/white"
                         android:textSize="15sp" />
             </LinearLayout>
+
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/shopSecondary"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@color/shopSecondary"
-                    android:layout_marginBottom="20dp"
                     android:padding="20dp">
 
                 <TextView
@@ -164,6 +168,7 @@
                         android:id="@+id/queueImg"
                         android:layout_width="match_parent"
                         android:layout_height="140dp"
+                        android:contentDescription="@string/queueImgCD"
                         tools:src="@drawable/queue" />
 
 

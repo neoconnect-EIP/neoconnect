@@ -22,7 +22,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RegisterFragment : Fragment() {
-    private var model: UserModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +64,7 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    fun registerShop(
+    private fun registerShop(
         pseudo: String,
         password: String,
         city: String,

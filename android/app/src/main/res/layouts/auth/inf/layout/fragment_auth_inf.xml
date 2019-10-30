@@ -96,6 +96,7 @@
                         android:id="@+id/chatIImg"
                         android:layout_width="match_parent"
                         android:layout_height="140dp"
+                        android:contentDescription="@string/chatIImgCD"
                         tools:src="@drawable/chat_red" />
 
 
@@ -131,6 +132,7 @@
                         android:id="@+id/shareImg"
                         android:layout_width="match_parent"
                         android:layout_height="140dp"
+                        android:contentDescription="@string/shareIImgCD"
                         tools:src="@drawable/social_share_red" />
 
 
@@ -166,6 +168,7 @@
                         android:id="@+id/followerImg"
                         android:layout_width="match_parent"
                         android:layout_height="140dp"
+                        android:contentDescription="@string/followerIImgCD"
                         tools:src="@drawable/followers_red" />
 
 

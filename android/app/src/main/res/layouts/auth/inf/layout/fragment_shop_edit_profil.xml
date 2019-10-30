@@ -16,7 +16,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:padding="15dp"
-                android:text="Modification de mon profil"
+                android:text="@string/editMyProfil"
                 android:textColor="@color/white"
                 android:textSize="32sp"
                 android:textStyle="bold" />
@@ -43,7 +43,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/user"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/userIcon" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -79,7 +80,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/lock"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/passwordIcon" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -115,7 +117,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/mail_black"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/emailIcon" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -150,7 +153,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/name"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/nameIcon" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -188,7 +192,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/telephone"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/phoneIcon" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -224,7 +229,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/home_address"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/addressIcon" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -260,7 +266,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/mailbox"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/postalIcon" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -295,7 +302,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/list"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/listIcon" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -331,7 +339,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/shop"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/shopIcon" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -367,7 +376,8 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/job"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/jobIcon" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -404,7 +414,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/shopSecondary"
-                    android:text="Enregistrer"
+                    android:text="@string/save"
                     android:textColor="@color/white" />
         </LinearLayout>
 

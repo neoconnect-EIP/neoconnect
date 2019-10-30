@@ -27,10 +27,10 @@ class AuthShopFragment : Fragment() {
         view.findViewById<ImageView>(R.id.deliveryImg).setImageResource(R.drawable.delivery)
         view.findViewById<ImageView>(R.id.queueImg).setImageResource(R.drawable.queue)
         view.findViewById<Button>(R.id.navigate_shop_login)?.setOnClickListener {
-            findNavController().navigate(R.id.shop_login, null);
+            findNavController().navigate(R.id.shop_login, null)
         }
         view.findViewById<Button>(R.id.navigate_shop_register)?.setOnClickListener {
-            findNavController().navigate(R.id.shop_register, null);
+            findNavController().navigate(R.id.shop_register, null)
         }
     }
 

@@ -67,7 +67,7 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    fun registerInf(
+    private fun registerInf(
         pseudo: String,
         password: String,
         city: String,
