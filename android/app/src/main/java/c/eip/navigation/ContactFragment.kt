@@ -41,7 +41,7 @@ class ContactFragment : Fragment() {
         }
     }
 
-    fun sendMessage(pseudo: String, objet: String, message: String, email: String) {
+    private fun sendMessage(pseudo: String, objet: String, message: String, email: String) {
         contactData.email = email
         contactData.pseudo = pseudo
         contactData.objet = objet

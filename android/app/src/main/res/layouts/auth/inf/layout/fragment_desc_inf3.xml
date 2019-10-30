@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -9,39 +9,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/infPrimary"
+            android:gravity="center"
             android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+                android:id="@+id/waitI"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:text="@string/waitI"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
 
-            <TextView
-                    android:id="@+id/waitI"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/waitI"
-                    android:textColor="@color/white"
-                    android:textSize="30sp" />
+        <ImageView
+                android:id="@+id/followerImg"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                tools:src="@drawable/followers_red"
+                android:contentDescription="@string/followerIImgCD" />
 
-            <ImageView
-                    android:id="@+id/followerImg"
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    tools:src="@drawable/followers_red" />
-
-
-            <TextView
-                    android:id="@+id/waitIBio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/waitIBio"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-        </LinearLayout>
+        <TextView
+                android:id="@+id/waitIBio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/waitIBio"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
     </LinearLayout>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

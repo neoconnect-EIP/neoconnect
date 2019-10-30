@@ -12,14 +12,14 @@
             android:orientation="vertical">
 
         <TextView
-                android:padding="15dp"
-                android:gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Modification de mon profil"
-                android:textSize="32sp" />
+                android:gravity="center_horizontal"
+                android:padding="15dp"
+                android:text="@string/editMyProfil"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                android:textStyle="bold" />
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -37,6 +37,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/user"
+                        android:contentDescription="@string/userIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -56,6 +57,7 @@
                         android:textColorHint="@color/white" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,6 +74,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/lock"
+                        android:contentDescription="@string/passwordIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -107,6 +110,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/mail_black"
+                        android:contentDescription="@string/emailIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -142,6 +146,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/telephone"
+                        android:contentDescription="@string/phoneIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -177,6 +182,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/name"
+                        android:contentDescription="@string/nameIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -214,6 +220,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/home_address"
+                        android:contentDescription="@string/addressIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -249,6 +256,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/mailbox"
+                        android:contentDescription="@string/postalIcon"
                         android:scaleType="centerCrop"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white" />
@@ -269,6 +277,7 @@
                         android:textColorHint="@color/white" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -285,6 +294,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/list"
+                        android:contentDescription="@string/listIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -320,6 +330,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/instagram"
+                        android:contentDescription="@string/instagramIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -355,6 +366,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/facebook_black"
+                        android:contentDescription="@string/facebookIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -391,6 +403,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/twitter"
+                        android:contentDescription="@string/twitterIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -427,6 +440,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/snapchat"
+                        android:contentDescription="@string/snapchatIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -461,7 +475,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/infSecondary"
-                    android:text="Enregistrer"
+                    android:text="@string/save"
                     android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>

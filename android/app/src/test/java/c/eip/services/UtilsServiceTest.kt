@@ -1,9 +1,7 @@
 package c.eip.services
 
 import c.eip.Constants
-import c.eip.model.Boutique
 import c.eip.model.Contact
-import c.eip.model.Influenceur
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.junit.Assert
@@ -26,12 +24,12 @@ class UtilsServiceTest {
 
     companion object {
         val contactData = Contact()
-        val baseUrl = Constants.BASE_URL
+        private const val baseUrl = Constants.BASE_URL
         private val gson: Gson = GsonBuilder().setLenient().create()
         private val retrofit: Retrofit =
             Retrofit.Builder().baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create(gson)).build()
-        val utilsService = retrofit.create(UtilsService::class.java)
+        val utilsService: UtilsService = retrofit.create(UtilsService::class.java)
     }
 
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,8 +15,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Contact"
-                android:textSize="52dp" />
+                android:text="@string/contact"
+                android:textSize="52sp" />
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                     android:id="@+id/objetContactData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Sujet" />
+                    android:hint="@string/sujet" />
 
         </LinearLayout>
 
@@ -73,7 +73,7 @@
                     android:id="@+id/bodyContactData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Message" />
+                    android:hint="@string/message" />
 
         </LinearLayout>
 
@@ -81,7 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:layout_marginRight="25dp">
+                android:layout_marginEnd="25dp">
 
             <Button
 
@@ -89,9 +89,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Envoyer"
+                    android:text="@string/envoyer"
                     android:background="#80278F27"/>
         </LinearLayout>
     </LinearLayout>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

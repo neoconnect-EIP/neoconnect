@@ -26,10 +26,10 @@ class AuthInfFragment : Fragment() {
         view.findViewById<ImageView>(R.id.shareImg).setImageResource(R.drawable.social_share_red)
         view.findViewById<ImageView>(R.id.followerImg).setImageResource(R.drawable.followers_red)
         view.findViewById<Button>(R.id.navigate_influenceur_login)?.setOnClickListener {
-            findNavController().navigate(R.id.influenceur_login, null);
+            findNavController().navigate(R.id.influenceur_login, null)
         }
         view.findViewById<Button>(R.id.navigate_influenceur_register)?.setOnClickListener {
-            findNavController().navigate(R.id.influenceur_register, null);
+            findNavController().navigate(R.id.influenceur_register, null)
         }
     }
 

@@ -39,6 +39,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/mail"
+                        android:contentDescription="@string/emailIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -75,6 +76,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/password"
+                        android:contentDescription="@string/passwordIcon"
                         android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -129,8 +131,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center_vertical"
-                        android:text="Pas encore de compte ?"
-
+                        android:text="@string/switchToRegisterTxt"
                         android:textColor="#91abd7" />
             </LinearLayout>
 
@@ -165,7 +166,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center_vertical"
-                        android:text="Pas une boutique ?"
+                        android:text="@string/switchToInfTxt"
                         android:textColor="#91abd7" />
             </LinearLayout>
 
@@ -178,7 +179,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#00FFFFFF"
-                        android:text="Passer du côté Influenceur"
+                        android:text="@string/switchToInfSideTxt"
                         android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
