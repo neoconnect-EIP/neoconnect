@@ -8,16 +8,18 @@ router.post("/contact", contact);
 
 module.exports = router;
 
-const contact = (request, response) => {
+function contact(request, response) {
     const { pseudo, email, subject, message } = request.body
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: 'contact.neoconnect@gmail.com',
         pass: 'neo!support123'
+      },
+      tls: {
+        rejectUnauthorized: false
       }
     });
-    
     var mailOptions = {
       from: pseudo,
       to: 'contact.neoconnect@gmail.com',
@@ -27,12 +29,15 @@ const contact = (request, response) => {
     
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
-        console.log(error);
+        console.log("Error :", error);
+        response.status(400).json("Email sending failed")
       } else {
         console.log('Email sent: ' + info.response);
+        response.status(200).json("Email sent")
       }
     });
-
+    
+    
    /* pool.query('INSERT INTO contact (pseudo, subject, message) VALUES ($1, $2, $3)', [pseudo, subject, message], (error, results) => {
       if (error) {
         return console.error('Error executing query', error.stack)
