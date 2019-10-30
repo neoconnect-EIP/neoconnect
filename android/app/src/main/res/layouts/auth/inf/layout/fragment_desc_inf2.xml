@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".navigation.auth.influenceur.FragmentDescInf2">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/infPrimary"
+            android:gravity="center"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/publishI"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30sp"
+                android:gravity="center"
+                android:text="@string/publish"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+        <ImageView
+                android:id="@+id/shareImg"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:contentDescription="@string/shareIImgCD"
+                tools:src="@drawable/social_share_red" />
+
+        <TextView
+                android:id="@+id/publishIBio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/publishBio"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
