@@ -23,36 +23,6 @@ async function login(params) {
         return (undefined);
 }
 
-//Créer un shop dans la bdd en fonction des params
-async function register(params) {
-    console.log(params);
-    if (params === undefined ||
-        params.pseudo === undefined ||
-        params.password === undefined ||
-        await User.findOne({where: {pseudo: params.pseudo}}))
-            return (undefined);
-
-    let hash = bcrypt.hashSync(params.password, 5);
-    const user = await User.create({
-            pseudo: params.pseudo,
-            password: hash,
-            userType: "influencer",
-            full_name: params.full_name,
-            email: params.email,
-            phone: params.phone,
-            postal: params.postal,
-            city: params.city,
-            theme: params.theme,
-            facebook: params.facebook,
-            twitter: params.twitter,
-            snapchat: params.snapchat,
-            instagram: params.instagram
-        });
-    return {
-        "token" : jwtUtils.generateTokenForUser(user)
-    }
-}
-
 async function getUserProfile(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
@@ -109,7 +79,6 @@ async function listShop(req) {
 
 module.exports = {
     login,
-    register,
     getUserProfile,
     modifyUserProfile,
     listShop

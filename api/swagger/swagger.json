@@ -21,6 +21,10 @@
   ],
   "tags": [
     {
+      "name": "User",
+      "description": "User request for register and login"
+    },
+    {
       "name": "Influencers",
       "description": "API for influencers in the system"
     },
@@ -47,7 +51,7 @@
     "/inf/register": {
       "post": {
         "tags": [
-          "Influencers"
+          "User"
         ],
         "summary": "Create a new Influencers user type",
         "requestBody": {
@@ -100,14 +104,70 @@
         }
       }
     },
-    "/inf/login": {
+    "/shop/register": {
       "post": {
         "tags": [
-          "Influencers"
+          "User"
         ],
-        "summary": "login to account to  Influencers user type",
+        "summary": "Create a new Shop user type",
         "requestBody": {
-          "description": "Inf Object",
+          "description": "Shop Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Shop"
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "pseudo": "Sardoche",
+                    "password": "password1234"
+                  }
+                },
+                "Example with more arguments": {
+                  "value": {
+                    "pseudo": "Master",
+                    "password": "password1234",
+                    "full_name": "Jean Dupont",
+                    "email": "jean.dupont@gmail.com",
+                    "city": "paris"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ResponseToken"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "login to account",
+        "requestBody": {
+          "description": "User Object",
           "required": true,
           "content": {
             "application/json": {
@@ -286,141 +346,6 @@
             }
           }
         ]
-      }
-    },
-    "/shop/register": {
-      "post": {
-        "tags": [
-          "Shop"
-        ],
-        "summary": "Create a new Shop user type",
-        "requestBody": {
-          "description": "Shop Object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/Shop"
-              },
-              "examples": {
-                "Example required": {
-                  "value": {
-                    "pseudo": "Sardoche",
-                    "password": "password1234"
-                  }
-                },
-                "Example with more arguments": {
-                  "value": {
-                    "pseudo": "Master",
-                    "password": "password1234",
-                    "full_name": "Jean Dupont",
-                    "email": "jean.dupont@gmail.com",
-                    "city": "paris"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/ResponseToken"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/shop/login": {
-      "post": {
-        "tags": [
-          "Shop"
-        ],
-        "summary": "login to account to  Shop user type",
-        "requestBody": {
-          "description": "Shop Object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "pseudo": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "pseudo",
-                  "password"
-                ]
-              },
-              "examples": {
-                "Example required": {
-                  "value": {
-                    "pseudo": "Sardoche",
-                    "password": "password1234"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "userId": {
-                      "type": "integer"
-                    },
-                    "userType": {
-                      "type": "string"
-                    },
-                    "token": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "userId": 5,
-                      "userType": "shop",
-                      "token": "dfdfdsxwdsx34r3wsxz"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/shop/me": {
@@ -1235,5 +1160,6 @@
         }
       }
     }
-  }
+  },
+  "swagger": "3.0"
 }
