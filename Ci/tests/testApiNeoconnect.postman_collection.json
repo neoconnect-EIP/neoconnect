@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/shop/register",
+			"name": "http://localhost:8080/login",
 			"event": [
 				{
 					"listen": "test",
@@ -36,7 +36,7 @@
 					"urlencoded": [
 						{
 							"key": "pseudo",
-							"value": "66657",
+							"value": "6665",
 							"type": "text"
 						},
 						{
@@ -47,15 +47,14 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/inf/register",
+					"raw": "http://localhost:8080/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"inf",
-						"register"
+						"login"
 					]
 				}
 			},
