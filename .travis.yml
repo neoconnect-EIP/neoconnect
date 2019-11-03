@@ -19,5 +19,6 @@ before_script:
 script:
 - chmod 777 Ci/script/WaitServer.sh
 - ./Ci/script/WaitServer.sh
+- sleep 10
 - node_modules/.bin/newman run Ci/tests/TEST.postman_collection.json -e Ci/tests/JSONBlob.postman_environment.json
 - node_modules/.bin/newman run Ci/tests/testApiNeoconnect.postman_collection.json
