@@ -18,3 +18,4 @@ before_script:
 
 script:
 - node_modules/.bin/newman run Ci/tests/TEST.postman_collection.json -e Ci/tests/JSONBlob.postman_environment.json
+- node_modules/.bin/newman run Ci/tests/testApiNeoconnect.postman_collection.json
