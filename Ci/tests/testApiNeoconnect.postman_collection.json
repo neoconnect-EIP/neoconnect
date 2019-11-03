@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/login",
+			"name": "http://localhost:8080/Inf/register",
 			"event": [
 				{
 					"listen": "test",
@@ -36,7 +36,7 @@
 					"urlencoded": [
 						{
 							"key": "pseudo",
-							"value": "6665",
+							"value": "669999",
 							"type": "text"
 						},
 						{
@@ -47,14 +47,15 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/login",
+					"raw": "http://localhost:8080/Inf/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"login"
+						"Inf",
+						"register"
 					]
 				}
 			},
