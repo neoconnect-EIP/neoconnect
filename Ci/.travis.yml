@@ -1,5 +1,14 @@
 language: node_js
 node_js:
-  - "node"
+- "8.2.1"
+
 install:
-  - npm install
+- npm install newman
+
+before_script:
+- node --version
+- npm --version
+- node_modules/.bin/newman --version
+
+script:
+- node_modules/.bin/newman run tests/TEST.postman_collection.json -e tests/JSONBlob.postman_environment.json
