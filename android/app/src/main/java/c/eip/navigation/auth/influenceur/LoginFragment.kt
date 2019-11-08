@@ -13,6 +13,7 @@ import c.eip.Constants
 import c.eip.R
 import c.eip.model.Influenceur
 import c.eip.model.LoginModel
+import c.eip.services.AuthAPI
 import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,6 +51,10 @@ class LoginFragment : Fragment() {
         call.enqueue(object : Callback<Influenceur> {
             override fun onResponse(call: Call<Influenceur>, response: Response<Influenceur>) {
                 if (response.isSuccessful) {
+                    AuthAPI.DataGetter.INSTANCE.saveUserId(
+                        context!!,
+                        response.body()?.idUser
+                    )
                     findNavController().navigate(R.id.loggedInInf, null)
                     Log.i("Connexion influenceur", "token : ${response.body()?.token}")
                 }

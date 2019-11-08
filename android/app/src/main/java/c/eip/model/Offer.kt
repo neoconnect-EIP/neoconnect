@@ -3,8 +3,10 @@ package c.eip.model
 import com.google.gson.annotations.SerializedName
 
 class Offer(
-    @SerializedName("idUser")
+    @SerializedName("id")
     var id: Number? = 0,
+    @SerializedName("idUser")
+    var idUser: Number? = 0,
     @SerializedName("productImg")
     var productImg: String? = "",
     @SerializedName("productName")

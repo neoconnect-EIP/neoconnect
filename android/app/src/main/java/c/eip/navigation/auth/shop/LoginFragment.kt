@@ -13,6 +13,7 @@ import c.eip.Constants
 import c.eip.R
 import c.eip.model.Boutique
 import c.eip.model.LoginModel
+import c.eip.services.AuthAPI
 import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
@@ -49,6 +50,10 @@ class LoginFragment : Fragment() {
         call.enqueue(object : Callback<Boutique> {
             override fun onResponse(call: Call<Boutique>, response: Response<Boutique>) {
                 if (response.isSuccessful) {
+                    AuthAPI.DataGetter.INSTANCE.saveUserId(
+                        context!!,
+                        response.body()?.idUser
+                    )
                     findNavController().navigate(R.id.loggedInShop, null)
                     Log.i("Connexion boutique", "token : ${response.body()?.token}")
                 }

@@ -12,4 +12,7 @@ interface OfferService {
     @POST("/offer/insert")
     fun insertNewAdd(@Header("authorization") token: String?, @Body offer: Offer):
             Call<Offer>
+
+    @GET("/offer/{id}")
+    fun getOneOffer(@Header("authorization") token: String?, @Path("id") id: Int?)
 }

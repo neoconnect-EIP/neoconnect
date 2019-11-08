@@ -38,6 +38,10 @@ object AuthAPI {
             return context.getSharedPreferences("user", 0).getString("token", "")
         }
 
+        fun saveUserId(context: Context, userId: Int?) {
+            context.getSharedPreferences("user", 0).edit().putInt("idUser", userId!!).apply()
+        }
+
         fun getUserId(context: Context): Int? {
             return context.getSharedPreferences("user", 0).getInt("idUser", 0)
         }
