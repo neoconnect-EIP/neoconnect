@@ -38,7 +38,7 @@ class ProfilServiceTest {
 
         val call = profilService.getShopProfil(token)
         val response: Response<Boutique> = call.execute()
-        Assert.assertNotNull(response. body())
+        Assert.assertNotNull(response.body())
     }
 
     @Test
@@ -100,12 +100,7 @@ class ProfilServiceTest {
         val shop = Boutique()
         val loginModelShop = LoginModel()
         val loginModelInf = LoginModel()
-        private const val baseUrl = Constants.BASE_URL
-        private val gson: Gson = GsonBuilder().setLenient().create()
-        private val retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build()
-        val profilService: ProfilService = retrofit.create(ProfilService::class.java)
-        val authService: AuthAPI.AuthService = retrofit.create(AuthAPI.AuthService::class.java)
+        val profilService= Constants.profilServiceTest
+        val authService = Constants.authServiceTest
     }
 }

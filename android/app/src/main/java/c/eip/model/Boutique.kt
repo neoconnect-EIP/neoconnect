@@ -3,6 +3,8 @@ package c.eip.model
 import com.google.gson.annotations.SerializedName
 
 class Boutique {
+    @SerializedName("idUser")
+    var idUser: Int? = 0
     @SerializedName("pseudo")
     var pseudo: String? = ""
     @SerializedName("password")

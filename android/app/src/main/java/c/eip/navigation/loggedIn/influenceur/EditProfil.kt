@@ -9,18 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import c.eip.Constants
 import c.eip.R
 import c.eip.model.Influenceur
-import c.eip.navigation.auth.influenceur.RegisterFragment
-import c.eip.navigation.loggedIn.shop.EditProfil
 import c.eip.services.AuthAPI
-import c.eip.services.ProfilService
 import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class EditProfil : Fragment() {
 
@@ -108,7 +104,6 @@ class EditProfil : Fragment() {
         inf.twitter = twitter
         inf.snapchat = snapchat
         inf.instagram = instagram
-        val profilService = EditProfil.retrofit.create(ProfilService::class.java)
         val call = profilService.updateInfProfil(token, inf)
         call.enqueue(object : Callback<Influenceur> {
             override fun onResponse(call: Call<Influenceur>, response: Response<Influenceur>) {
@@ -126,10 +121,6 @@ class EditProfil : Fragment() {
 
     companion object {
         var inf = Influenceur()
-        var retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(RegisterFragment.baseUrl).addConverterFactory(
-                GsonConverterFactory.create()
-            )
-                .build()
+        var profilService = Constants.profilService
     }
 }

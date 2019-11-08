@@ -4,14 +4,10 @@ import c.eip.Constants
 import c.eip.model.Boutique
 import c.eip.model.Influenceur
 import c.eip.model.LoginModel
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import org.junit.Test
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class AuthServiceTest {
     @Test
@@ -81,13 +77,6 @@ class AuthServiceTest {
         val inf = Influenceur()
         val loginModelInf = LoginModel()
         val loginModelShop = LoginModel()
-        private var baseUrl = Constants.BASE_URL
-        private val gson: Gson = GsonBuilder()
-            .setLenient()
-            .create()
-        private val retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build()
-        val authService: AuthAPI.AuthService = retrofit.create(AuthAPI.AuthService::class.java)
+        val authService: AuthAPI.AuthService = Constants.authServiceTest
     }
 }

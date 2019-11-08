@@ -99,9 +99,13 @@
     </fragment>
     <fragment
             android:id="@+id/shop_offer"
-            android:name="c.eip.navigation.loggedIn.shop.OfferFragment"
+            android:name="c.eip.navigation.loggedIn.shop.offer.OfferFragment"
             android:label="fragment_shop_offer"
-            tools:layout="@layout/fragment_shop_offer" />
+            tools:layout="@layout/fragment_shop_offer" >
+        <action
+                android:id="@+id/action_shop_offer_to_insertOffer"
+                app:destination="@id/insertOffer" />
+    </fragment>
     <fragment
             android:id="@+id/shop_edit_profil"
             android:name="c.eip.navigation.loggedIn.shop.EditProfil"
@@ -117,4 +121,9 @@
             android:name="c.eip.navigation.ContactFragment"
             android:label="fragment_contact"
             tools:layout="@layout/fragment_contact" />
+    <fragment
+            android:id="@+id/insertOffer"
+            android:name="c.eip.navigation.loggedIn.shop.offer.InsertOffer"
+            android:label="fragment_insert_offer"
+            tools:layout="@layout/fragment_insert_offer" />
 </navigation>

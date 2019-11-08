@@ -18,8 +18,6 @@ import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginFragment : Fragment() {
 
@@ -49,11 +47,14 @@ class LoginFragment : Fragment() {
     private fun loginInf(pseudo: String, password: String) {
         inf.pseudo = pseudo
         inf.password = password
-        val authService = retrofit.create(AuthAPI.AuthService::class.java)
         val call = authService.loginInfluencer(inf)
         call.enqueue(object : Callback<Influenceur> {
             override fun onResponse(call: Call<Influenceur>, response: Response<Influenceur>) {
                 if (response.isSuccessful) {
+                    AuthAPI.DataGetter.INSTANCE.saveUserId(
+                        context!!,
+                        response.body()?.idUser
+                    )
                     findNavController().navigate(R.id.loggedInInf, null)
                     Log.i("Connexion influenceur", "token : ${response.body()?.token}")
                 }
@@ -67,9 +68,6 @@ class LoginFragment : Fragment() {
 
     companion object {
         var inf = LoginModel()
-        var baseUrl = Constants.BASE_URL
-        var retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create())
-                .build()
+        var authService = Constants.authService
     }
 }

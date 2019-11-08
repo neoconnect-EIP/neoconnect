@@ -24,12 +24,7 @@ class UtilsServiceTest {
 
     companion object {
         val contactData = Contact()
-        private const val baseUrl = Constants.BASE_URL
-        private val gson: Gson = GsonBuilder().setLenient().create()
-        private val retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build()
-        val utilsService: UtilsService = retrofit.create(UtilsService::class.java)
+        val utilsService = Constants.utilsServiceTest
     }
 
 }

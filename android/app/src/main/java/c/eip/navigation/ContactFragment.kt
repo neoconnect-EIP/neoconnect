@@ -11,13 +11,10 @@ import androidx.fragment.app.Fragment
 import c.eip.Constants
 import c.eip.R
 import c.eip.model.Contact
-import c.eip.services.UtilsService
 import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ContactFragment : Fragment() {
 
@@ -25,7 +22,6 @@ class ContactFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_contact, container, false)
     }
 
@@ -46,7 +42,6 @@ class ContactFragment : Fragment() {
         contactData.pseudo = pseudo
         contactData.objet = objet
         contactData.message = message
-        val utilsService = retrofit.create(UtilsService::class.java)
         val call = utilsService.sendMessage(contactData)
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
@@ -63,9 +58,6 @@ class ContactFragment : Fragment() {
 
     companion object {
         val contactData = Contact()
-        var baseUrl = Constants.BASE_URL
-        var retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create())
-                .build()
+        var utilsService = Constants.utilsService
     }
 }
