@@ -17,8 +17,6 @@ import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class RegisterFragment : Fragment() {
 
@@ -93,12 +91,11 @@ class RegisterFragment : Fragment() {
         inf.twitter = twitter
         inf.snapchat = snapchat
         inf.instagram = instagram
-        val authService = retrofit.create(AuthAPI.AuthService::class.java)
         val call = authService.registerInfluencer(inf)
         call.enqueue(object : Callback<Influenceur> {
             override fun onResponse(call: Call<Influenceur>, response: Response<Influenceur>) {
                 if (response.isSuccessful) {
-                    AuthAPI.DataGetter.INSTANCE.saveData(
+                    AuthAPI.DataGetter.INSTANCE.saveToken(
                         context!!,
                         response.body()?.token!!
                     )
@@ -115,9 +112,6 @@ class RegisterFragment : Fragment() {
 
     companion object {
         var inf = Influenceur()
-        var baseUrl = Constants.BASE_URL
-        var retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create())
-                .build()
+        var authService = Constants.authService
     }
 }

@@ -30,12 +30,16 @@ object AuthAPI {
     }
 
     class DataGetter {
-        fun saveData(context: Context, token: String?) {
+        fun saveToken(context: Context, token: String?) {
             context.getSharedPreferences("user", 0).edit().putString("token", token!!).apply()
         }
 
         fun getToken(context: Context): String? {
             return context.getSharedPreferences("user", 0).getString("token", "")
+        }
+
+        fun getUserId(context: Context): Int? {
+            return context.getSharedPreferences("user", 0).getInt("idUser", 0)
         }
 
         companion object {

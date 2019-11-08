@@ -9,17 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import c.eip.Constants
 import c.eip.R
 import c.eip.model.Boutique
-import c.eip.navigation.auth.shop.RegisterFragment
 import c.eip.services.AuthAPI
-import c.eip.services.ProfilService
 import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class EditProfil : Fragment() {
 
@@ -100,7 +97,6 @@ class EditProfil : Fragment() {
         shop.sujet = theme
         shop.society = society
         shop.fonction = poste
-        val profilService = retrofit.create(ProfilService::class.java)
         val call = profilService.updateShopProfil(token, shop)
         call.enqueue(object : Callback<Boutique> {
             override fun onResponse(call: Call<Boutique>, response: Response<Boutique>) {
@@ -118,9 +114,6 @@ class EditProfil : Fragment() {
 
     companion object {
         var shop = Boutique()
-        var retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(RegisterFragment.baseUrl).addConverterFactory(
-                GsonConverterFactory.create()
-            ).build()
+        var profilService = Constants.profilService
     }
 }

@@ -12,14 +12,11 @@ import androidx.navigation.fragment.findNavController
 import c.eip.Constants
 import c.eip.R
 import c.eip.model.Boutique
-import c.eip.model.UserModel
 import c.eip.services.AuthAPI
 import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class RegisterFragment : Fragment() {
 
@@ -86,14 +83,14 @@ class RegisterFragment : Fragment() {
         shop.sujet = theme
         shop.society = society
         shop.fonction = poste
-        val authService = retrofit.create(AuthAPI.AuthService::class.java)
         val call = authService.registerShop(shop)
         call.enqueue(object : Callback<Boutique> {
             override fun onResponse(call: Call<Boutique>, response: Response<Boutique>) {
                 if (response.isSuccessful) {
-                    AuthAPI.DataGetter.INSTANCE.saveData(
+                    AuthAPI.DataGetter.INSTANCE.saveToken(
                         context!!,
-                        response.body()?.token!!)
+                        response.body()?.token!!
+                    )
                     findNavController().navigate(R.id.shop_login, null)
                     Log.i("Inscription boutique", "Utilisateur $pseudo inscription OK")
                 }
@@ -107,9 +104,6 @@ class RegisterFragment : Fragment() {
 
     companion object {
         var shop = Boutique()
-        var baseUrl = Constants.BASE_URL
-        var retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create())
-                .build()
+        var authService = Constants.authService
     }
 }

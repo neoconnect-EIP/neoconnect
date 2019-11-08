@@ -10,16 +10,13 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import c.eip.Constants
 import c.eip.R
 import c.eip.model.Influenceur
-import c.eip.navigation.auth.shop.RegisterFragment
 import c.eip.services.AuthAPI
-import c.eip.services.ProfilService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ProfilFragment : Fragment() {
 
@@ -32,7 +29,6 @@ class ProfilFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dataGetter = AuthAPI.DataGetter()
         val token = dataGetter.getToken(context!!)
         getInfo(token)
         view.findViewById<Button>(R.id.editInfProfil)?.setOnClickListener {
@@ -41,7 +37,6 @@ class ProfilFragment : Fragment() {
     }
 
     private fun getInfo(token: String?) {
-        val profilService = retrofit.create(ProfilService::class.java)
         val call = profilService.getInfProfil(token)
         call.enqueue(object : Callback<Influenceur> {
             override fun onResponse(call: Call<Influenceur>, response: Response<Influenceur>) {
@@ -71,9 +66,7 @@ class ProfilFragment : Fragment() {
 
     companion object {
         var infData: Influenceur? = Influenceur()
-        var retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(RegisterFragment.baseUrl).addConverterFactory(
-                GsonConverterFactory.create()
-            ).build()
+        val dataGetter = AuthAPI.DataGetter()
+        var profilService = Constants.profilService
     }
 }
