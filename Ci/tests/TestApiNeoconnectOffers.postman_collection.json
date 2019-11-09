@@ -1,0 +1,922 @@
+{
+	"info": {
+		"_postman_id": "b3e3f2ab-8aa1-4685-a630-80e064de789c",
+		"name": "TestApiNeoconnectOffers",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register shop for offers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e1c7bde-96a3-4edd-96e7-4f64743c23ef",
+						"exec": [
+							"var statusCode = responseCode.code;",
+							"",
+							"if (statusCode === 200) {",
+							"        pm.test(\"Status code is 200\", function () {",
+							"        pm.response.to.have.status(200);",
+							"        });",
+							"        ",
+							"        pm.test(\"Body matches Token\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"token\");",
+							"});",
+							"    }",
+							"else {",
+							"    pm.test(\"Body matches string bad request\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Bad request\");",
+							"});",
+							"}",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "shopOffersTest",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/shop/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"shop",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login shop for offers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3f76dd57-979d-4364-add0-55bc3b9c3028",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(`Body matches Token`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"token\");",
+							"});",
+							"",
+							"",
+							"var statusCode = responseCode.code;",
+							"",
+							"if (statusCode === 200) {",
+							"    var array = pm.response.json();",
+							"    pm.environment.set(\"tokenShopOffers\", array.token);",
+							"    var token = pm.environment.get(\"token\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "shopOffersTest",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create offers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d7aea09d-6a91-466f-b418-04e707bce7ce",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"        ",
+							"pm.test(\"Body matches idUser\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"idUser\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{tokenShopOffers}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "productDesc",
+							"value": "Pantalon de la marque puma",
+							"type": "text"
+						},
+						{
+							"key": "productSex",
+							"value": "Male",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/offer/insert",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						"insert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all offers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "07d844ae-c1fa-439a-8c31-d5b4c23b25e3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"        ",
+							"pm.test(\"Body matches productDesc\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"productDesc\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenShopOffers}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/offer/list",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get offer by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f0f55f54-c5c1-4ae9-a420-19632a65dd3d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"        ",
+							"pm.test(\"Body matches productDesc\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"productDesc\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenShopOffers}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/offer/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modif offers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0af5d56f-710d-4db5-9d7c-fe4d808c0105",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{tokenShopOffers}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "productDesc",
+							"value": "Pull de la marque Nike",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/offer/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test modif work",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "32143a1b-3b59-483e-a8f0-d814398a2159",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"        ",
+							"pm.test(\"Body matches new Desc\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Pull de la marque Nike\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenShopOffers}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/offer/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register Inf for apply offer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ce37a736-f43f-4b5e-a439-cb41e8a72ad9",
+						"exec": [
+							"var statusCode = responseCode.code;",
+							"",
+							"if (statusCode === 200) {",
+							"        pm.test(\"Status code is 200\", function () {",
+							"        pm.response.to.have.status(200);",
+							"        });",
+							"        ",
+							"        pm.test(\"Body matches Token\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"token\");",
+							"});",
+							"    }",
+							"else {",
+							"    pm.test(\"Body matches string bad request\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Bad request\");",
+							"});",
+							"}",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "InfOffersTest",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/inf/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inf",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login Inf for apply offer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d9db4efc-09ef-4d8b-8ee3-8fe914d79536",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(`Body matches Token`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"token\");",
+							"});",
+							"",
+							"",
+							"var statusCode = responseCode.code;",
+							"",
+							"if (statusCode === 200) {",
+							"    var array = pm.response.json();",
+							"    pm.environment.set(\"tokenInfOffers\", array.token);",
+							"    var token = pm.environment.get(\"token\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "InfOffersTest",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inf apply to Offer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b4473adf-15b9-4dd3-840e-2954e02e07bd",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenInfOffers}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/offer/apply/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						"apply",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all offers of Shop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e62b4a1b-726b-471d-8783-8cad8406f42b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{tokenInfOffers}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/offer/shop/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						"shop",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all User apply at this offer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b4208168-1763-4a79-8dfb-44807de9ee2e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenInfOffers}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/offer/apply/offer/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						"apply",
+						"offer",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all offers apply by the user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9a43a024-bf09-4504-8fbb-7f2607f881e7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenInfOffers}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/offer/apply/user/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						"apply",
+						"user",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete offer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4f1945c5-564c-4528-b784-0c7e8150ffd0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenShopOffers}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/offer/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if delete works",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "12c15098-71a3-404b-8ac8-8afc69d800ca",
+						"exec": [
+							"pm.test(\"Check if status is 400 because Offer is deleted\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenShopOffers}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/offer/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"offer",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
