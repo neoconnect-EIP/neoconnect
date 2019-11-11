@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+- "8.2.1"
+
+services:
+- docker
+
+before_install:
+- docker-compose build && docker-compose up -d
+
+install:
+- npm install newman
+
+before_script:
+- node --version
+- npm --version
+- node_modules/.bin/newman --version
+
+script:
+- chmod 777 Ci/script/WaitServer.sh
+- ./Ci/script/WaitServer.sh
+- sleep 15
+- node_modules/.bin/newman run Ci/tests/testApiNeoconnectUser.postman_collection.json -e Ci/tests/ApiNeoconnect.postman_environment.json
+- node_modules/.bin/newman run Ci/tests/TestApiNeoconnectOffers.postman_collection.json -e Ci/tests/ApiNeoconnect.postman_environment.json

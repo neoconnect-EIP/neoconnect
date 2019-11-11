@@ -39,6 +39,7 @@ app.use(cors());
 
 //Create router
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/", require("./User/user.controller"));
 app.use("/", require("./Shop/shop.controller"));
 app.use("/", require("./Influencer/influencer.controller"));
 app.use("/", require("./Offers/offres.controller"));

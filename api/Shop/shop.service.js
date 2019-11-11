@@ -23,33 +23,6 @@ async function login(params) {
         return (undefined);
 }
 
-//Créer un shop dans la bdd en fonction des params
-async function register(params) {
-    if (params === undefined ||
-        params.pseudo === undefined ||
-        params.password === undefined ||
-        await Shop.findOne({where: {pseudo: params.pseudo}}))
-        return (undefined);
-
-    let hash = bcrypt.hashSync(params.password, 5);
-    const user = await Shop.create({
-        pseudo: params.pseudo,
-        password: hash,
-        userType: "shop",
-        full_name: params.full_name,
-        email: params.email,
-        phone: params.phone,
-        postal: params.postal,
-        city: params.city,
-        theme: params.theme,
-        function: params.function,
-        society: params.society
-    });
-    return {
-        "token" : jwtUtils.generateTokenForUser(user)
-    }
-}
-
 async function getUserProfile(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
@@ -99,7 +72,6 @@ async function listInf(req) {
 
 module.exports = {
     login,
-    register,
     getUserProfile,
     modifyUserProfile,
     listInf
