@@ -6,7 +6,6 @@ services:
 - docker
 
 before_install:
-- rm -rf .docker/*
 - docker-compose build && docker-compose up -d
 
 install:
