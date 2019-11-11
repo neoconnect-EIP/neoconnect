@@ -1,0 +1,789 @@
+{
+	"info": {
+		"_postman_id": "ff9ad85b-fb7f-42c8-927c-873f4122aabf",
+		"name": "testApiNeoconnectUser",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register Inf",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "afdaa00d-ea36-4748-a305-360087a57494",
+						"exec": [
+							"var statusCode = responseCode.code;",
+							"",
+							"if (statusCode === 200) {",
+							"        pm.test(\"Status code is 200\", function () {",
+							"        pm.response.to.have.status(200);",
+							"        });",
+							"        ",
+							"        pm.test(\"Body matches Token\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"token\");",
+							"});",
+							"    }",
+							"else {",
+							"    pm.test(\"Body matches string bad request\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Bad request\");",
+							"});",
+							"}",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "InfTest",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "14325",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/Inf/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Inf",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Shop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "afdaa00d-ea36-4748-a305-360087a57494",
+						"exec": [
+							"var statusCode = responseCode.code;",
+							"",
+							"if (statusCode === 200) {",
+							"        pm.test(\"Status code is 200\", function () {",
+							"        pm.response.to.have.status(200);",
+							"        });",
+							"        ",
+							"        pm.test(\"Body matches Token\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"token\");",
+							"});",
+							"    }",
+							"else {",
+							"    pm.test(\"Body matches string bad request\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Bad request\");",
+							"});",
+							"}",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "shopTest",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "14325",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/shop/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"shop",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try Register Inf Copy into Shop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "afdaa00d-ea36-4748-a305-360087a57494",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"pm.response.to.have.status(400);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "InfTest",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "14325",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/shop/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"shop",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try Register Shop Copy into Inf",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "afdaa00d-ea36-4748-a305-360087a57494",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "InfTest",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "14325",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/inf/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inf",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Inf",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "afdaa00d-ea36-4748-a305-360087a57494",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(`Body matches Token`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"token\");",
+							"});",
+							"",
+							"",
+							"var statusCode = responseCode.code;",
+							"",
+							"if (statusCode === 200) {",
+							"    var array = pm.response.json();",
+							"    pm.environment.set(\"tokenInf\", array.token);",
+							"    var token = pm.environment.get(\"token\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "InfTest",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "14325",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Shop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "afdaa00d-ea36-4748-a305-360087a57494",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(`Body matches Token`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"token\");",
+							"});",
+							"",
+							"",
+							"var statusCode = responseCode.code;",
+							"",
+							"if (statusCode === 200) {",
+							"    var array = pm.response.json();",
+							"    pm.environment.set(\"tokenShop\", array.token);",
+							"    var token = pm.environment.get(\"token\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "shopTest",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "14325",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fake Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "afdaa00d-ea36-4748-a305-360087a57494",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "00000",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "djfjkzdlaJKdkl",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Inf profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "59ffee01-4c27-48bd-9449-4e14a6a4d638",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(`Body matches field email`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"email\");",
+							"});",
+							"",
+							"pm.test(`Body matches field userType : influencer`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"influencer\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenInf}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/inf/me",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inf",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Shop profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "59ffee01-4c27-48bd-9449-4e14a6a4d638",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(`Body matches field email`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"email\");",
+							"});",
+							"",
+							"pm.test(`Body matches field userType : Shop`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"shop\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{tokenShop}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/shop/me",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"shop",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit Inf profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6101e5c4-1390-41e5-b43a-4203b00870e3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(`Body matches ne pseudo : infTestEdit`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"infTestEdit\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenInf}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "infTestEdit",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/inf/me",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inf",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit Shop profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6101e5c4-1390-41e5-b43a-4203b00870e3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(`Body matches ne pseudo : shopTestEdit`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"shopTestEdit\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenShop}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pseudo",
+							"value": "shopTestEdit",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/shop/me",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"shop",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list all inf",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8743e7a0-cc29-4b54-8eeb-5e0d45d0ea62",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(`Body matches list`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"pseudo\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenShop}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/shop/listInf",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"shop",
+						"listInf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list all shop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a051ee3c-a64b-4f9b-8a08-8469e5f2eb8e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(`Body matches list`, function () {",
+							"    pm.expect(pm.response.text()).to.include(\"pseudo\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{tokenInf}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{url}}/inf/listShop",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inf",
+						"listShop"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

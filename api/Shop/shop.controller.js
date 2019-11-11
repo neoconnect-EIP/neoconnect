@@ -3,7 +3,6 @@ const   express = require("express"),
         userService = require("./shop.service");
 
 router.post("/shop/login", login);
-router.post("/shop/register", register);
 
 router.get("/shop/me", getUserProfile);
 router.put("/shop/me", modifyUserProfile);
@@ -22,18 +21,6 @@ function login(req, res, next) {
                 : res.status(400).json({ message: "Username or password is incorrect" })
                 )
         .catch(err => next(err));        
-}
-
-//Récupère les données req.body appel register dans service
-function register(req, res, next) {
-    userService
-        .register(req.body)
-        .then(user =>
-            user
-                ? res.json(user).status(200)
-                : res.status(400).json({ message: "Bad request" })
-        )
-        .catch(err => next(err));
 }
 
 function getUserProfile(req, res, next) {
