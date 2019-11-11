@@ -154,7 +154,15 @@
 							"        ",
 							"pm.test(\"Body matches idUser\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"idUser\");",
-							"});"
+							"});",
+							"",
+							"var statusCode = responseCode.code;",
+							"",
+							"if (statusCode === 200) {",
+							"    var array = pm.response.json();",
+							"    pm.environment.set(\"idOffer\", array.id);",
+							"    var id = pm.environment.get(\"idOffer\");",
+							"}"
 						],
 						"type": "text/javascript"
 					}
@@ -312,7 +320,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "{{idOffer}}"
 						}
 					]
 				}
@@ -372,7 +380,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "{{idOffer}}"
 						}
 					]
 				}
@@ -433,7 +441,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "{{idOffer}}"
 						}
 					]
 				}
@@ -623,7 +631,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "{{idOffer}}"
 						}
 					]
 				}
@@ -740,7 +748,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "{{idOffer}}"
 						}
 					]
 				}
@@ -853,7 +861,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "{{idOffer}}"
 						}
 					]
 				}
@@ -910,7 +918,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "{{idOffer}}"
 						}
 					]
 				}
