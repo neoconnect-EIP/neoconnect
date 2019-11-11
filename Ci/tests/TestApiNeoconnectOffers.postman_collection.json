@@ -97,6 +97,8 @@
 							"    var array = pm.response.json();",
 							"    pm.environment.set(\"tokenShopOffers\", array.token);",
 							"    var token = pm.environment.get(\"token\");",
+							"    ",
+							"    pm.environment.set(\"userIdShop\", array.userId);",
 							"}"
 						],
 						"type": "text/javascript"
@@ -540,6 +542,8 @@
 							"    var array = pm.response.json();",
 							"    pm.environment.set(\"tokenInfOffers\", array.token);",
 							"    var token = pm.environment.get(\"token\");",
+							"    ",
+							"    pm.environment.set(\"userIdInf\", array.userId);",
 							"}"
 						],
 						"type": "text/javascript"
@@ -689,7 +693,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "{{userIdShop}}"
 						}
 					]
 				}
@@ -807,7 +811,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "{{userIdInf}}"
 						}
 					]
 				}
