@@ -23,7 +23,7 @@ async function login(params) {
         return (undefined);
 }
 
-async function getUserProfile(req) {
+async function getMyProfile(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
 
@@ -36,6 +36,23 @@ async function getUserProfile(req) {
             'facebook', 'twitter', 'snapchat', 'instagram']
     });
     return (list);
+}
+
+async function getUserProfile(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+
+    const list = await User.findOne({
+        where: { id: req.params.id },
+        attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
+            'facebook', 'twitter', 'snapchat', 'instagram']
+    });
+    if (list === null)
+        return (undefined);
+    return (list);
+
 }
 
 async function modifyUserProfile(req) {
@@ -79,6 +96,7 @@ async function listShop(req) {
 
 module.exports = {
     login,
+    getMyProfile,
     getUserProfile,
     modifyUserProfile,
     listShop
