@@ -1,4 +1,5 @@
 require("rootpath")();
+require('dotenv').config();
 const swaggerDocument =  require('./swagger/swagger.json'),
         swaggerUi =  require('swagger-ui-express'),
         express = require("express"),
@@ -37,6 +38,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
+console.log(process.env.EMAIL_ADDRESS);
+console.log(process.env.EMAIL_PASSWORD);
+
 //Create router
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", require("./User/user.controller"));
@@ -44,6 +48,8 @@ app.use("/", require("./Shop/shop.controller"));
 app.use("/", require("./Influencer/influencer.controller"));
 app.use("/", require("./Offers/offres.controller"));
 app.use("/", require("./Contact/contact.controller"));
+
+app.use("/", require("./ForgotPassword/forgotPassword.controller"));
 
 //Start server
 app.listen(port, function() {
