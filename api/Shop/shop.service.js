@@ -23,7 +23,7 @@ async function login(params) {
         return (undefined);
 }
 
-async function getUserProfile(req) {
+async function getMyProfile(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
 
@@ -35,6 +35,24 @@ async function getUserProfile(req) {
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
             'society', 'function']
     });
+    return (list);
+}
+
+async function getUserProfile(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+
+    console.log(req.params.id);
+
+    const list = await Shop.findOne({
+        where: { id: req.params.id },
+        attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
+            'society', 'function']
+    });
+    if (list === null)
+        return (undefined);
     return (list);
 }
 
@@ -72,6 +90,7 @@ async function listInf(req) {
 
 module.exports = {
     login,
+    getMyProfile,
     getUserProfile,
     modifyUserProfile,
     listInf
