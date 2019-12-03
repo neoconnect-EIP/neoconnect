@@ -4,11 +4,11 @@ const   express = require("express"),
 
 router.post("/shop/login", login);
 
-router.get("/shop/:id", getUserProfile);
 router.get("/shop/me", getMyProfile);
 router.put("/shop/me", modifyUserProfile);
 
 router.get("/shop/listInf", listInf);
+router.get("/shop/:id", getUserProfile);
 
 module.exports = router;
 

@@ -35,6 +35,8 @@ async function getMyProfile(req) {
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
             'facebook', 'twitter', 'snapchat', 'instagram']
     });
+    if (list === null)
+        return (undefined);
     return (list);
 }
 

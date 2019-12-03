@@ -4,11 +4,11 @@ const   express = require("express"),
 
 router.post("/inf/login", login);
 
-router.get("/inf/:id", getUserProfile);
 router.get("/inf/me", getMyProfile);
 router.put("/inf/me", modifyUserProfile);
 
 router.get("/inf/listShop", listShop);
+router.get("/inf/:id", getUserProfile);
 module.exports = router;
 
 //Récupère les données req.body appel login dans service
@@ -26,12 +26,11 @@ function login(req, res, next) {
 function getMyProfile(req, res, next) {
     userService
         .getMyProfile(req)
-        .then(list => {
-            if (list !== undefined)
-                res.json(list).status(200);
-            else
-                res.status(400).json({ message: "Bad Token" })
-        })
+        .then(user =>
+            user
+                ? res.json(user).status(200)
+                : res.status(400).json({ message: "Username or password is incorrect" })
+        )
         .catch(err => next(err));
 }
 
