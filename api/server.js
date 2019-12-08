@@ -34,8 +34,8 @@ let auth = function (req, res, next) {
 
 app.all("/swagger/*", auth);
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 app.use(cors());
 
 console.log(process.env.EMAIL_ADDRESS);
@@ -48,8 +48,8 @@ app.use("/", require("./Shop/shop.controller"));
 app.use("/", require("./Influencer/influencer.controller"));
 app.use("/", require("./Offers/offres.controller"));
 app.use("/", require("./Contact/contact.controller"));
-
 app.use("/", require("./ForgotPassword/forgotPassword.controller"));
+app.use("/", require("./CommentMark/commentMark.controller"));
 
 //Start server
 app.listen(port, function() {

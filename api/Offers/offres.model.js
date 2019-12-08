@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) =>  {
              default: undefined
          },
          productImg: {
-             type: Sequelize.STRING,
+             type: Sequelize.ARRAY(Sequelize.TEXT),
              default: undefined
          },
          productName: {
