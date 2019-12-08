@@ -6,7 +6,8 @@ const JWT_SIGN_SECRET = 'dfmfjt4j69oefk40k430dklkgf0ljkmldjflje939ee249fkdfk24ed
 module.exports = {
     generateTokenForUser: function(userData) {
         return jwt.sign({
-                userId: userData.id
+                userId: userData.id,
+                userType: userData.userType
             },
             JWT_SIGN_SECRET,
             {
@@ -27,5 +28,10 @@ module.exports = {
             } catch(err) { }
         }
         return userId;
+    },
+    getUserType: function(authorization) {
+        let token = module.exports.parseAuthorization(authorization);
+        let jwtToken = jwt.verify(token, JWT_SIGN_SECRET);
+        return (jwtToken.userType);
     }
 };

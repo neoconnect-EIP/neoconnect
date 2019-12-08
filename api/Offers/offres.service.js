@@ -7,6 +7,9 @@ const   jwt = require("jsonwebtoken"),
         OfferApply = db.OfferApply,
         config = require("../config"),
 		jwtUtils = require("../utils/jwt.utils");
+        UploadImage = require("../UploadImage/uploadImage.service");
+        GetImage = require("../UploadImage/uploadImage.service");
+        GetAllImage = require("../UploadImage/uploadImage.service");
 
 module.exports = {
 	insert,
@@ -27,6 +30,9 @@ async function getAll(req) {
         return (undefined);
 
     const list = await Offer.findAll();
+    const dataImage = await GetAllImage.getAllImage({
+        type: 'Offer'
+    });
     return (list);
 }
 
@@ -41,8 +47,11 @@ async function getById(req) {
     });
     if (user === null)
     	return (undefined);
-
-	return (user);
+    const dataImage = await GetImage.getImage({
+        idLink: user.id.toString(),
+        type: 'Offer'
+    });
+	return ([user, dataImage]);
 }
 
 async function getByShop(req) {
@@ -69,13 +78,19 @@ async function insert(req) {
 
     const user = await Offer.create({
         idUser: userId,
-		productImg: req.body.productImg,
 		productName: req.body.productName,
 		productSex: req.body.productSex,
 		productDesc: req.body.productDesc,
 		productSubject: req.body.productSubject
 	});
-	return (user.get( { plain: true } ));
+    if (req.body.productImg === undefined)
+        return (user.get({ plain: true}));
+    const imageData = await UploadImage.uploadImage({
+        idLink: user.id,
+        type: 'Offer',
+        image: req.body.productImg
+    });
+	return ([user.get( { plain: true } ), imageData]);
 }
 
 async function update(req) {
