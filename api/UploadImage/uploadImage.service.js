@@ -48,7 +48,7 @@ getDataImage = (data) => {
             continue;
         }
         imageDataFile[i] = {
-            idLink: data[i].dataValue.IdLink,
+            idLink: data[i].dataValues.IdLink,
             imageName: data[i].dataValues.ImageName,
             imageData: fs.readFileSync(`${__dirname}/../image/${data[i].dataValues.Type}_${data[i].dataValues.IdLink}_${data[i].dataValues.ImageName}`, 'utf8')
         };

@@ -83,6 +83,8 @@ async function insert(req) {
 		productDesc: req.body.productDesc,
 		productSubject: req.body.productSubject
 	});
+    if (req.body.productImg === undefined)
+        return (user.get({ plain: true}));
     const imageData = await UploadImage.uploadImage({
         idLink: user.id,
         type: 'Offer',
