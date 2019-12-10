@@ -43,6 +43,10 @@
     {
       "name": "Reset Password",
       "description": "API reset password for user"
+    },
+    {
+      "name": "Comment and Mark",
+      "description": "Part of comment and mark"
     }
   ],
   "consumes": [
@@ -718,13 +722,22 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/OffersOut"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/OffersOut"
+                }
+              }
             }
           },
-          "404": {
-            "description": "Failed. Cat not found."
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
           }
         }
       },
@@ -1201,7 +1214,373 @@
           }
         }
       }
+    },
+    "/user/comment/{id}": {
+      "post": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "add comment user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "comment": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type",
+                  "comment"
+                ]
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "type": "Shop",
+                    "comment": "Good job!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "comment": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "comment": "good job"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/comment/{id}/{type}": {
+      "get": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "get comment user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "id": {
+                "properties": {
+                  "uid": {
+                    "type": "string"
+                  }
+                }
+              },
+              "type": {
+                "properties": {
+                  "uid": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "comment": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "comment": "good job"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/mark/{id}": {
+      "post": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "add mark user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "mark": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "type",
+                  "mark"
+                ]
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "type": "Shop",
+                    "mark": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "mark": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "mark": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/mark/{id}/{type}": {
+      "get": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "get mark user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "id": {
+                "properties": {
+                  "uid": {
+                    "type": "string"
+                  }
+                }
+              },
+              "type": {
+                "properties": {
+                  "uid": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "mark": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "mark": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
     }
+
+
   },
   "definitions": {
     "id": {
@@ -1390,7 +1769,24 @@
       "type": "object",
       "properties": {
         "productImg": {
-          "type": "string"
+          "type": "object",
+          "properties": {
+            "image": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "imageName": {
+                    "type": "string"
+                  },
+                  "imageData": {
+                    "type": "string",
+                    "format": "byte"
+                  }
+                }
+              }
+            }
+          }
         },
         "productName": {
           "type": "string"
@@ -1413,7 +1809,24 @@
           "type": "integer"
         },
         "productImg": {
-          "type": "string"
+          "type": "object",
+          "properties": {
+            "image": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "imageName": {
+                    "type": "string"
+                  },
+                  "imageData": {
+                    "type": "string",
+                    "format": "byte"
+                  }
+                }
+              }
+            }
+          }
         },
         "productName": {
           "type": "string"

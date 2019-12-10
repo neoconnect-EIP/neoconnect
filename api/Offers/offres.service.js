@@ -75,7 +75,6 @@ async function insert(req) {
 
     if (userId < 0)
         return (undefined);
-
     const user = await Offer.create({
         idUser: userId,
 		productName: req.body.productName,
@@ -90,7 +89,7 @@ async function insert(req) {
         type: 'Offer',
         image: req.body.productImg
     });
-	return ([user.get( { plain: true } ), imageData]);
+	return ([user.get( { plain: true } ), JSON.parse(req.body.productImg)]);
 }
 
 async function update(req) {
