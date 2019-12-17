@@ -834,7 +834,7 @@
         "tags": [
           "Offers"
         ],
-        "summary": "Get all Offers",
+        "summary": "Get all Offers of 1 specific shop with id",
         "parameters": [
           {
             "in": "path",
@@ -871,7 +871,7 @@
     },
     "/offer/apply/{id}": {
       "put": {
-        "summary": "Apply Offer with given ID",
+        "summary": "Apply Offer with Id",
         "tags": [
           "Offers"
         ],
@@ -925,7 +925,7 @@
         "tags": [
           "Offers"
         ],
-        "summary": "Get all user who apply at this Offer",
+        "summary": "Get all user who apply at specific offer",
         "parameters": [
           {
             "in": "path",
@@ -965,7 +965,7 @@
         "tags": [
           "Offers"
         ],
-        "summary": "Get all Offer who is apply by the user",
+        "summary": "Get all Offer apply by user with Id of the user",
         "parameters": [
           {
             "in": "path",
@@ -1250,22 +1250,17 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": {
-                    "type": "string"
-                  },
                   "comment": {
                     "type": "string"
                   }
                 },
                 "required": [
-                  "type",
                   "comment"
                 ]
               },
               "examples": {
                 "Example required": {
                   "value": {
-                    "type": "Shop",
                     "comment": "Good job!"
                   }
                 }
@@ -1313,9 +1308,7 @@
             }
           }
         }
-      }
-    },
-    "/user/comment/{id}/{type}": {
+      },
       "get": {
         "tags": [
           "Comment and Mark"
@@ -1329,13 +1322,6 @@
             "description": "Offer with id",
             "schema": {
               "id": {
-                "properties": {
-                  "uid": {
-                    "type": "string"
-                  }
-                }
-              },
-              "type": {
                 "properties": {
                   "uid": {
                     "type": "string"
@@ -1432,22 +1418,17 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": {
-                    "type": "string"
-                  },
                   "mark": {
                     "type": "integer"
                   }
                 },
                 "required": [
-                  "type",
                   "mark"
                 ]
               },
               "examples": {
                 "Example required": {
                   "value": {
-                    "type": "Shop",
                     "mark": 3
                   }
                 }
@@ -1495,9 +1476,7 @@
             }
           }
         }
-      }
-    },
-    "/user/mark/{id}/{type}": {
+      },
       "get": {
         "tags": [
           "Comment and Mark"
@@ -1516,8 +1495,337 @@
                     "type": "string"
                   }
                 }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "mark": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "mark": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/comment/{id}": {
+      "post": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "add comment Offer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "id Of Offer",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "comment"
+                ]
               },
-              "type": {
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "comment": "Good job!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "comment": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "comment": "good job"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "get comment Offer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "id": {
+                "properties": {
+                  "uid": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "comment": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "comment": "good job"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/mark/{id}": {
+      "post": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "add mark Offer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mark": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "mark"
+                ]
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "mark": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "mark": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "mark": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "get mark Offer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "id": {
                 "properties": {
                   "uid": {
                     "type": "string"
@@ -1579,8 +1887,6 @@
         }
       }
     }
-
-
   },
   "definitions": {
     "id": {
