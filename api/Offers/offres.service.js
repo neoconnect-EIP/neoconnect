@@ -51,7 +51,8 @@ async function getById(req) {
         idLink: user.id.toString(),
         type: 'Offer'
     });
-	return ([user, dataImage]);
+    user.productImg = dataImage;
+	return (user);
 }
 
 async function getByShop(req) {

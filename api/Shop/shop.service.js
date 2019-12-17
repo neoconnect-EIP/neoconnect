@@ -82,7 +82,7 @@ async function listInf(req) {
         return (undefined);
 
     const list = await User.findAll({
-        attributes: ['pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
+        attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
         'facebook', 'twitter', 'snapchat', 'instagram']
     });
     return (list);
