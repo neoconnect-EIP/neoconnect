@@ -90,7 +90,7 @@ async function listShop(req) {
         return (undefined);
 
     const list = await Shop.findAll({
-        attributes: ['pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
+        attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
         'society', 'function']
     });
     return (list);

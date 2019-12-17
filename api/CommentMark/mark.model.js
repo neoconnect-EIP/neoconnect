@@ -17,6 +17,10 @@ module.exports = (sequelize, Sequelize) =>  {
             mark: {
                 type: Sequelize.STRING,
                 default: undefined
+            },
+            idPost: {
+                type: Sequelize.STRING,
+                default: undefined
             }
         },
         { freezeTableName: true }

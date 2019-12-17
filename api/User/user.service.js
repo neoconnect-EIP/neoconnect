@@ -29,7 +29,42 @@ async function login(params) {
         return (undefined);
 }
 
-//Créer un shop dans la bdd en fonction des params
+async function getProfile(id) {
+    let user = await Inf.findOne({
+        where: {
+            id: id
+        }
+    });
+    if (user === null) {
+        user = await Shop.findOne({
+            where: {
+                id: id
+            }
+        });
+        if (user === null)
+            return (undefined)
+    }
+    return (user.get( { plain: true } ));
+}
+
+async function takeHighId() {
+    const valueInf = await Inf.max('id');
+    const valueShop = await Shop.max('id');
+
+    if (isNaN(valueInf)) {
+        if (isNaN(valueShop))
+            return (0);
+        return (valueShop)
+    }
+    if (isNaN(valueShop))
+        return (valueInf);
+    if (isNaN(valueInf))
+        return (valueShop);
+    if (valueInf < valueShop)
+        return (valueShop);
+    return (valueInf);
+}
+
 async function registerInf(params) {
     if (params === undefined ||
         params.pseudo === undefined ||
@@ -39,8 +74,11 @@ async function registerInf(params) {
     )
             return (undefined);
 
+    const idMax = await takeHighId();
+
     let hash = bcrypt.hashSync(params.password, 5);
     const user = await Inf.create({
+            id: idMax + 1,
             pseudo: params.pseudo,
             password: hash,
             userType: "influencer",
@@ -70,8 +108,11 @@ async function registerShop(params) {
     )
         return (undefined);
 
+    const idMax = await takeHighId();
+
     let hash = bcrypt.hashSync(params.password, 5);
     const user = await Shop.create({
+        id: idMax + 1,
         pseudo: params.pseudo,
         password: hash,
         userType: "shop",
@@ -95,4 +136,5 @@ module.exports = {
     login,
     registerInf,
     registerShop,
+    getProfile
 };
