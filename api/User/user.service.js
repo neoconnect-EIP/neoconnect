@@ -2,7 +2,8 @@ const   db = require("../_helpers/db"),
         bcrypt = require("bcrypt"),
         Inf = db.Influencer,
         Shop = db.Shop,
-        jwtUtils = require("../utils/jwt.utils");
+        jwtUtils = require("../utils/jwt.utils"),
+        UploadImage = require("../UploadImage/uploadImage.service");
 
 //Vérifie que le shop existe dans la bdd
 async function login(params) {
@@ -87,12 +88,21 @@ async function registerInf(params) {
             phone: params.phone,
             postal: params.postal,
             city: params.city,
+            userDescription: params.userDescription,
             theme: params.theme,
             facebook: params.facebook,
             twitter: params.twitter,
             snapchat: params.snapchat,
             instagram: params.instagram
         });
+    if (params.userPicture !== undefined) {
+        const imageData = await UploadImage.uploadImage({
+            idLink: user.id,
+            type: 'User',
+            image: [{
+                "imageName": `${user.id}_${user.pseudo}`, "imageData": params.userPicture}]
+        })
+    }
     return {
         "token" : jwtUtils.generateTokenForUser(user)
     }
@@ -121,10 +131,19 @@ async function registerShop(params) {
         phone: params.phone,
         postal: params.postal,
         city: params.city,
+        userDescription: params.userDescription,
         theme: params.theme,
         function: params.function,
         society: params.society
     });
+    if (params.userPicture !== undefined) {
+        const imageData = await UploadImage.uploadImage({
+            idLink: user.id,
+            type: 'User',
+            image: [{
+                "imageName": `${user.id}_${user.pseudo}`, "imageData": params.userPicture}]
+        })
+    }
     return {
         "token" : jwtUtils.generateTokenForUser(user)
     }

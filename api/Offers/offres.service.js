@@ -30,10 +30,8 @@ async function getAll(req) {
         return (undefined);
 
     const list = await Offer.findAll();
-    const dataImage = await GetAllImage.getAllImage({
-        type: 'Offer'
-    });
-    return (list);
+    let newList = await GetImage.regroupImageData(list, 'Offer');
+    return (newList);
 }
 
 async function getById(req) {
@@ -64,10 +62,21 @@ async function getByShop(req) {
     let listShop = await Offer.findAll({
         where: {idUser: req.params.id}
     });
+    if (listShop.length === 0)
+        return ("No offer");
     if (listShop === undefined || listShop.length === 0)
         return (undefined);
+    let newList = await GetImage.regroupImageData(listShop, 'Offer');
+    return (newList);
+}
 
-    return (listShop);
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
 
 async function insert(req) {
@@ -83,14 +92,16 @@ async function insert(req) {
 		productDesc: req.body.productDesc,
 		productSubject: req.body.productSubject
 	});
-    if (req.body.productImg === undefined)
+    if (req.body.productImg === undefined || isJson(req.body.productImg))
         return (user.get({ plain: true}));
+    console.log(req.body.productImg.length);
     const imageData = await UploadImage.uploadImage({
         idLink: user.id,
         type: 'Offer',
         image: req.body.productImg
     });
-	return ([user.get( { plain: true } ), JSON.parse(req.body.productImg)]);
+    user.productImg = req.body.productImg;
+	return (user.get( { plain: true } ));
 }
 
 async function update(req) {
