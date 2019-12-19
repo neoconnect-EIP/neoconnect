@@ -412,7 +412,27 @@
               "$ref": "#/definitions/Header"
             }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ShopOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/shop/me": {
@@ -580,7 +600,27 @@
               "$ref": "#/definitions/Header"
             }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InfOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/offer/insert": {
@@ -1932,6 +1972,12 @@
         "city": {
           "type": "string"
         },
+        "userDescription": {
+          "type": "string"
+        },
+        "userPicture": {
+          "type": "string"
+        },
         "theme": {
           "type": "string"
         },
@@ -1977,6 +2023,23 @@
         "city": {
           "type": "string"
         },
+        "userPicture": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "imageName": {
+                "type": "string"
+              },
+              "imageData": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "userDescription": {
+          "type": "string"
+        },
         "theme": {
           "type": "string"
         },
@@ -2016,6 +2079,12 @@
           "type": "string"
         },
         "society": {
+          "type": "string"
+        },
+        "userDescription": {
+          "type": "string"
+        },
+        "userPicture": {
           "type": "string"
         },
         "function": {
@@ -2066,6 +2135,23 @@
         "city": {
           "type": "string"
         },
+        "userPicture": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "imageName": {
+                "type": "string"
+              },
+              "imageData": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "userDescription": {
+          "type": "string"
+        },
         "theme": {
           "type": "string"
         }
@@ -2075,21 +2161,15 @@
       "type": "object",
       "properties": {
         "productImg": {
-          "type": "object",
-          "properties": {
-            "image": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "imageName": {
-                    "type": "string"
-                  },
-                  "imageData": {
-                    "type": "string",
-                    "format": "byte"
-                  }
-                }
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "imageName": {
+                "type": "string"
+              },
+              "imageData": {
+                "type": "string"
               }
             }
           }
@@ -2115,21 +2195,15 @@
           "type": "integer"
         },
         "productImg": {
-          "type": "object",
-          "properties": {
-            "image": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "imageName": {
-                    "type": "string"
-                  },
-                  "imageData": {
-                    "type": "string",
-                    "format": "byte"
-                  }
-                }
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "imageName": {
+                "type": "string"
+              },
+              "imageData": {
+                "type": "string"
               }
             }
           }

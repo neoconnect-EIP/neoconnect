@@ -43,6 +43,14 @@ module.exports = (sequelize, Sequelize) =>  {
                 type: Sequelize.STRING,
                 default: undefined
             },
+            userPicture: {
+                type: Sequelize.ARRAY(Sequelize.TEXT),
+                default: undefined
+            },
+            userDescription: {
+                type: Sequelize.STRING,
+                default: undefined
+            },
             theme: {
                 type: Sequelize.STRING,
                 default: undefined

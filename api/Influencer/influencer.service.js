@@ -4,6 +4,8 @@ const   db = require("../_helpers/db"),
         User = db.Influencer,
         Shop = db.Shop,
         jwtUtils = require("../utils/jwt.utils");
+        GetImage = require("../UploadImage/uploadImage.service");
+        GetAllImage = require("../UploadImage/uploadImage.service");
 
 //Vérifie que le shop existe dans la bdd
 async function login(params) {
@@ -33,10 +35,14 @@ async function getMyProfile(req) {
     const list = await User.findOne({
         where: { id: userId },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-            'facebook', 'twitter', 'snapchat', 'instagram']
+            'facebook', 'twitter', 'snapchat', 'instagram', 'userDescription']
     });
     if (list === null)
         return (undefined);
+    list.userPicture = await GetImage.getImage({
+        idLink: userId.toString(),
+        type: 'User'
+    });
     return (list);
 }
 
@@ -49,10 +55,14 @@ async function getUserProfile(req) {
     const list = await User.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-            'facebook', 'twitter', 'snapchat', 'instagram']
+            'facebook', 'twitter', 'snapchat', 'instagram', 'userDescription']
     });
     if (list === null)
         return (undefined);
+    list.userPicture = await GetImage.getImage({
+        idLink: req.params.id.toString(),
+        type: 'User'
+    });
     return (list);
 
 }
@@ -91,9 +101,10 @@ async function listShop(req) {
 
     const list = await Shop.findAll({
         attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-        'society', 'function']
+        'society', 'function', 'userDescription']
     });
-    return (list);
+    let newList = await GetImage.regroupImageData(list, 'User');
+    return (newList);
 }
 
 module.exports = {
