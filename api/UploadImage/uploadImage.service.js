@@ -11,9 +11,8 @@ folderImage = (data) => {
     if (!fs.existsSync(__dirname + '/../image')) {
         fs.mkdirSync(__dirname + '/../image');
     }
-    let Data = JSON.parse(data.image);
-    for (let i = 0; i !== Data.image.length; i++) {
-        fs.writeFileSync(`${__dirname}/../image/${data.type}_${data.idLink}_${Data.image[i].imageName}`, Data.image[i].imageData);
+    for (let i = 0; i !== data.image.length; i++) {
+        fs.writeFileSync(`${__dirname}/../image/${data.type}_${data.idLink}_${data.image[i].imageName}`, data.image[i].imageData);
     }
 };
 
@@ -21,8 +20,9 @@ const uploadImage = async (req) => {
     if (req.image === undefined)
         return (undefined);
     let dataId = [];
-    const tmp = JSON.parse(req.image);
+    const tmp = req;
     for (let i = 0; i !== tmp.image.length; i++) {
+        console.log("In bouckle");
         let data = await Image.create({
             ImageName: tmp.image[i].imageName,
             Type: req.type,
@@ -31,11 +31,23 @@ const uploadImage = async (req) => {
         dataId.push(data.id);
     }
     if (req.type === 'Offer') {
-        let CurrentOffer = await Offer.findOne({
+        let Current = await Offer.findOne({
             where: {id: req.idLink}
         });
-        CurrentOffer.productImg = dataId;
-        CurrentOffer.save().then(() => {});
+        Current.productImg = dataId;
+        Current.save().then(() => {});
+    }
+    else {
+        let Current = await User.findOne({
+            where: {id: req.idLink}
+        });
+        if (Current === null) {
+            Current = await Shop.findOne({
+                where: {id: req.idLink}
+            });
+        }
+        Current.userPicture = dataId;
+        Current.save().then(() => {});
     }
     folderImage(req);
     return (req);
@@ -85,6 +97,25 @@ const getAllImage = async (req) => {
     return (dataImage);
 };
 
+const regroupImageData = async (allData, type) => {
+    if (type === 'Offer') {
+        for (let i = 0; i < allData.length; i++) {
+            if (allData[i].productImg === null)
+                continue;
+            allData[i].productImg = await getImage({'idLink': allData[i].id.toString(), 'type': type})
+        }
+    }
+    else {
+        for (let i = 0; i < allData.length; i++) {
+            if (allData[i].userPicture === null)
+                continue;
+            allData[i].userPicture = await getImage({'idLink': allData[i].id.toString(), 'type': type})
+        }
+    }
+    return (allData);
+};
+
 exports.getAllImage = getAllImage;
 exports.getImage = getImage;
 exports.uploadImage = uploadImage;
+exports.regroupImageData = regroupImageData;
