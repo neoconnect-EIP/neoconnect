@@ -134,7 +134,8 @@ async function registerShop(params) {
         userDescription: params.userDescription,
         theme: params.theme,
         function: params.function,
-        society: params.society
+        society: params.society,
+        website: params.website
     });
     if (params.userPicture !== undefined) {
         const imageData = await UploadImage.uploadImage({
