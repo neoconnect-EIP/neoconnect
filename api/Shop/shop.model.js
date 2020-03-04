@@ -55,7 +55,7 @@ module.exports = (sequelize, Sequelize) =>  {
                 type: Sequelize.STRING,
                 default: undefined
             },
-            link: {
+            website: {
                 type: Sequelize.STRING,
                 default: undefined
             }
