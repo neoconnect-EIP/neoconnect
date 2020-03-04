@@ -54,6 +54,10 @@ module.exports = (sequelize, Sequelize) =>  {
             theme: {
                 type: Sequelize.STRING,
                 default: undefined
+            },
+            website: {
+                type: Sequelize.STRING,
+                default: undefined
             }
         },
         { freezeTableName: true }
