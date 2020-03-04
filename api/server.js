@@ -11,7 +11,6 @@ const swaggerDocument =  require('./swagger/swagger.json'),
         basicAuth = require('basic-auth');
 
 
-
 //create and check db is create
 db.sequelize.sync({force: false}).then(() => {
     console.log("DB Create");

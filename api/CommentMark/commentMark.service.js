@@ -18,9 +18,11 @@ async function addComment(req) {
     if (commentType.userType === userType)
         return (undefined);
 
+    console.log(commentType);
+    console.log(userId);
     const dataComment = await Comment.create({
         idUser: req.params.id,
-        type: commentType,
+        type: commentType.userType,
         comment: req.body.comment,
         idPost: userId,
     });
@@ -40,7 +42,7 @@ async function addMark(req) {
 
     const dataMark = await Mark.create({
         idUser: req.params.id,
-        type: commentType,
+        type: commentType.userType,
         mark: req.body.mark,
         idPost: userId,
     });
