@@ -1,6 +1,7 @@
 const   db = require("../_helpers/db"),
         Shop = db.Shop,
         User = db.Influencer,
+        CommentMark = require("../CommentMark/commentMark.service");
         bcrypt = require("bcrypt"),
         jwtUtils = require("../utils/jwt.utils");
         GetImage = require("../UploadImage/uploadImage.service");
@@ -41,6 +42,8 @@ async function getMyProfile(req) {
         idLink: userId.toString(),
         type: 'User'
     });
+    list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
+    list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
     return (list);
 }
 
@@ -49,8 +52,6 @@ async function getUserProfile(req) {
     let userId = jwtUtils.getUserId(headerAuth);
     if (userId < 0)
         return (undefined);
-
-    console.log(req.params.id);
 
     const list = await Shop.findOne({
         where: { id: req.params.id },
@@ -63,6 +64,8 @@ async function getUserProfile(req) {
         idLink: req.params.id.toString(),
         type: 'User'
     });
+    list.dataValues.comment = await CommentMark.getCommentByUserId(req.params.id.toString());
+    list.dataValues.mark = await CommentMark.getMarkByUserId(req.params.id.toString());
     return (list);
 }
 

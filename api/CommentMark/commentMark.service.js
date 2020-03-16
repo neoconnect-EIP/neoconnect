@@ -133,6 +133,24 @@ async function getOfferMark(req) {
     return (dataMark);
 }
 
+async function getCommentByUserId(id) {
+    let dataComment = await Comment.findAll({
+        where: {
+            idUser: id,
+        }
+    }).map(el => el.get({ plain: true }));
+    return (dataComment);
+}
+
+async function getMarkByUserId(id) {
+        let dataMark = await Mark.findAll({
+        where: {
+            idUser: id,
+        }
+    }).map(el => el.get({ plain: true }));
+    return (dataMark);
+}
+
 module.exports = {
     addComment,
     addMark,
@@ -141,5 +159,7 @@ module.exports = {
     getComment,
     getMark,
     getOfferComment,
-    getOfferMark
+    getOfferMark,
+    getCommentByUserId,
+    getMarkByUserId
 };
