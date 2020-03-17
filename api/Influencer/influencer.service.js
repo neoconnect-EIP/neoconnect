@@ -3,8 +3,9 @@ const   db = require("../_helpers/db"),
         bcrypt = require("bcrypt"),
         User = db.Influencer,
         Shop = db.Shop,
-        jwtUtils = require("../utils/jwt.utils");
-        GetImage = require("../UploadImage/uploadImage.service");
+        CommentMark = require("../CommentMark/commentMark.service"),
+        jwtUtils = require("../utils/jwt.utils"),
+        GetImage = require("../UploadImage/uploadImage.service"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
 //Vérifie que le shop existe dans la bdd
@@ -43,6 +44,8 @@ async function getMyProfile(req) {
         idLink: userId.toString(),
         type: 'User'
     });
+    list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
+    list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
     return (list);
 }
 
@@ -63,6 +66,8 @@ async function getUserProfile(req) {
         idLink: req.params.id.toString(),
         type: 'User'
     });
+    list.dataValues.comment = await CommentMark.getCommentByUserId(req.params.id.toString());
+    list.dataValues.mark = await CommentMark.getMarkByUserId(req.params.id.toString());
     return (list);
 
 }
