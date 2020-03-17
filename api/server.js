@@ -3,6 +3,7 @@ require('dotenv').config();
 const swaggerDocument =  require('./swagger/swagger.json'),
         swaggerUi =  require('swagger-ui-express'),
         express = require("express"),
+        path = require('path'),
         bodyParser = require("body-parser"),
         cors = require("cors"),
         app = express(),
@@ -32,7 +33,7 @@ let auth = function (req, res, next) {
 };
 
 app.all("/swagger/*", auth);
-
+app.use('/image', express.static('image'));
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 app.use(cors());

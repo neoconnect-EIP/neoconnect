@@ -5,6 +5,7 @@ const   db = require("../_helpers/db"),
         Offer = db.Offre,
         Shop = db.Shop,
         Image = db.Image,
+        { URL } = process.env,
         jwtUtils = require("../utils/jwt.utils");
 
 folderImage = (data) => {
@@ -12,7 +13,9 @@ folderImage = (data) => {
         fs.mkdirSync(__dirname + '/../image');
     }
     for (let i = 0; i !== data.image.length; i++) {
-        fs.writeFileSync(`${__dirname}/../image/${data.type}_${data.idLink}_${data.image[i].imageName}`, data.image[i].imageData);
+        let base64String = `data:image/png;base64,${data.image[i].imageData}`;
+        let base64Image = base64String.split(';base64,').pop();
+        fs.writeFileSync(`${__dirname}/../image/${data.type}_${data.idLink}_${data.image[i].imageName}.png`, base64Image, {encoding: 'base64'});
     }
 };
 
@@ -22,7 +25,6 @@ const uploadImage = async (req) => {
     let dataId = [];
     const tmp = req;
     for (let i = 0; i !== tmp.image.length; i++) {
-        console.log("In bouckle");
         let data = await Image.create({
             ImageName: tmp.image[i].imageName,
             Type: req.type,
@@ -56,13 +58,13 @@ const uploadImage = async (req) => {
 getDataImage = (data) => {
     let imageDataFile = [];
     for (let i = 0; i < data.length; i++) {
-        if (!fs.existsSync(`${__dirname}/../image/${data[i].dataValues.Type}_${data[i].dataValues.IdLink}_${data[i].dataValues.ImageName}`)) {
+        if (!fs.existsSync(`${__dirname}/../image/${data[i].dataValues.Type}_${data[i].dataValues.IdLink}_${data[i].dataValues.ImageName}.png`)) {
             continue;
         }
         imageDataFile[i] = {
             idLink: data[i].dataValues.IdLink,
             imageName: data[i].dataValues.ImageName,
-            imageData: fs.readFileSync(`${__dirname}/../image/${data[i].dataValues.Type}_${data[i].dataValues.IdLink}_${data[i].dataValues.ImageName}`, 'utf8')
+            imageData: `${URL}/image/${data[i].dataValues.Type}_${data[i].dataValues.IdLink}_${data[i].dataValues.ImageName}.png`
         };
     }
     return (imageDataFile);
