@@ -6,10 +6,11 @@ const   jwt = require("jsonwebtoken"),
         User = db.Influencer,
         OfferApply = db.OfferApply,
         config = require("../config"),
-		jwtUtils = require("../utils/jwt.utils");
-        UploadImage = require("../UploadImage/uploadImage.service");
-        GetImage = require("../UploadImage/uploadImage.service");
-        GetAllImage = require("../UploadImage/uploadImage.service");
+		jwtUtils = require("../utils/jwt.utils"),
+        UploadImage = require("../UploadImage/uploadImage.service"),
+        GetImage = require("../UploadImage/uploadImage.service"),
+        GetAllImage = require("../UploadImage/uploadImage.service"),
+        statService = require("../Stat/stat.service");
 
 module.exports = {
 	insert,
@@ -31,6 +32,9 @@ async function getAll(req) {
 
     const list = await Offer.findAll();
     let newList = await GetImage.regroupImageData(list, 'Offer');
+    for(let i = 0; i < newList.length; i++) {
+        newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
+    }
     return (newList);
 }
 
@@ -50,6 +54,7 @@ async function getById(req) {
         type: 'Offer'
     });
     user.productImg = dataImage;
+    user.dataValues.average = await statService.getMarkAverageOffer(`${user.id}`);
 	return (user);
 }
 
@@ -67,6 +72,9 @@ async function getByShop(req) {
     if (listShop === undefined || listShop.length === 0)
         return (undefined);
     let newList = await GetImage.regroupImageData(listShop, 'Offer');
+    for(let i = 0; i < newList.length; i++) {
+        newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
+    }
     return (newList);
 }
 
@@ -90,7 +98,9 @@ async function insert(req) {
 		productName: req.body.productName,
 		productSex: req.body.productSex,
 		productDesc: req.body.productDesc,
-		productSubject: req.body.productSubject
+		productSubject: req.body.productSubject,
+        brand: req.body.brand,
+        color: req.body.color
 	});
     if (req.body.productImg === undefined || isJson(req.body.productImg))
         return (user.get({ plain: true}));
