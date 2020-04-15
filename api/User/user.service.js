@@ -2,6 +2,7 @@ const   db = require("../_helpers/db"),
         bcrypt = require("bcrypt"),
         Inf = db.Influencer,
         Shop = db.Shop,
+        Mark = db.Mark,
         jwtUtils = require("../utils/jwt.utils"),
         UploadImage = require("../UploadImage/uploadImage.service");
 
@@ -28,6 +29,56 @@ async function login(params) {
     }
     else
         return (undefined);
+}
+
+async function searchUser(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+
+     list = await Inf.findOne({
+        where: { pseudo: req.body.pseudo},
+        attributes: ['id', 'pseudo', 'userType', 'theme']
+    });
+    if (list === null)
+        list = await Shop.findOne({
+            where: { pseudo: req.body.pseudo},
+            attributes: ['id', 'pseudo', 'userType', 'theme']
+        });
+    if (list === null)
+        return (undefined);
+    list.userPicture = await GetImage.getImage({
+        idLink: list.id.toString(),
+        type: 'User'
+    });
+    list.mark = await Mark.findAll({
+        where: {
+            idUser: list.id.toString(),
+        }
+    });
+    return (list);
+}
+
+async function deleteUser(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+        
+    let user = await Inf.findOne({
+        where: {
+            id: userId
+        }
+    });
+    if (user === null) {
+        user = await Shop.findOne({
+            where: {
+                id: userId
+            }
+        })
+    }
+    await user.destroy();
 }
 
 async function getProfile(id) {
@@ -154,6 +205,8 @@ async function registerShop(params) {
 
 module.exports = {
     login,
+    searchUser,
+    deleteUser,
     registerInf,
     registerShop,
     getProfile
