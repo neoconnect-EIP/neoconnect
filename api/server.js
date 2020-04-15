@@ -50,6 +50,7 @@ app.use("/", require("./Offers/offres.controller"));
 app.use("/", require("./Contact/contact.controller"));
 app.use("/", require("./ForgotPassword/forgotPassword.controller"));
 app.use("/", require("./CommentMark/commentMark.controller"));
+app.use("/", require("./Stat/stat.controller"));
 
 //Start server
 app.listen(port, function() {
