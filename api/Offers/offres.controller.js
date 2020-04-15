@@ -9,6 +9,7 @@ router.get("/offer/shop/:id", getByShop);
 router.put("/offer/:id", update);
 router.delete("/offer/:id", _delete);
 router.put("/offer/apply/:id", apply);
+router.put("/offer/noapply/:id", removeApply);
 router.get("/offer/apply/offer/:id", getApplyOffer);
 router.get("/offer/apply/user/:id", getApplyUser);
 
@@ -92,6 +93,18 @@ function apply(req, res, next) {
         .then(list => {
             if (list !== undefined)
                 res.json(list).status(200);
+            else
+                res.status(400).json({ message: "Bad request" })
+        })
+        .catch(err => next(err));
+}
+
+function removeApply(req, res, next) {
+    offresService
+        .removeApply(req)
+        .then(list => {
+            if (list !== undefined)
+                res.json(list).status(204);
             else
                 res.status(400).json({ message: "Bad request" })
         })

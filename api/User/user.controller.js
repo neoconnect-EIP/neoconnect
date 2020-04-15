@@ -3,6 +3,8 @@ const   express = require("express"),
         userService = require("./user.service");
 
 router.post("/login", login);
+router.get("/user/search", searchUser);
+router.delete("/delete", deleteUser);
 
 router.post("/inf/register", registerInf);
 router.post("/shop/register", registerShop);
@@ -17,6 +19,27 @@ function login(req, res, next) {
             user
                 ? res.json(user).status(200)
                 : res.status(400).json({ message: "Username or password is incorrect" })
+                )
+        .catch(err => next(err));        
+}
+function searchUser(req, res, next) {
+    userService
+        .searchUser(req)
+        .then(user =>
+            user
+                ? res.json(user).status(204)
+                : res.status(400).json({ message: "User can't be searched" })
+                )
+        .catch(err => next(err));        
+}
+
+function deleteUser(req, res, next) {
+    userService
+        .deleteUser(req)
+        .then(user =>
+            user
+                ? res.json(user).status(200)
+                : res.status(200).json({ message: "Account deleted" })
                 )
         .catch(err => next(err));        
 }

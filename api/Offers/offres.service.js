@@ -19,6 +19,7 @@ module.exports = {
     getByShop,
 	update,
     apply,
+    removeApply,
 	delete: _delete,
     getApplyOffer,
     getApplyUser
@@ -178,6 +179,31 @@ async function apply(req) {
     });
 
     return (offer.get( { plain: true } ));
+}
+
+async function removeApply(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+
+    let user = await User.findOne({
+        where: {id: userId}
+    });
+    let offer = await Offer.findOne({
+        where: {id: req.params.id}
+    });
+    if (user === null || offer === null)
+        return (undefined);
+    offerApply = await OfferApply.findOne({
+            where: {
+                idUser: userId,
+                idOffer: req.params.id
+            }
+        })
+  if (offerApply === null)
+        return (undefined);
+    await offerApply.destroy();
 }
 
 async function getApplyOffer(req) {
