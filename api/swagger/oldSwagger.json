@@ -1,0 +1,2260 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "NeoConnect-React-NodeJS-REST-API",
+    "description": "ATTENTION CHAQUE REQUETE SAUF LOGIN + REGISTER ON BESOIN D'UN TOKEN POUR FONCTIONNER POUR CELA IL SUFFIT DE METTRE DANS LE HEADER DE LA REQUETE \"Bearer\" token NE PAS OUBLIER ESPACE ENTRE LES 2 \nBIEN SUR CERTAINE REQUETE NECCESSITE LE BON PROFILE UTILISATEUR POUR FONCTIONNER COMMME LES MODIF DU COMPTE PAR EXAMPLE",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Dev version with docker-compose and nginx proxy"
+    },
+    {
+      "url": "/web",
+      "description": "Production version"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User",
+      "description": "User request for register and login"
+    },
+    {
+      "name": "Influencers",
+      "description": "API for influencers in the system"
+    },
+    {
+      "name": "Shop",
+      "description": "API for Shop in the system"
+    },
+    {
+      "name": "Offers",
+      "description": "API for Offers in the system"
+    },
+    {
+      "name": "Contact",
+      "description": "API for Contact in the system"
+    },
+    {
+      "name": "Reset Password",
+      "description": "API reset password for user"
+    },
+    {
+      "name": "Comment and Mark",
+      "description": "Part of comment and mark"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/inf/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a new Influencers user type",
+        "requestBody": {
+          "description": "Inf Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Inf"
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "pseudo": "Sardoche",
+                    "password": "password1234"
+                  }
+                },
+                "Example with more arguments": {
+                  "value": {
+                    "pseudo": "Master",
+                    "password": "password1234",
+                    "full_name": "Jean Dupont",
+                    "email": "jean.dupont@gmail.com",
+                    "city": "paris"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ResponseToken"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a new Shop user type",
+        "requestBody": {
+          "description": "Shop Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Shop"
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "pseudo": "Sardoche",
+                    "password": "password1234"
+                  }
+                },
+                "Example with more arguments": {
+                  "value": {
+                    "pseudo": "Master",
+                    "password": "password1234",
+                    "full_name": "Jean Dupont",
+                    "email": "jean.dupont@gmail.com",
+                    "city": "paris"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ResponseToken"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "login to account",
+        "requestBody": {
+          "description": "User Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pseudo": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "pseudo",
+                  "password"
+                ]
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "pseudo": "Sardoche",
+                    "password": "password1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "integer"
+                    },
+                    "userType": {
+                      "type": "string"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "userId": 5,
+                      "userType": "influencer",
+                      "token": "dfdfdsxwdsx34r3wsxz"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inf/me": {
+      "get": {
+        "tags": [
+          "Influencers"
+        ],
+        "summary": "get information of Influencers user account",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InfOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Influencers"
+        ],
+        "summary": "modify Influencers account user type",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Inf Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/InfOut"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InfOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inf/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the User",
+          "type": "string"
+        },
+        {
+          "in": "header",
+          "name": "authorization",
+          "type": "string",
+          "required": true,
+          "description": "Bearer token",
+          "schema": {
+            "$ref": "#/definitions/Header"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Influencers"
+        ],
+        "summary": "get information of Influencers user account",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InfOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inf/listShop": {
+      "get": {
+        "tags": [
+          "Influencers"
+        ],
+        "summary": "get all Shop",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ShopOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/me": {
+      "get": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "get information of Shop user account",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ShopOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "modify Shop account user type",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Shop Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/ShopOut"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ShopOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the User Shop",
+          "type": "string"
+        },
+        {
+          "in": "header",
+          "name": "authorization",
+          "type": "string",
+          "required": true,
+          "description": "Bearer token",
+          "schema": {
+            "$ref": "#/definitions/Header"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "get information of Shop user account",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ShopOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/listInf": {
+      "get": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "get all Influencers",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InfOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/insert": {
+      "post": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Create a new Shop Offers",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Offers Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Offers"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/OffersOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/list": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "get all Offers",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/OffersOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the Offers that we want to match",
+          "type": "string"
+        },
+        {
+          "in": "header",
+          "name": "authorization",
+          "type": "string",
+          "required": true,
+          "description": "Bearer token",
+          "schema": {
+            "$ref": "#/definitions/Header"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Get Offers by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/OffersOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Offer with given ID",
+        "tags": [
+          "Offers"
+        ],
+        "requestBody": {
+          "description": "Offer Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Offers"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offers with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Offers"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Offers with given ID",
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Delete Offer with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "404": {
+            "description": "Failed. Offer not found."
+          }
+        }
+      }
+    },
+    "/offer/shop/{id}": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Get all Offers of 1 specific shop with id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offers with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OffersOut"
+            }
+          },
+          "404": {
+            "description": "Failed"
+          }
+        }
+      }
+    },
+    "/offer/apply/{id}": {
+      "put": {
+        "summary": "Apply Offer with Id",
+        "tags": [
+          "Offers"
+        ],
+        "requestBody": {
+          "description": "Offer Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Offers"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offers with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OffersOut"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    },
+    "/offer/apply/offer/{id}": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Get all user who apply at specific offer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offers with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OffersOut"
+            }
+          },
+          "404": {
+            "description": "Failed"
+          }
+        }
+      }
+    },
+    "/offer/apply/user/{id}": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Get all Offer apply by user with Id of the user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offers with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OffersOut"
+            }
+          },
+          "404": {
+            "description": "Failed"
+          }
+        }
+      }
+    },
+    "/contact": {
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Contact us",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Contact"
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "pseudo": "pseudoTest",
+                    "email": "email@test.com",
+                    "subject": "sujetTest",
+                    "message": "message test"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Email sent"
+          },
+          "400": {
+            "description": "Email sending failed"
+          }
+        }
+      }
+    },
+    "/forgotPassword": {
+      "post": {
+        "tags": [
+          "Reset Password"
+        ],
+        "summary": "send mail to user for recovery password",
+        "requestBody": {
+          "description": "Reset",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "pseudo"
+                ]
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "email": "1234@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "": "recovery email sent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resetPassword/{resetPasswordToken}": {
+      "parameters": [
+        {
+          "name": "resetPasswordToken",
+          "in": "path",
+          "required": true,
+          "description": "Token of the reset password, This token is give with the link in the mail (http://localhost:3000/reset/${token})",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reset Password"
+        ],
+        "summary": "This request is for check validation of the token if is expires (1h), be carefull save the email in the answer for the next request for update password",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "email": "1234@gmail.com",
+                      "message": "password reset link a-ok"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/updatePassword": {
+      "put": {
+        "tags": [
+          "Reset Password"
+        ],
+        "summary": "Request for update password",
+        "requestBody": {
+          "description": "request for update password",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "resetPasswordToken": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "Example": {
+                  "value": {
+                    "email": "1234@gmail.com",
+                    "resetPasswordToken": "aa376956d532f51ca8b98e34868fff970d1b99ab",
+                    "password": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "": "password updated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/comment/{id}": {
+      "post": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "add comment user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "comment"
+                ]
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "comment": "Good job!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "comment": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "comment": "good job"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "get comment user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "id": {
+                "properties": {
+                  "uid": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "comment": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "comment": "good job"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/mark/{id}": {
+      "post": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "add mark user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mark": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "mark"
+                ]
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "mark": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "mark": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "mark": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "get mark user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "id": {
+                "properties": {
+                  "uid": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "mark": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "mark": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/comment/{id}": {
+      "post": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "add comment Offer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "id Of Offer",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "comment"
+                ]
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "comment": "Good job!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "comment": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "comment": "good job"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "get comment Offer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "id": {
+                "properties": {
+                  "uid": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "comment": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "comment": "good job"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/mark/{id}": {
+      "post": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "add mark Offer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mark": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "mark"
+                ]
+              },
+              "examples": {
+                "Example required": {
+                  "value": {
+                    "mark": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "mark": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "mark": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Comment and Mark"
+        ],
+        "summary": "get mark Offer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Offer with id",
+            "schema": {
+              "id": {
+                "properties": {
+                  "uid": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Bearer token",
+            "schema": {
+              "$ref": "#/definitions/Header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "mark": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "idUser": "1",
+                      "type": "shop",
+                      "mark": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "id": {
+      "properties": {
+        "uid": {
+          "type": "string"
+        }
+      }
+    },
+    "Header": {
+      "type": "object",
+      "properties": {
+        "authorization": {
+          "type": "string",
+          "description": "Bearer token"
+        }
+      }
+    },
+    "Inf": {
+      "type": "object",
+      "properties": {
+        "pseudo": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "userType": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "postal": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "userDescription": {
+          "type": "string"
+        },
+        "userPicture": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "facebook": {
+          "type": "string"
+        },
+        "twitter": {
+          "type": "string"
+        },
+        "snapchat": {
+          "type": "string"
+        },
+        "instagram": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "pseudo",
+        "password"
+      ]
+    },
+    "InfOut": {
+      "type": "object",
+      "properties": {
+        "pseudo": {
+          "type": "string"
+        },
+        "userType": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "postal": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "userPicture": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "imageName": {
+                "type": "string"
+              },
+              "imageData": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "userDescription": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "facebook": {
+          "type": "string"
+        },
+        "twitter": {
+          "type": "string"
+        },
+        "snapchat": {
+          "type": "string"
+        },
+        "instagram": {
+          "type": "string"
+        }
+      }
+    },
+    "Shop": {
+      "type": "object",
+      "properties": {
+        "pseudo": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "userType": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "society": {
+          "type": "string"
+        },
+        "userDescription": {
+          "type": "string"
+        },
+        "userPicture": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "postal": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "pseudo",
+        "password"
+      ]
+    },
+    "ShopOut": {
+      "type": "object",
+      "properties": {
+        "pseudo": {
+          "type": "string"
+        },
+        "userType": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "society": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "postal": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "userPicture": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "imageName": {
+                "type": "string"
+              },
+              "imageData": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "userDescription": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        }
+      }
+    },
+    "Offers": {
+      "type": "object",
+      "properties": {
+        "productImg": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "imageName": {
+                "type": "string"
+              },
+              "imageData": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productSex": {
+          "type": "string"
+        },
+        "productDesc": {
+          "type": "string"
+        },
+        "productSubject": {
+          "type": "string"
+        }
+      }
+    },
+    "OffersOut": {
+      "type": "object",
+      "properties": {
+        "idUser": {
+          "type": "integer"
+        },
+        "productImg": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "imageName": {
+                "type": "string"
+              },
+              "imageData": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productSex": {
+          "type": "string"
+        },
+        "productDesc": {
+          "type": "string"
+        },
+        "productSubject": {
+          "type": "string"
+        }
+      }
+    },
+    "Contact": {
+      "type": "object",
+      "properties": {
+        "pseudo": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ResponseToken": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "BadRequest": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "swagger": "3.0"
+}

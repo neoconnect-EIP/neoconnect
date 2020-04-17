@@ -2,8 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
-    "title": "NeoConnect-React-NodeJS-REST-API",
-    "description": "ATTENTION CHAQUE REQUETE SAUF LOGIN + REGISTER ON BESOIN D'UN TOKEN POUR FONCTIONNER POUR CELA IL SUFFIT DE METTRE DANS LE HEADER DE LA REQUETE \"Bearer\" token NE PAS OUBLIER ESPACE ENTRE LES 2 \nBIEN SUR CERTAINE REQUETE NECCESSITE LE BON PROFILE UTILISATEUR POUR FONCTIONNER COMMME LES MODIF DU COMPTE PAR EXAMPLE",
+    "title": "API Neoconnect",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -21,69 +20,67 @@
   ],
   "tags": [
     {
+      "name": "Authentication",
+      "description": "Login / Register requests"
+    },
+    {
       "name": "User",
-      "description": "User request for register and login"
+      "description": "General users related requests"
     },
     {
       "name": "Influencers",
-      "description": "API for influencers in the system"
+      "description": "Influencers related requests"
     },
     {
       "name": "Shop",
-      "description": "API for Shop in the system"
+      "description": "Shop related requests"
     },
     {
       "name": "Offers",
-      "description": "API for Offers in the system"
+      "description": "Offers related requests"
     },
     {
       "name": "Contact",
-      "description": "API for Contact in the system"
+      "description": "Contact related requests"
     },
     {
       "name": "Reset Password",
-      "description": "API reset password for user"
-    },
-    {
-      "name": "Comment and Mark",
-      "description": "Part of comment and mark"
+      "description": "Reset Password related requests"
     }
   ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
   "paths": {
-    "/inf/register": {
+    "/shop/register": {
       "post": {
         "tags": [
-          "User"
+          "Authentication"
         ],
-        "summary": "Create a new Influencers user type",
+        "summary": "Register as a Shop",
         "requestBody": {
-          "description": "Inf Object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Inf"
+                "$ref": "#/components/schemas/ShopRequest"
               },
               "examples": {
-                "Example required": {
+                "Minimum Required": {
                   "value": {
                     "pseudo": "Sardoche",
                     "password": "password1234"
                   }
                 },
-                "Example with more arguments": {
+                "Complete": {
                   "value": {
-                    "pseudo": "Master",
+                    "pseudo": "Sardoche",
                     "password": "password1234",
                     "full_name": "Jean Dupont",
                     "email": "jean.dupont@gmail.com",
-                    "city": "paris"
+                    "phone": "0123456789",
+                    "society": "Dupont Corp",
+                    "function": "CEO",
+                    "postal": 75000,
+                    "city": "Paris",
+                    "theme": "Mode"
                   }
                 }
               }
@@ -91,20 +88,29 @@
           }
         },
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/ResponseToken"
-                }
-              }
-            }
+          "204": {
+            "$ref": "#/components/responses/204"
           },
           "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/BadRequest"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Utilisateur déjà existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Pseudo déjà utilisé"
+                    }
+                  }
                 }
               }
             }
@@ -112,34 +118,41 @@
         }
       }
     },
-    "/shop/register": {
+    "/inf/register": {
       "post": {
         "tags": [
-          "User"
+          "Authentication"
         ],
-        "summary": "Create a new Shop user type",
+        "summary": "Register as an Influencer",
         "requestBody": {
-          "description": "Shop Object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Shop"
+                "$ref": "#/components/schemas/InfRequest"
               },
               "examples": {
-                "Example required": {
+                "Minimum Required": {
                   "value": {
                     "pseudo": "Sardoche",
                     "password": "password1234"
                   }
                 },
-                "Example with more arguments": {
+                "Complete": {
                   "value": {
-                    "pseudo": "Master",
+                    "pseudo": "Sardoche",
                     "password": "password1234",
+                    "sexe": "Homme",
                     "full_name": "Jean Dupont",
                     "email": "jean.dupont@gmail.com",
-                    "city": "paris"
+                    "phone": "0123456789",
+                    "facebook": "Jean Dupont",
+                    "twitter": "Jean Dupont",
+                    "instagram": "Jean Dupont",
+                    "snapchat": "Jean Dupont",
+                    "postal": 75000,
+                    "city": "Paris",
+                    "theme": "Mode"
                   }
                 }
               }
@@ -147,20 +160,29 @@
           }
         },
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/ResponseToken"
-                }
-              }
-            }
+          "204": {
+            "$ref": "#/components/responses/204"
           },
           "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/BadRequest"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Utilisateur déjà existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Pseudo déjà utilisé"
+                    }
+                  }
                 }
               }
             }
@@ -171,78 +193,409 @@
     "/login": {
       "post": {
         "tags": [
-          "User"
+          "Authentication"
         ],
-        "summary": "login to account",
+        "summary": "Login as an Influenceur or as a Shop",
         "requestBody": {
-          "description": "User Object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "pseudo": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "pseudo",
-                  "password"
-                ]
+                "$ref": "#/components/schemas/LoginRequest"
               },
-              "examples": {
-                "Example required": {
-                  "value": {
-                    "pseudo": "Sardoche",
-                    "password": "password1234"
-                  }
-                }
+              "example": {
+                "pseudo": "Sardoche",
+                "password": "password1234"
               }
             }
           }
         },
         "responses": {
           "200": {
+            "$ref": "#/components/responses/LoginSuccess"
+          },
+          "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "userId": {
-                      "type": "integer"
-                    },
-                    "userType": {
-                      "type": "string"
-                    },
-                    "token": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Error"
                 },
                 "examples": {
-                  "Example": {
+                  "Error Body": {
                     "value": {
-                      "userId": 5,
-                      "userType": "influencer",
-                      "token": "dfdfdsxwdsx34r3wsxz"
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Utilisateur déjà existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Pseudo/Password incorrect"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/comment/{id}": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Add comment to User",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentRequest"
+              },
+              "example": {
+                "comment": "Good Job!"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
                     }
                   }
                 }
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get comments for User",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/CommentResponseSuccess"
+          },
           "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/BadRequest"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/mark/{id}": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Add mark to User",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkRequest"
+              },
+              "example": {
+                "mark": 3
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get marks for User",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/MarkResponseSuccess"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete One User",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/search": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Search for Users related to a keyword",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Keyword"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Parameters": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais paramètre"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/contact": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Send a mail to another user",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactRequest"
+              },
+              "example": {
+                "pseudo": "Sardoche",
+                "email": "jean.dupont@gmail.com",
+                "subject": "Sujet Mail",
+                "message": "Message Mail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -252,37 +605,25 @@
         "tags": [
           "Influencers"
         ],
-        "summary": "get information of Influencers user account",
+        "summary": "Get Information of current account",
         "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "responses": {
           "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/InfOut"
+                  "$ref": "#/components/schemas/InfResponse"
                 }
               }
             }
           },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       },
@@ -290,107 +631,94 @@
         "tags": [
           "Influencers"
         ],
-        "summary": "modify Influencers account user type",
+        "summary": "Edit Information of current account",
         "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "requestBody": {
-          "description": "Inf Object",
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/InfOut"
+                "$ref": "#/components/schemas/InfRequest"
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/InfOut"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  }
                 }
               }
             }
           },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
     },
     "/inf/{id}": {
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "description": "ID of the User",
-          "type": "string"
-        },
-        {
-          "in": "header",
-          "name": "authorization",
-          "type": "string",
-          "required": true,
-          "description": "Bearer token",
-          "schema": {
-            "$ref": "#/definitions/Header"
-          }
-        }
-      ],
       "get": {
         "tags": [
           "Influencers"
         ],
-        "summary": "get information of Influencers user account",
+        "summary": "Get Information of another account",
         "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "responses": {
           "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/InfOut"
+                  "$ref": "#/components/schemas/InfResponse"
                 }
               }
             }
           },
           "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/BadRequest"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -400,37 +728,80 @@
         "tags": [
           "Influencers"
         ],
-        "summary": "get all Shop",
+        "summary": "Get Information on all shops",
         "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "responses": {
           "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/ShopOut"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShopResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/inf/offers/{id}": {
+      "get": {
+        "tags": [
+          "Influencers"
+        ],
+        "summary": "Get Offers Applied by an Influencer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfferResponse"
+                  }
                 }
               }
             }
           },
           "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/BadRequest"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -440,37 +811,25 @@
         "tags": [
           "Shop"
         ],
-        "summary": "get information of Shop user account",
+        "summary": "Get Information of current account",
         "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "responses": {
           "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/ShopOut"
+                  "$ref": "#/components/schemas/ShopResponse"
                 }
               }
             }
           },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       },
@@ -478,107 +837,94 @@
         "tags": [
           "Shop"
         ],
-        "summary": "modify Shop account user type",
+        "summary": "Edit Information of current account",
         "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "requestBody": {
-          "description": "Shop Object",
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/ShopOut"
+                "$ref": "#/components/schemas/ShopRequest"
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/ShopOut"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  }
                 }
               }
             }
           },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
     },
     "/shop/{id}": {
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "description": "ID of the User Shop",
-          "type": "string"
-        },
-        {
-          "in": "header",
-          "name": "authorization",
-          "type": "string",
-          "required": true,
-          "description": "Bearer token",
-          "schema": {
-            "$ref": "#/definitions/Header"
-          }
-        }
-      ],
       "get": {
         "tags": [
           "Shop"
         ],
-        "summary": "get information of Shop user account",
+        "summary": "Get Information of another account",
         "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "responses": {
           "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/ShopOut"
+                  "$ref": "#/components/schemas/ShopResponse"
                 }
               }
             }
           },
           "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/BadRequest"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -588,37 +934,80 @@
         "tags": [
           "Shop"
         ],
-        "summary": "get all Influencers",
+        "summary": "Get Information on all influencers",
         "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "responses": {
           "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/InfOut"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/shop/offers/{id}": {
+      "get": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "Get Offers Added by a Shop",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfferResponse"
+                  }
                 }
               }
             }
           },
           "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/BadRequest"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -628,48 +1017,45 @@
         "tags": [
           "Offers"
         ],
-        "summary": "Create a new Shop Offers",
+        "summary": "Add a new offer",
         "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "requestBody": {
-          "description": "Offers Object",
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Offers"
+                "$ref": "#/components/schemas/OfferRequest"
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/OffersOut"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  }
                 }
               }
             }
           },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -679,363 +1065,515 @@
         "tags": [
           "Offers"
         ],
-        "summary": "get all Offers",
+        "summary": "Get All Offers",
         "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "responses": {
           "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/OffersOut"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfferResponse"
+                  }
                 }
               }
             }
           },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
     },
     "/offer/{id}": {
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "description": "ID of the Offers that we want to match",
-          "type": "string"
-        },
-        {
-          "in": "header",
-          "name": "authorization",
-          "type": "string",
-          "required": true,
-          "description": "Bearer token",
-          "schema": {
-            "$ref": "#/definitions/Header"
-          }
-        }
-      ],
       "get": {
         "tags": [
           "Offers"
         ],
-        "summary": "Get Offers by id",
+        "summary": "Get One Offer",
         "parameters": [
           {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offer with id",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
+            "$ref": "#/components/parameters/idOffer"
           },
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "responses": {
           "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/OffersOut"
+                  "$ref": "#/components/schemas/OfferResponse"
                 }
               }
             }
           },
           "400": {
+            "description": "Request Parameters Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/BadRequest"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       },
       "put": {
-        "summary": "Update Offer with given ID",
         "tags": [
           "Offers"
         ],
+        "summary": "Edit One Offer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idOffer"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
         "requestBody": {
-          "description": "Offer Object",
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Offers"
+                "$ref": "#/components/schemas/OfferRequest"
               }
             }
           }
         },
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offers with new values of properties",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Offers"
-            }
+          "204": {
+            "$ref": "#/components/responses/204"
           },
           "400": {
-            "description": "Failed. Bad post data."
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       },
       "delete": {
-        "summary": "Delete Offers with given ID",
         "tags": [
           "Offers"
         ],
+        "summary": "Delete One Offer",
         "parameters": [
           {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Delete Offer with id",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
+            "$ref": "#/components/parameters/idOffer"
           },
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/id"
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
             }
           },
-          "404": {
-            "description": "Failed. Offer not found."
-          }
-        }
-      }
-    },
-    "/offer/shop/{id}": {
-      "get": {
-        "tags": [
-          "Offers"
-        ],
-        "summary": "Get all Offers of 1 specific shop with id",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offers with new values of properties",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/OffersOut"
-            }
-          },
-          "404": {
-            "description": "Failed"
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
     },
     "/offer/apply/{id}": {
-      "put": {
-        "summary": "Apply Offer with Id",
+      "get": {
         "tags": [
           "Offers"
         ],
+        "summary": "Get User who Applied to Offer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idOffer"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Apply to One Offer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idOffer"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/offer/comment/{id}": {
+      "post": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Add comment to Offer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idOffer"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
         "requestBody": {
-          "description": "Offer Object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Offers"
+                "$ref": "#/components/schemas/CommentRequest"
+              },
+              "example": {
+                "comment": "Nice Offer !"
               }
             }
           }
         },
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offers with new values of properties",
-            "schema": {
-              "$ref": "#/definitions/id"
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Get comments for Offer",
+        "parameters": [
           {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
+            "$ref": "#/components/parameters/idOffer"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/OffersOut"
+            "$ref": "#/components/responses/CommentResponseSuccess"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/offer/mark/{id}": {
+      "post": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Add mark to Offer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idOffer"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkRequest"
+              },
+              "example": {
+                "mark": 3
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Get marks for Offer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idOffer"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/MarkResponseSuccess"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/offer/sort": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Sort Offers related to a keyword",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Keyword"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfferResponse"
+                }
+              }
             }
           },
           "400": {
-            "description": "Failed. Bad post data."
-          }
-        }
-      }
-    },
-    "/offer/apply/offer/{id}": {
-      "get": {
-        "tags": [
-          "Offers"
-        ],
-        "summary": "Get all user who apply at specific offer",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offers with new values of properties",
-            "schema": {
-              "$ref": "#/definitions/id"
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Parameters": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais paramètre"
+                    }
+                  }
+                }
+              }
             }
           },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/OffersOut"
-            }
-          },
-          "404": {
-            "description": "Failed"
-          }
-        }
-      }
-    },
-    "/offer/apply/user/{id}": {
-      "get": {
-        "tags": [
-          "Offers"
-        ],
-        "summary": "Get all Offer apply by user with Id of the user",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offers with new values of properties",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/OffersOut"
-            }
-          },
-          "404": {
-            "description": "Failed"
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -1045,32 +1583,43 @@
         "tags": [
           "Contact"
         ],
-        "summary": "Contact us",
+        "summary": "Send a mail to the support",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Contact"
+                "$ref": "#/components/schemas/ContactRequest"
               },
-              "examples": {
-                "Example required": {
-                  "value": {
-                    "pseudo": "pseudoTest",
-                    "email": "email@test.com",
-                    "subject": "sujetTest",
-                    "message": "message test"
-                  }
-                }
+              "example": {
+                "pseudo": "Sardoche",
+                "email": "jean.dupont@gmail.com",
+                "subject": "Sujet Mail",
+                "message": "Message Mail"
               }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "Email sent"
+          "204": {
+            "$ref": "#/components/responses/204"
           },
           "400": {
-            "description": "Email sending failed"
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1080,55 +1629,45 @@
         "tags": [
           "Reset Password"
         ],
-        "summary": "send mail to user for recovery password",
+        "summary": "Step 1 to update Password",
+        "description": "Send mail to user",
         "requestBody": {
-          "description": "Reset",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "pseudo"
-                ]
+                "$ref": "#/components/schemas/ForgetPasswordRequest"
               },
-              "examples": {
-                "Example required": {
-                  "value": {
-                    "email": "1234@gmail.com"
-                  }
-                }
+              "example": {
+                "email": "jean.dupont@gmail.com"
               }
             }
           }
         },
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "": "recovery email sent"
-                    }
-                  }
-                }
-              }
-            }
+          "204": {
+            "$ref": "#/components/responses/204"
           },
           "400": {
+            "description": "Request Body Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/BadRequest"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
+                  }
                 }
               }
             }
@@ -1137,51 +1676,41 @@
       }
     },
     "/resetPassword/{resetPasswordToken}": {
-      "parameters": [
-        {
-          "name": "resetPasswordToken",
-          "in": "path",
-          "required": true,
-          "description": "Token of the reset password, This token is give with the link in the mail (http://localhost:3000/reset/${token})",
-          "type": "string"
-        }
-      ],
       "get": {
         "tags": [
           "Reset Password"
         ],
-        "summary": "This request is for check validation of the token if is expires (1h), be carefull save the email in the answer for the next request for update password",
+        "summary": "Step 2 to update Password",
+        "description": "Check reset token",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ResetPassword"
+          }
+        ],
         "responses": {
           "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "email": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "email": "1234@gmail.com",
-                      "message": "password reset link a-ok"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/ResetPasswordSuccess"
           },
           "400": {
+            "description": "Request Parameters Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/BadRequest"
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Mauvais token": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais reset token"
+                    }
+                  }
                 }
               }
             }
@@ -1194,732 +1723,53 @@
         "tags": [
           "Reset Password"
         ],
-        "summary": "Request for update password",
+        "summary": "Step 3 to update Password",
+        "description": "Set new password",
         "requestBody": {
-          "description": "request for update password",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
+                "$ref": "#/components/schemas/UpdatePasswordRequest"
+              },
+              "example": {
+                "email": "jean.dupont@gmail.com",
+                "resetPasswordtoken": "aa376956d532f51ca8b98e34868fff970d1b99ab",
+                "password": "12345password"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
                   },
-                  "resetPasswordToken": {
-                    "type": "string"
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
                   },
-                  "password": {
-                    "type": "string"
-                  }
-                }
-              },
-              "examples": {
-                "Example": {
-                  "value": {
-                    "email": "1234@gmail.com",
-                    "resetPasswordToken": "aa376956d532f51ca8b98e34868fff970d1b99ab",
-                    "password": "1234"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                },
-                "examples": {
-                  "Example": {
+                  "Mauvais token": {
                     "value": {
-                      "": "password updated"
+                      "code": 400,
+                      "message": "Mauvais reset token"
                     }
                   }
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user/comment/{id}": {
-      "post": {
-        "tags": [
-          "Comment and Mark"
-        ],
-        "summary": "add comment user",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offer with id",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "User Object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "comment": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "comment"
-                ]
-              },
-              "examples": {
-                "Example required": {
-                  "value": {
-                    "comment": "Good job!"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "idUser": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "comment": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "idUser": "1",
-                      "type": "shop",
-                      "comment": "good job"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Comment and Mark"
-        ],
-        "summary": "get comment user",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offer with id",
-            "schema": {
-              "id": {
-                "properties": {
-                  "uid": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "idUser": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "comment": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "idUser": "1",
-                      "type": "shop",
-                      "comment": "good job"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user/mark/{id}": {
-      "post": {
-        "tags": [
-          "Comment and Mark"
-        ],
-        "summary": "add mark user",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offer with id",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "User Object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "mark": {
-                    "type": "integer"
-                  }
-                },
-                "required": [
-                  "mark"
-                ]
-              },
-              "examples": {
-                "Example required": {
-                  "value": {
-                    "mark": 3
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "idUser": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "mark": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "idUser": "1",
-                      "type": "shop",
-                      "mark": 3
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Comment and Mark"
-        ],
-        "summary": "get mark user",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offer with id",
-            "schema": {
-              "id": {
-                "properties": {
-                  "uid": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "idUser": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "mark": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "idUser": "1",
-                      "type": "shop",
-                      "mark": 3
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/offer/comment/{id}": {
-      "post": {
-        "tags": [
-          "Comment and Mark"
-        ],
-        "summary": "add comment Offer",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "id Of Offer",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "User Object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "comment": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "comment"
-                ]
-              },
-              "examples": {
-                "Example required": {
-                  "value": {
-                    "comment": "Good job!"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "idUser": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "comment": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "idUser": "1",
-                      "type": "shop",
-                      "comment": "good job"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Comment and Mark"
-        ],
-        "summary": "get comment Offer",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offer with id",
-            "schema": {
-              "id": {
-                "properties": {
-                  "uid": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "idUser": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "comment": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "idUser": "1",
-                      "type": "shop",
-                      "comment": "good job"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/offer/mark/{id}": {
-      "post": {
-        "tags": [
-          "Comment and Mark"
-        ],
-        "summary": "add mark Offer",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offer with id",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "User Object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "mark": {
-                    "type": "integer"
-                  }
-                },
-                "required": [
-                  "mark"
-                ]
-              },
-              "examples": {
-                "Example required": {
-                  "value": {
-                    "mark": 3
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "idUser": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "mark": {
-                      "type": "integer"
-                    }
-                  }
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "idUser": "1",
-                      "type": "shop",
-                      "mark": 3
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Comment and Mark"
-        ],
-        "summary": "get mark Offer",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Offer with id",
-            "schema": {
-              "id": {
-                "properties": {
-                  "uid": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "type": "string",
-            "required": true,
-            "description": "Bearer token",
-            "schema": {
-              "$ref": "#/definitions/Header"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "idUser": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "mark": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "Example": {
-                    "value": {
-                      "idUser": "1",
-                      "type": "shop",
-                      "mark": 3
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/BadRequest"
                 }
               }
             }
@@ -1928,333 +1778,654 @@
       }
     }
   },
-  "definitions": {
-    "id": {
-      "properties": {
-        "uid": {
-          "type": "string"
-        }
-      }
-    },
-    "Header": {
-      "type": "object",
-      "properties": {
-        "authorization": {
-          "type": "string",
-          "description": "Bearer token"
-        }
-      }
-    },
-    "Inf": {
-      "type": "object",
-      "properties": {
-        "pseudo": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "userType": {
-          "type": "string"
-        },
-        "full_name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "postal": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "userDescription": {
-          "type": "string"
-        },
-        "userPicture": {
-          "type": "string"
-        },
-        "theme": {
-          "type": "string"
-        },
-        "facebook": {
-          "type": "string"
-        },
-        "twitter": {
-          "type": "string"
-        },
-        "snapchat": {
-          "type": "string"
-        },
-        "instagram": {
-          "type": "string"
+  "components": {
+    "responses": {
+      "204": {
+        "description": "Success"
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "code": 401,
+              "message": "User non reconnu / Mauvais Token"
+            }
+          }
         }
       },
-      "required": [
-        "pseudo",
-        "password"
-      ]
-    },
-    "InfOut": {
-      "type": "object",
-      "properties": {
-        "pseudo": {
-          "type": "string"
-        },
-        "userType": {
-          "type": "string"
-        },
-        "full_name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "postal": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "userPicture": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "imageName": {
-                "type": "string"
-              },
-              "imageData": {
-                "type": "string"
-              }
+      "BadRequest": {
+        "description": "Request Body Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
             }
           }
-        },
-        "userDescription": {
-          "type": "string"
-        },
-        "theme": {
-          "type": "string"
-        },
-        "facebook": {
-          "type": "string"
-        },
-        "twitter": {
-          "type": "string"
-        },
-        "snapchat": {
-          "type": "string"
-        },
-        "instagram": {
-          "type": "string"
-        }
-      }
-    },
-    "Shop": {
-      "type": "object",
-      "properties": {
-        "pseudo": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "userType": {
-          "type": "string"
-        },
-        "full_name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "society": {
-          "type": "string"
-        },
-        "userDescription": {
-          "type": "string"
-        },
-        "userPicture": {
-          "type": "string"
-        },
-        "function": {
-          "type": "string"
-        },
-        "postal": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "theme": {
-          "type": "string"
         }
       },
-      "required": [
-        "pseudo",
-        "password"
-      ]
-    },
-    "ShopOut": {
-      "type": "object",
-      "properties": {
-        "pseudo": {
-          "type": "string"
-        },
-        "userType": {
-          "type": "string"
-        },
-        "full_name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "society": {
-          "type": "string"
-        },
-        "function": {
-          "type": "string"
-        },
-        "postal": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "userPicture": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "imageName": {
-                "type": "string"
-              },
-              "imageData": {
-                "type": "string"
-              }
+      "Error": {
+        "description": "Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
             }
           }
-        },
-        "userDescription": {
-          "type": "string"
-        },
-        "theme": {
-          "type": "string"
         }
-      }
-    },
-    "Offers": {
-      "type": "object",
-      "properties": {
-        "productImg": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "imageName": {
-                "type": "string"
-              },
-              "imageData": {
-                "type": "string"
-              }
+      },
+      "LoginSuccess": {
+        "description": "Login Success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/LoginResponse"
             }
           }
-        },
-        "productName": {
-          "type": "string"
-        },
-        "productSex": {
-          "type": "string"
-        },
-        "productDesc": {
-          "type": "string"
-        },
-        "productSubject": {
-          "type": "string"
         }
-      }
-    },
-    "OffersOut": {
-      "type": "object",
-      "properties": {
-        "idUser": {
-          "type": "integer"
-        },
-        "productImg": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "imageName": {
-                "type": "string"
-              },
-              "imageData": {
-                "type": "string"
-              }
+      },
+      "CommentResponseSuccess": {
+        "description": "Get All Comment Success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CommentResponse"
             }
           }
-        },
-        "productName": {
-          "type": "string"
-        },
-        "productSex": {
-          "type": "string"
-        },
-        "productDesc": {
-          "type": "string"
-        },
-        "productSubject": {
-          "type": "string"
+        }
+      },
+      "MarkResponseSuccess": {
+        "description": "Get All Mark Success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/MarkResponse"
+            }
+          }
+        }
+      },
+      "ResetPasswordSuccess": {
+        "description": "Token OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ResetPasswordResponse"
+            },
+            "example": {
+              "email": "jean.dupont@gmail.com",
+              "message": "password reset link a-ok"
+            }
+          }
         }
       }
     },
-    "Contact": {
-      "type": "object",
-      "properties": {
-        "pseudo": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "subject": {
-          "type": "string"
-        },
-        "message": {
-          "type": "string"
+    "parameters": {
+      "idUser": {
+        "name": "id",
+        "in": "path",
+        "description": "user ID",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/ID"
+        }
+      },
+      "idOffer": {
+        "name": "id",
+        "in": "path",
+        "description": "offer ID",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/ID"
+        }
+      },
+      "Header": {
+        "name": "authorization",
+        "in": "header",
+        "description": "Bearer Token",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Header"
+        }
+      },
+      "ResetPassword": {
+        "name": "resetPasswordToken",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "$ref": "#/components/schemas/ResetPasswordRequest"
+        }
+      },
+      "Keyword": {
+        "name": "keyword",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "$ref": "#/components/schemas/SearchRequest"
         }
       }
     },
-    "ResponseToken": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
         }
-      }
-    },
-    "BadRequest": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
+      },
+      "Header": {
+        "type": "object",
+        "properties": {
+          "authorization": {
+            "type": "string"
+          }
+        }
+      },
+      "ID": {
+        "type": "string"
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "pseudo": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pseudo",
+          "password"
+        ]
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer"
+          },
+          "userType": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "ContactRequest": {
+        "type": "object",
+        "properties": {
+          "pseudo": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "InfRequest": {
+        "type": "object",
+        "properties": {
+          "pseudo": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "sexe": {
+            "type": "string"
+          },
+          "userType": {
+            "type": "string"
+          },
+          "full_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "postal": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "userPicture": {
+            "type": "string"
+          },
+          "theme": {
+            "type": "string",
+            "enum": [
+              "mode",
+              "high tech",
+              "jeux videos",
+              "cosmetique",
+              "food",
+              "sport/fitness"
+            ]
+          },
+          "facebook": {
+            "type": "string"
+          },
+          "twitter": {
+            "type": "string"
+          },
+          "snapchat": {
+            "type": "string"
+          },
+          "instagram": {
+            "type": "string"
+          },
+          "youtube": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pseudo",
+          "password"
+        ]
+      },
+      "InfResponse": {
+        "type": "object",
+        "properties": {
+          "pseudo": {
+            "type": "string"
+          },
+          "sexe": {
+            "type": "string"
+          },
+          "userType": {
+            "type": "string"
+          },
+          "full_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "postal": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "userPicture": {
+            "type": "string"
+          },
+          "theme": {
+            "type": "string",
+            "enum": [
+              "mode",
+              "high tech",
+              "jeux videos",
+              "cosmetique",
+              "food",
+              "sport/fitness"
+            ]
+          },
+          "facebook": {
+            "type": "string"
+          },
+          "twitter": {
+            "type": "string"
+          },
+          "snapchat": {
+            "type": "string"
+          },
+          "instagram": {
+            "type": "string"
+          },
+          "youtube": {
+            "type": "string"
+          },
+          "mark": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "comment": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ShopRequest": {
+        "type": "object",
+        "properties": {
+          "pseudo": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "userType": {
+            "type": "string"
+          },
+          "full_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "postal": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "userPicture": {
+            "type": "string"
+          },
+          "theme": {
+            "type": "string",
+            "enum": [
+              "mode",
+              "high tech",
+              "jeux videos",
+              "cosmetique",
+              "food",
+              "sport/fitness"
+            ]
+          },
+          "society": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pseudo",
+          "password"
+        ]
+      },
+      "ShopResponse": {
+        "type": "object",
+        "properties": {
+          "pseudo": {
+            "type": "string"
+          },
+          "userType": {
+            "type": "string"
+          },
+          "full_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "postal": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "userPicture": {
+            "type": "string"
+          },
+          "theme": {
+            "type": "string",
+            "enum": [
+              "mode",
+              "high tech",
+              "jeux videos",
+              "cosmetique",
+              "food",
+              "sport/fitness"
+            ]
+          },
+          "society": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "mark": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "comment": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "OfferRequest": {
+        "type": "object",
+        "properties": {
+          "productImg": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "productSex": {
+            "type": "string"
+          },
+          "productDesc": {
+            "type": "string"
+          },
+          "productSubject": {
+            "type": "string"
+          },
+          "productColor": {
+            "type": "string"
+          },
+          "productType": {
+            "type": "string"
+          },
+          "productSociety": {
+            "type": "string"
+          }
+        }
+      },
+      "OfferResponse": {
+        "type": "object",
+        "properties": {
+          "idUser": {
+            "type": "integer"
+          },
+          "productImg": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "productSex": {
+            "type": "string"
+          },
+          "productDesc": {
+            "type": "string"
+          },
+          "productSubject": {
+            "type": "string"
+          },
+          "productColor": {
+            "type": "string"
+          },
+          "productType": {
+            "type": "string"
+          },
+          "productSociety": {
+            "type": "string"
+          },
+          "mark": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "comment": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CommentRequest": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+      "CommentResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "idUser": {
+              "type": "integer"
+            },
+            "type": {
+              "type": "string"
+            },
+            "comment": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "MarkRequest": {
+        "type": "object",
+        "properties": {
+          "mark": {
+            "type": "integer"
+          }
+        }
+      },
+      "MarkResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "idUser": {
+              "type": "integer"
+            },
+            "type": {
+              "type": "string"
+            },
+            "mark": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "ForgetPasswordRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "ResetPasswordRequest": {
+        "type": "object",
+        "properties": {
+          "resetPasswordToken": {
+            "type": "string"
+          }
+        }
+      },
+      "ResetPasswordResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdatePasswordRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "resetPasswordToken": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchRequest": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchUserResponse": {
+        "type": "object",
+        "properties": {
+          "userType": {
+            "type": "string"
+          },
+          "pseudo": {
+            "type": "string"
+          },
+          "userPicture": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "theme": {
+            "type": "string"
+          },
+          "note": {
+            "type": "number"
+          }
         }
       }
     }
-  },
-  "swagger": "3.0"
+  }
 }
