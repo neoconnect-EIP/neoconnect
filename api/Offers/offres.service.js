@@ -25,13 +25,59 @@ module.exports = {
     getApplyUser
 };
 
+async function paramOffer(req) {
+    let value = Object.entries(req.query)[0][1];
+    let field = Object.entries(req.query)[0][0];
+    let list = undefined;
+    if (field === 'productSex') {
+        list = await Offer.findAll({
+            where: {
+                productSex: value
+            }
+        });
+    }
+    else if (field === 'brand') {
+        list = await Offer.findAll({
+            where: {
+                brand: value
+            }
+        });
+    }
+    else if (field === 'color') {
+        list = await Offer.findAll({
+            where: {
+                color: value
+            }
+        });
+    }
+    else if (field === 'order') {
+        if (value === 'desc') {
+            list = await Offer.findAll({
+                order: [['updatedAt', 'DESC']]
+            });
+        }
+        else {
+            list = await Offer.findAll({
+                order: [['updatedAt', 'ASC']]
+            });
+        }
+    }
+    else {
+        list = await Offer.findAll();
+    }
+    return (list)
+}
+
 async function getAll(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
     if (userId < 0)
         return (undefined);
-
-    const list = await Offer.findAll();
+    let list = undefined;
+    if (Object.entries(req.query).length !== 0 && Object.entries(req.query).length !== 2)
+        list = await paramOffer(req);
+    else
+        list = await Offer.findAll();
     let newList = await GetImage.regroupImageData(list, 'Offer');
     for(let i = 0; i < newList.length; i++) {
         newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
@@ -134,7 +180,9 @@ async function update(req) {
         offer[item] = req.body[item];
     });
 
-    offer.save().then(() => {});
+    offer.dataValues.updatedAt = new Date();
+
+    await offer.save().then(() => {});
 
     return (offer.get( { plain: true } ))
 }
