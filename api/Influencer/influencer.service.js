@@ -90,6 +90,7 @@ async function modifyUserProfile(req) {
         console.log(req.body[item]); // value
         user[item] = req.body[item];
     });
+    user['password'] = bcrypt.hashSync(req.body.password, 5);
 
     user.save().then(() => {});
 
