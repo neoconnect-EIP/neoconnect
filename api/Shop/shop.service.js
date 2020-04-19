@@ -81,7 +81,28 @@ async function modifyUserProfile(req) {
     Object.keys(req.body).forEach(function (item) {
         user[item] = req.body[item];
     });
-    user['password'] = bcrypt.hashSync(req.body.password, 5);
+
+    if (req.body.password !== undefined) {
+        user['password'] = bcrypt.hashSync(req.body.password, 5);
+    }
+
+    if (req.body.userPicture !== undefined) {
+        await GetImage.editImage({
+            idLink: user.id.toString(),
+            type: 'User'
+        });
+        await GetImage.uploadImage({
+            idLink: user.id,
+            type: 'User',
+            image: [{
+                "imageName": `${user.id}_${user.pseudo}`, "imageData": req.body.userPicture}]
+        })
+    }
+    user.userPicture = await GetImage.getImage({
+        idLink: userId.toString(),
+        type: 'User'
+    });
+
     user.save().then(() => {});
     return (user.get( { plain: true } ))
 
