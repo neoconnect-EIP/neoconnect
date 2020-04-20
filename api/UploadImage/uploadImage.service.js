@@ -70,6 +70,31 @@ getDataImage = (data) => {
     return (imageDataFile);
 };
 
+deleteImage = (data) => {
+
+    for (let i = 0; i !== data.length; i++) {
+        fs.unlinkSync(`${__dirname}/../image/${data[i].Type}_${data[i].IdLink}_${data[i].ImageName}.png`);
+    }
+};
+
+editImage = async (req) => {
+    let data = await Image.findAll({
+        where: {
+            IdLink: req.idLink,
+            Type: req.type
+        }
+    });
+    if (data !== null) {
+        await deleteImage(data);
+        await Image.destroy({
+            where: {
+                IdLink: req.idLink,
+                Type: req.type
+            }
+        })
+    }
+};
+
 const getImage = async (req) => {
     let data = await Image.findAll({
         where: {
@@ -121,3 +146,4 @@ exports.getAllImage = getAllImage;
 exports.getImage = getImage;
 exports.uploadImage = uploadImage;
 exports.regroupImageData = regroupImageData;
+exports.editImage = editImage;

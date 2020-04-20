@@ -8,7 +8,6 @@ const   db = require("../_helpers/db"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
 
-//Vérifie que le shop existe dans la bdd
 async function login(params) {
     const user = await Shop.findOne({
         where: {
@@ -82,7 +81,30 @@ async function modifyUserProfile(req) {
     Object.keys(req.body).forEach(function (item) {
         user[item] = req.body[item];
     });
+
+    if (req.body.password !== undefined) {
+        user['password'] = bcrypt.hashSync(req.body.password, 5);
+    }
+
+    if (req.body.userPicture !== undefined) {
+        await GetImage.editImage({
+            idLink: user.id.toString(),
+            type: 'User'
+        });
+        await GetImage.uploadImage({
+            idLink: user.id,
+            type: 'User',
+            image: [{
+                "imageName": `${user.id}_${user.pseudo}`, "imageData": req.body.userPicture}]
+        })
+    }
+
     user.save().then(() => {});
+
+    user.userPicture = await GetImage.getImage({
+        idLink: userId.toString(),
+        type: 'User'
+    });
     return (user.get( { plain: true } ))
 
 }
