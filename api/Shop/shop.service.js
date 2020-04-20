@@ -98,12 +98,13 @@ async function modifyUserProfile(req) {
                 "imageName": `${user.id}_${user.pseudo}`, "imageData": req.body.userPicture}]
         })
     }
+
+    user.save().then(() => {});
+
     user.userPicture = await GetImage.getImage({
         idLink: userId.toString(),
         type: 'User'
     });
-
-    user.save().then(() => {});
     return (user.get( { plain: true } ))
 
 }

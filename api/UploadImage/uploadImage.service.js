@@ -84,7 +84,6 @@ editImage = async (req) => {
             Type: req.type
         }
     });
-    console.log(data.image);
     if (data !== null) {
         await deleteImage(data);
         await Image.destroy({
