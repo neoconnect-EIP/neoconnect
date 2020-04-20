@@ -182,7 +182,25 @@ async function update(req) {
 
     offer.dataValues.updatedAt = new Date();
 
+    if (req.body.productImg !== undefined) {
+        await GetImage.editImage({
+            idLink: offer.id.toString(),
+            type: 'Offer'
+        });
+        await GetImage.uploadImage({
+            idLink: userId,
+            type: 'Offer',
+            image: req.body.productImg
+        })
+    }
+
     await offer.save().then(() => {});
+
+    offer.productImg = await GetImage.getImage({
+        idLink: user.id.toString(),
+        type: 'Offer'
+    });
+    offer.dataValues.average = await statService.getMarkAverageOffer(`${user.id}`);
 
     return (offer.get( { plain: true } ))
 }
