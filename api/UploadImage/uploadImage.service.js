@@ -73,7 +73,14 @@ getDataImage = (data) => {
 deleteImage = (data) => {
 
     for (let i = 0; i !== data.length; i++) {
-        fs.unlinkSync(`${__dirname}/../image/${data[i].Type}_${data[i].IdLink}_${data[i].ImageName}.png`);
+        try {
+            fs.unlinkSync(`${__dirname}/../image/${data[i].Type}_${data[i].IdLink}_${data[i].ImageName}.png`);
+        }
+        catch (e) {
+            console.error(e);
+            return (undefined);
+        }
+
     }
 };
 
