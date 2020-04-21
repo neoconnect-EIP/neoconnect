@@ -188,7 +188,7 @@ async function update(req) {
             type: 'Offer'
         });
         await GetImage.uploadImage({
-            idLink: userId,
+            idLink: req.params.id,
             type: 'Offer',
             image: req.body.productImg
         })

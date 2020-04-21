@@ -567,7 +567,8 @@
                 "pseudo": "Sardoche",
                 "email": "jean.dupont@gmail.com",
                 "subject": "Sujet Mail",
-                "message": "Message Mail"
+                "message": "Message Mail",
+                "to": "mail of receiver"
               }
             }
           }
@@ -2232,7 +2233,18 @@
         "type": "object",
         "properties": {
           "productImg": {
-            "type": "string"
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "imageName": {
+                  "type": "string"
+                },
+                "imageData": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "productName": {
             "type": "string"
@@ -2246,13 +2258,10 @@
           "productSubject": {
             "type": "string"
           },
-          "productColor": {
+          "color": {
             "type": "string"
           },
-          "productType": {
-            "type": "string"
-          },
-          "productSociety": {
+          "brand": {
             "type": "string"
           }
         }

@@ -1,10 +1,11 @@
 const   express = require("express"),
         router = express.Router(),
+        jwtUtils = require("../utils/jwt.utils"),
         nodemailer = require('nodemailer');
 
 
 router.post("/contact", contact);
-router.post("/sendEmail", sendEmail);
+router.post("/user/contact", sendEmail);
 //router.get('/contact/list', getAllContacts)
 
 module.exports = router;
@@ -40,6 +41,11 @@ function contact (request, response) {
   }
 
 function sendEmail (request, response) {
+    let headerAuth = request.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+
     const { pseudo, email, subject, message, to } = request.body;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
