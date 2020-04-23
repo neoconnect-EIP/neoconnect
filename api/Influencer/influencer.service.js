@@ -6,6 +6,7 @@ const   db = require("../_helpers/db"),
         CommentMark = require("../CommentMark/commentMark.service"),
         jwtUtils = require("../utils/jwt.utils"),
         GetImage = require("../UploadImage/uploadImage.service"),
+        statService = require("../Stat/stat.service"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
 //Vérifie que le shop existe dans la bdd
@@ -44,6 +45,7 @@ async function getMyProfile(req) {
         idLink: userId.toString(),
         type: 'User'
     });
+    list.dataValues.average = await statService.getMarkAverageUser(`${userId}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
     return (list);
@@ -66,6 +68,7 @@ async function getUserProfile(req) {
         idLink: req.params.id.toString(),
         type: 'User'
     });
+    list.dataValues.average = await statService.getMarkAverageUser(`${req.params.id}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(req.params.id.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(req.params.id.toString());
     return (list);
