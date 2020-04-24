@@ -295,7 +295,20 @@ async function getApplyUser(req) {
     let apply = await OfferApply.findAll({
         where: {idUser: req.params.id}
     });
-    if (apply === undefined || apply.length === 0)
+    let offer = await Offer.findOne({
+        where: {id: req.params.id}
+    });
+    if (apply === undefined || apply.length === 0 || offer === null)
         return (undefined);
+    let shop = await Shop.findOne({
+        where: {id: offer.idUser}
+    });
+    if (shop === null)
+        return (undefined);
+    for (let i = 0; i < apply.length; i++) {
+       apply[i].dataValues.productName = offer.productName;
+       apply[i].dataValues.brand = offer.brand;
+       apply[i].dataValues.email = shop.email;
+    }
     return (apply);
 }

@@ -1069,6 +1069,27 @@
         "summary": "Get All Offers",
         "parameters": [
           {
+            "name": "order",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Mettre asc ou desc pour trier par date de update de l'offre, "
+          },
+          {
+            "name": "brand",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Mettre une marque ex : nike et la request renverra seulement les offre avec la marque nike"
+          },
+          {
+            "name": "color",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Mettre une couleur et la request renverra seulement les offre avec le meme champ color"
+          },
+          {
             "$ref": "#/components/parameters/Header"
           }
         ],
@@ -2161,6 +2182,18 @@
           },
           "description": {
             "type": "string"
+          },
+          "twitter": {
+            "type": "string"
+          },
+          "facebook": {
+            "type": "string"
+          },
+          "instagram": {
+            "type": "string"
+          },
+          "snapchat": {
+            "type": "string"
           }
         },
         "required": [
@@ -2213,6 +2246,18 @@
             "type": "string"
           },
           "description": {
+            "type": "string"
+          },
+          "twitter": {
+            "type": "string"
+          },
+          "facebook": {
+            "type": "string"
+          },
+          "instagram": {
+            "type": "string"
+          },
+          "snapchat": {
             "type": "string"
           },
           "mark": {

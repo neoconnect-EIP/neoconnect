@@ -58,6 +58,22 @@ module.exports = (sequelize, Sequelize) =>  {
             website: {
                 type: Sequelize.STRING,
                 default: undefined
+            },
+            twitter: {
+                type: Sequelize.STRING,
+                default: undefined
+            },
+            facebook: {
+                type: Sequelize.STRING,
+                default: undefined
+            },
+            snapchat: {
+                type: Sequelize.STRING,
+                default: undefined
+            },
+            instagram: {
+                type: Sequelize.STRING,
+                default: undefined
             }
         },
         { freezeTableName: true }

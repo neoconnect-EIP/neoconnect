@@ -3,8 +3,9 @@ const   db = require("../_helpers/db"),
         User = db.Influencer,
         CommentMark = require("../CommentMark/commentMark.service");
         bcrypt = require("bcrypt"),
-        jwtUtils = require("../utils/jwt.utils");
-        GetImage = require("../UploadImage/uploadImage.service");
+        jwtUtils = require("../utils/jwt.utils"),
+        GetImage = require("../UploadImage/uploadImage.service"),
+        statService = require("../Stat/stat.service"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
 
@@ -35,12 +36,13 @@ async function getMyProfile(req) {
     const list = await Shop.findOne({
         where: { id: userId },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
-            'society', 'function', 'website']
+            'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
     });
     list.userPicture = await GetImage.getImage({
         idLink: userId.toString(),
         type: 'User'
     });
+    list.dataValues.average = await statService.getMarkAverageUser(`${userId}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
     return (list);
@@ -55,7 +57,7 @@ async function getUserProfile(req) {
     const list = await Shop.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
-            'society', 'function', 'website']
+            'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
     });
     if (list === null)
         return (undefined);
@@ -63,6 +65,7 @@ async function getUserProfile(req) {
         idLink: req.params.id.toString(),
         type: 'User'
     });
+    list.dataValues.average = await statService.getMarkAverageUser(`${req.params.id}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(req.params.id.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(req.params.id.toString());
     return (list);
