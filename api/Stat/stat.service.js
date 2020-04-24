@@ -18,8 +18,24 @@ async function getMarkAverage(req) {
     if (allMark === null)
         return (undefined);
     let average = 0;
-    console.log(allMark);
     return (average);
+}
+
+async function getMarkAverageUser(id) {
+    if (id === undefined)
+        return (undefined);
+    let allMark = await Mark.findAll({
+        where: { idUser : id },
+        attributes: ['mark']
+    });
+    if (allMark.length === 0)
+        return (null);
+    let array = [];
+    for (let i = 0; i < allMark.length; i++) {
+        array.push(parseInt(allMark[i].dataValues.mark))
+    }
+    let average = (array) => array.reduce((a, b) => a + b) / array.length;
+    return (average(array));
 }
 
 async function getMarkAverageOffer(id) {
@@ -64,5 +80,6 @@ async function offerLastMonth(req) {
 module.exports = {
     getMarkAverage,
     offerLastMonth,
-    getMarkAverageOffer
+    getMarkAverageOffer,
+    getMarkAverageUser
 };

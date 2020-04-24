@@ -186,7 +186,11 @@ async function registerShop(params) {
         theme: params.theme,
         function: params.function,
         society: params.society,
-        website: params.website
+        website: params.website,
+        facebook: params.facebook,
+        twitter: params.twitter,
+        snapchat: params.snapchat,
+        instagram: params.instagram
     });
     if (params.userPicture !== undefined) {
         const imageData = await UploadImage.uploadImage({
