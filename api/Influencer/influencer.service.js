@@ -131,7 +131,7 @@ async function listShop(req) {
 
     const list = await Shop.findAll({
         attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-        'society', 'function', 'userDescription', 'website']
+        'society', 'function', 'userDescription', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
     });
     let newList = await GetImage.regroupImageData(list, 'User');
     return (newList);

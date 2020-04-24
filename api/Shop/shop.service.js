@@ -36,7 +36,7 @@ async function getMyProfile(req) {
     const list = await Shop.findOne({
         where: { id: userId },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
-            'society', 'function', 'website']
+            'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
     });
     list.userPicture = await GetImage.getImage({
         idLink: userId.toString(),
@@ -57,7 +57,7 @@ async function getUserProfile(req) {
     const list = await Shop.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
-            'society', 'function', 'website']
+            'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
     });
     if (list === null)
         return (undefined);
