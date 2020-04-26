@@ -295,10 +295,12 @@ async function getApplyUser(req) {
     let apply = await OfferApply.findAll({
         where: {idUser: req.params.id}
     });
+    if (apply === undefined || apply.length === 0)
+        return ('This user has not apply to any offer');
     let offer = await Offer.findOne({
-        where: {id: req.params.id}
+        where: {id: apply[0].idOffer}
     });
-    if (apply === undefined || apply.length === 0 || offer === null)
+    if (offer === null)
         return (undefined);
     let shop = await Shop.findOne({
         where: {id: offer.idUser}
