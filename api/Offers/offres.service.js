@@ -297,20 +297,12 @@ async function getApplyUser(req) {
     });
     if (apply === undefined || apply.length === 0)
         return ('This user has not apply to any offer');
-    let offer = await Offer.findOne({
-        where: {id: apply[0].idOffer}
-    });
-    if (offer === null)
-        return (undefined);
-    let shop = await Shop.findOne({
-        where: {id: offer.idUser}
-    });
-    if (shop === null)
-        return (undefined);
     for (let i = 0; i < apply.length; i++) {
+        let offer = await Offer.findOne({where: {id:apply[i].idOffer}});
+        let shop = await Shop.findOne({where: {id: offer.idUser}});
        apply[i].dataValues.productName = offer.productName;
        apply[i].dataValues.brand = offer.brand;
-       apply[i].dataValues.email = shop.email;
+       apply[i].dataValues.emailShop = shop.email;
     }
     return (apply);
 }
