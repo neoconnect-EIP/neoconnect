@@ -9,7 +9,7 @@ router.get("/offer/shop/:id", getByShop);
 router.put("/offer/:id", update);
 router.delete("/offer/:id", _delete);
 router.put("/offer/apply/:id", apply);
-router.put("/offer/noapply/:id", removeApply);
+router.delete("/offer/noapply/:id", removeApply);
 router.get("/offer/apply/offer/:id", getApplyOffer);
 router.get("/offer/apply/user/:id", getApplyUser);
 

@@ -266,10 +266,13 @@ async function removeApply(req) {
                 idUser: userId,
                 idOffer: req.params.id
             }
-        })
+        });
   if (offerApply === null)
         return (undefined);
+
     await offerApply.destroy();
+
+    return ("Apply destroy");
 }
 
 async function getApplyOffer(req) {
