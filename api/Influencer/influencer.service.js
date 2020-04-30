@@ -91,7 +91,18 @@ async function modifyUserProfile(req) {
     Object.keys(req.body).forEach(function (item) {
         console.log(item); // key
         console.log(req.body[item]); // value
-        user[item] = req.body[item];
+        user["pseudo"] = req.body["pseudo"];
+        user["email"] = req.body["email"];
+        user["full_name"] = req.body["full_name"];
+        user["phone"] = req.body["phone"];
+        user["postal"] = req.body["postal"];
+        user["city"] = req.body["city"];
+        user["theme"] = req.body["theme"];
+        user["userDescription"] = req.body["userDescription"];
+        user["facebook"] = req.body["facebook"];
+        user["twitter"] = req.body["twitter"];
+        user["snapchat"] = req.body["snapchat"];
+        user["instagram"] = req.body["instagram"];
     });
 
     if (req.body.password !== undefined) {
