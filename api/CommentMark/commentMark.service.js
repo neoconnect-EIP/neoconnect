@@ -142,10 +142,28 @@ async function getCommentByUserId(id) {
     return (dataComment);
 }
 
+async function getCommentByOfferId(id) {
+    let dataComment = await Comment.findAll({
+        where: {
+            idOffer: id,
+        }
+    }).map(el => el.get({ plain: true }));
+    return (dataComment);
+}
+
 async function getMarkByUserId(id) {
         let dataMark = await Mark.findAll({
         where: {
             idUser: id,
+        }
+    }).map(el => el.get({ plain: true }));
+    return (dataMark);
+}
+
+async function getMarkByOfferId(id) {
+    let dataMark = await Mark.findAll({
+        where: {
+            idOffer: id,
         }
     }).map(el => el.get({ plain: true }));
     return (dataMark);
@@ -161,5 +179,7 @@ module.exports = {
     getOfferComment,
     getOfferMark,
     getCommentByUserId,
-    getMarkByUserId
+    getMarkByUserId,
+    getCommentByOfferId,
+    getMarkByOfferId
 };

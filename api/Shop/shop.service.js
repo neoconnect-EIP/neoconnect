@@ -7,6 +7,7 @@ const   db = require("../_helpers/db"),
         utils = require("../utils/themeSelection"),
         GetImage = require("../UploadImage/uploadImage.service"),
         statService = require("../Stat/stat.service"),
+        commentService = require("../CommentMark/commentMark.service"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
 
@@ -139,6 +140,10 @@ async function listInf(req) {
         'facebook', 'twitter', 'snapchat', 'instagram', 'userDescription']
     });
     let newList = await GetImage.regroupImageData(list, 'User');
+    for(let i = 0; i < newList.length; i++) {
+        newList[i].dataValues.average = await statService.getMarkAverageUser(`${newList[i].id}`);
+        newList[i].dataValues.comment = await commentService.getCommentByUserId(`${newList[i].id}`);
+    }
     return (newList);
 }
 

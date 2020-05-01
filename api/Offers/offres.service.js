@@ -10,6 +10,7 @@ const   jwt = require("jsonwebtoken"),
         UploadImage = require("../UploadImage/uploadImage.service"),
         GetImage = require("../UploadImage/uploadImage.service"),
         GetAllImage = require("../UploadImage/uploadImage.service"),
+        commentService = require("../CommentMark/commentMark.service");
         statService = require("../Stat/stat.service");
 
 module.exports = {
@@ -81,6 +82,7 @@ async function getAll(req) {
     let newList = await GetImage.regroupImageData(list, 'Offer');
     for(let i = 0; i < newList.length; i++) {
         newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
+        newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
     }
     return (newList);
 }
@@ -102,6 +104,7 @@ async function getById(req) {
     });
     user.productImg = dataImage;
     user.dataValues.average = await statService.getMarkAverageOffer(`${user.id}`);
+    user.dataValues.comment = await commentService.getCommentByOfferId(`${user.id}`);
 	return (user);
 }
 
@@ -121,6 +124,7 @@ async function getByShop(req) {
     let newList = await GetImage.regroupImageData(listShop, 'Offer');
     for(let i = 0; i < newList.length; i++) {
         newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
+        newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
     }
     return (newList);
 }
