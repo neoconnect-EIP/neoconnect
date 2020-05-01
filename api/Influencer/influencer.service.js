@@ -5,8 +5,10 @@ const   db = require("../_helpers/db"),
         Shop = db.Shop,
         CommentMark = require("../CommentMark/commentMark.service"),
         jwtUtils = require("../utils/jwt.utils"),
+        utils = require("../utils/themeSelection"),
         GetImage = require("../UploadImage/uploadImage.service"),
         statService = require("../Stat/stat.service"),
+        commentService = require("../CommentMark/commentMark.service"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
 //Vérifie que le shop existe dans la bdd
@@ -89,15 +91,13 @@ async function modifyUserProfile(req) {
         return (undefined);
 
     Object.keys(req.body).forEach(function (item) {
-        console.log(item); // key
-        console.log(req.body[item]); // value
         user["pseudo"] = req.body["pseudo"];
         user["email"] = req.body["email"];
         user["full_name"] = req.body["full_name"];
         user["phone"] = req.body["phone"];
         user["postal"] = req.body["postal"];
         user["city"] = req.body["city"];
-        user["theme"] = req.body["theme"];
+        user["theme"] = utils.themeSelection(req.body["theme"]);
         user["userDescription"] = req.body["userDescription"];
         user["facebook"] = req.body["facebook"];
         user["twitter"] = req.body["twitter"];
@@ -145,6 +145,10 @@ async function listShop(req) {
         'society', 'function', 'userDescription', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
     });
     let newList = await GetImage.regroupImageData(list, 'User');
+    for(let i = 0; i < newList.length; i++) {
+        newList[i].dataValues.average = await statService.getMarkAverageUser(`${newList[i].id}`);
+        newList[i].dataValues.comment = await commentService.getCommentByUserId(`${newList[i].id}`);
+    }
     return (newList);
 }
 
