@@ -139,6 +139,7 @@ async function getCommentByUserId(id) {
             idUser: id,
         }
     }).map(el => el.get({ plain: true }));
+    dataComment = await addUserInformation(dataComment);
     return (dataComment);
 }
 
@@ -148,6 +149,7 @@ async function getCommentByOfferId(id) {
             idOffer: id,
         }
     }).map(el => el.get({ plain: true }));
+    dataComment = await addUserInformation(dataComment);
     return (dataComment);
 }
 
@@ -167,6 +169,28 @@ async function getMarkByOfferId(id) {
         }
     }).map(el => el.get({ plain: true }));
     return (dataMark);
+}
+
+async function addUserInformation(allComment) {
+    if (allComment === null)
+        return (undefined);
+    for(let i = 0; i < allComment.length; i++) {
+        let user = await Shop.findOne({
+            where: { id: allComment[i].idPost },
+            attributes: ['pseudo']
+        });
+        if (user === null) {
+            let user = await User.findOne({
+                where: { id: allComment[i].idPost },
+                attributes: ['pseudo']
+            });
+            allComment[i].pseudo = user.dataValues.pseudo
+        }
+        else {
+            allComment[i].pseudo = user.dataValues.pseudo
+        }
+    }
+    return (allComment);
 }
 
 module.exports = {
