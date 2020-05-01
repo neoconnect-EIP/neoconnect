@@ -4,6 +4,7 @@ const   db = require("../_helpers/db"),
         CommentMark = require("../CommentMark/commentMark.service");
         bcrypt = require("bcrypt"),
         jwtUtils = require("../utils/jwt.utils"),
+        utils = require("../utils/themeSelection"),
         GetImage = require("../UploadImage/uploadImage.service"),
         statService = require("../Stat/stat.service"),
         GetAllImage = require("../UploadImage/uploadImage.service");
@@ -82,15 +83,13 @@ async function modifyUserProfile(req) {
     });
 
     Object.keys(req.body).forEach(function (item) {
-        console.log(item); // key
-        console.log(req.body[item]); // value
         user["pseudo"] = req.body["pseudo"];
         user["email"] = req.body["email"];
         user["full_name"] = req.body["full_name"];
         user["phone"] = req.body["phone"];
         user["postal"] = req.body["postal"];
         user["city"] = req.body["city"];
-        user["theme"] = req.body["theme"];
+        user["theme"] = utils.themeSelection(req.body["theme"]);
         user["userDescription"] = req.body["userDescription"];
         user["facebook"] = req.body["facebook"];
         user["twitter"] = req.body["twitter"];

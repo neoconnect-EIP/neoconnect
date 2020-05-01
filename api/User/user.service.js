@@ -4,6 +4,7 @@ const   db = require("../_helpers/db"),
         Shop = db.Shop,
         Mark = db.Mark,
         jwtUtils = require("../utils/jwt.utils"),
+        utils = require("../utils/themeSelection");
         UploadImage = require("../UploadImage/uploadImage.service");
 
 //Vérifie que le shop existe dans la bdd
@@ -140,7 +141,7 @@ async function registerInf(params) {
             postal: params.postal,
             city: params.city,
             userDescription: params.userDescription,
-            theme: params.theme,
+            theme: utils.themeSelection(params.theme),
             facebook: params.facebook,
             twitter: params.twitter,
             snapchat: params.snapchat,
@@ -183,7 +184,7 @@ async function registerShop(params) {
         postal: params.postal,
         city: params.city,
         userDescription: params.userDescription,
-        theme: params.theme,
+        theme: utils.themeSelection(params.theme),
         function: params.function,
         society: params.society,
         website: params.website,
