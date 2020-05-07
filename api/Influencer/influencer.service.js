@@ -39,7 +39,7 @@ async function getMyProfile(req) {
     const list = await User.findOne({
         where: { id: userId },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-            'facebook', 'twitter', 'snapchat', 'instagram', 'userDescription']
+            'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription']
     });
     if (list === null)
         return (undefined);
@@ -62,7 +62,7 @@ async function getUserProfile(req) {
     const list = await User.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-            'facebook', 'twitter', 'snapchat', 'instagram', 'userDescription']
+           'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription']
     });
     if (list === null)
         return (undefined);
@@ -99,6 +99,10 @@ async function modifyUserProfile(req) {
         user["city"] = req.body["city"];
         user["theme"] = utils.themeSelection(req.body["theme"]);
         user["userDescription"] = req.body["userDescription"];
+        user["sexe"] = req.body["sexe"];
+        user["pinterest"] = req.body["pinterest"];
+        user["twitch"] = req.body["twitch"];
+        user["youtube"] = req.body["youtube"];
         user["facebook"] = req.body["facebook"];
         user["twitter"] = req.body["twitter"];
         user["snapchat"] = req.body["snapchat"];
