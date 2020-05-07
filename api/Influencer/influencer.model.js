@@ -47,6 +47,22 @@ module.exports = (sequelize, Sequelize) =>  {
                 type: Sequelize.STRING,
                 default: undefined
             },
+            sexe: {
+                type: Sequelize.STRING,
+                default: undefined
+            },
+            pinterest: {
+                type: Sequelize.STRING,
+                default: undefined
+            },
+            twitch: {
+                type: Sequelize.STRING,
+                default: undefined
+            },
+            youtube: {
+                type: Sequelize.STRING,
+                default: undefined
+            },
             facebook: {
                 type: Sequelize.STRING,
                 default: undefined
