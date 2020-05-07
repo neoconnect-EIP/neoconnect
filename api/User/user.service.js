@@ -145,7 +145,11 @@ async function registerInf(params) {
             facebook: params.facebook,
             twitter: params.twitter,
             snapchat: params.snapchat,
-            instagram: params.instagram
+            instagram: params.instagram,
+            sexe: params.sexe,
+            pinterest: params.pinterest,
+            twitch: params.twitch,
+            youtube: params.youtube
         });
     if (params.userPicture !== undefined) {
         const imageData = await UploadImage.uploadImage({
