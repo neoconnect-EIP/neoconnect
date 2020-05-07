@@ -41,10 +41,10 @@ function contact (request, response) {
   }
 
 function sendEmail (request, response) {
-    let headerAuth = request.headers['authorization'];
+    /*let headerAuth = request.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
     if (userId < 0)
-        return (undefined);
+        return (undefined);*/
 
     const { pseudo, email, subject, message, to } = request.body;
     var transporter = nodemailer.createTransport({
