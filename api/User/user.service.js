@@ -53,11 +53,6 @@ async function searchUser(req) {
         idLink: list.id.toString(),
         type: 'User'
     });
-    list.mark = await Mark.findAll({
-        where: {
-            idUser: list.id.toString(),
-        }
-    });
     return (list);
 }
 
