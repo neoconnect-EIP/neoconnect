@@ -3,7 +3,7 @@ const   express = require("express"),
         userService = require("./user.service");
 
 router.post("/login", login);
-router.get("/user/search", searchUser);
+router.post("/user/search", searchUser);
 router.delete("/delete", deleteUser);
 
 router.post("/inf/register", registerInf);
