@@ -40,12 +40,12 @@ async function searchUser(req) {
 
      list = await Inf.findOne({
         where: { pseudo: req.body.pseudo},
-        attributes: ['id', 'pseudo', 'userType', 'theme']
+        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
     });
     if (list === null)
         list = await Shop.findOne({
             where: { pseudo: req.body.pseudo},
-            attributes: ['id', 'pseudo', 'userType', 'theme']
+            attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
         });
     if (list === null)
         return (undefined);
