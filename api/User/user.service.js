@@ -40,23 +40,18 @@ async function searchUser(req) {
 
      list = await Inf.findOne({
         where: { pseudo: req.body.pseudo},
-        attributes: ['id', 'pseudo', 'userType', 'theme']
+        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
     });
     if (list === null)
         list = await Shop.findOne({
             where: { pseudo: req.body.pseudo},
-            attributes: ['id', 'pseudo', 'userType', 'theme']
+            attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
         });
     if (list === null)
         return (undefined);
     list.userPicture = await GetImage.getImage({
         idLink: list.id.toString(),
         type: 'User'
-    });
-    list.mark = await Mark.findAll({
-        where: {
-            idUser: list.id.toString(),
-        }
     });
     return (list);
 }
@@ -145,7 +140,11 @@ async function registerInf(params) {
             facebook: params.facebook,
             twitter: params.twitter,
             snapchat: params.snapchat,
-            instagram: params.instagram
+            instagram: params.instagram,
+            sexe: params.sexe,
+            pinterest: params.pinterest,
+            twitch: params.twitch,
+            youtube: params.youtube
         });
     if (params.userPicture !== undefined) {
         const imageData = await UploadImage.uploadImage({

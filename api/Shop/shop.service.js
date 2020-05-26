@@ -137,7 +137,7 @@ async function listInf(req) {
 
     const list = await User.findAll({
         attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-        'facebook', 'twitter', 'snapchat', 'instagram', 'userDescription']
+        'facebook', 'sexe', 'pinterest', 'twitch', 'youtube', 'twitter', 'snapchat', 'instagram', 'userDescription']
     });
     let newList = await GetImage.regroupImageData(list, 'User');
     for(let i = 0; i < newList.length; i++) {
