@@ -3,8 +3,11 @@ const   db = require("../_helpers/db"),
         Inf = db.Influencer,
         Shop = db.Shop,
         Mark = db.Mark,
+        { URL_IA } = process.env,
         jwtUtils = require("../utils/jwt.utils"),
-        utils = require("../utils/themeSelection");
+        fetch = require("../utils/fetch"),
+        validation = require("../utils/validation"),
+        utils = require("../utils/themeSelection"),
         UploadImage = require("../UploadImage/uploadImage.service");
 
 //Vérifie que le shop existe dans la bdd
@@ -30,6 +33,45 @@ async function login(params) {
     }
     else
         return (undefined);
+}
+
+async function verifyUser(params) {
+    let obj = {
+        "instagram": "",
+        "twitter": "",
+        "youtube": "",
+        "facebook": "",
+        "twitch": "",
+        "snapchat": "",
+        "pinterest": ""
+    };
+
+    for (const property in obj) {
+        if (params[property] !== undefined) {
+            obj[property] = params[property]
+        }
+    }
+    obj.insta = obj.instagram;
+
+    let response;
+    try {
+        response = await fetch.postFetch(`${URL_IA}/getLinks`, obj, undefined);
+        if (response.status !== 200)
+            return (undefined);
+        response = JSON.parse(response.body);
+
+    }
+    catch (e) {
+        console.log(e);
+        return (undefined)
+    }
+
+    for (const property in obj) {
+        if (response[property] !== undefined && response[property].isBot !== false) {
+            return (true)
+        }
+    }
+    return (undefined)
 }
 
 async function searchUser(req) {
@@ -122,6 +164,23 @@ async function registerInf(params) {
     )
             return (undefined);
 
+    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$', params.password)
+        || !validation.checkRegex('^(\\w{4,12})$', params.pseudo))
+        return (undefined);
+
+
+
+    if (params.instagram !== undefined ||
+        params.twitter !== undefined ||
+        params.facebook !== undefined ||
+        params.snapchat !== undefined ||
+        params.pinterest !== undefined ||
+        params.twitch !== undefined ||
+        params.youtube !== undefined) {
+        if (await verifyUser(params))
+            return (undefined);
+    }
+
     const idMax = await takeHighId();
 
     let hash = bcrypt.hashSync(params.password, 5);
@@ -167,6 +226,10 @@ async function registerShop(params) {
         await Shop.findOne({where: {pseudo: params.pseudo}}) ||
         await Inf.findOne({where: {pseudo: params.pseudo}})
     )
+        return (undefined);
+
+    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$', params.password)
+        || !validation.checkRegex('^(\\w{4,12})$', params.pseudo))
         return (undefined);
 
     const idMax = await takeHighId();

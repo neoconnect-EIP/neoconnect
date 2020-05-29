@@ -5,15 +5,17 @@ const   db = require("../_helpers/db"),
     ForgotPassword = db.ForgotPassword,
     bcrypt = require("bcrypt"),
     jwtUtils = require("../utils/jwt.utils");
-    crypto= require('crypto');
 
 
 const nodemailer = require('nodemailer');
 
+function randomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 async function forgotPassword(params) {
     if (params.email === undefined || params.email === '')
         return (undefined);
-    console.log("rest");
     let user = await Inf.findOne({
         where: {
             email: params.email,
@@ -28,8 +30,7 @@ async function forgotPassword(params) {
     }
     if (!user)
         return (undefined);
-    const token = crypto.randomBytes(20).toString('hex');
-    console.log(token);
+    const token = randomInteger(100000, 999999).toString();
     const row = await ForgotPassword.create({
         email: params.email,
         resetPasswordToken: token,
@@ -50,20 +51,17 @@ async function forgotPassword(params) {
     const mailOptions = {
         from: `neoconnect@gmail.com`,
         to: `${user.email}`,
-        subject: `Link To Reset Password`,
-        text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n` +
-            `Please click of the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n` +
-            `http://localhost:3000/landing-page/reset-password?token=${token}\n\n` +
-            `If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+        subject: `Votre code d'accès temporaire`,
+        text: `Votre code d'accès temporaire.\n\n` +
+            `Ce code d'accès ne peut être utilisé qu'une fois et expire dans 60 minutes :\n\n` +
+            `${token}\n\n` +
+            `Si vous n'êtes pas à l'origine de cette requête, envoyer nous un message dans le menu conctact\n`,
     };
-
-    console.log(`sending mail`);
 
     transporter.sendMail(mailOptions, function (err, response) {
         if (err) {
             console.error('there was an error: ', err);
         } else {
-            console.log('here is the res: ', response);
             return ('recovery email sent');
         }
     });
@@ -118,7 +116,6 @@ async function updatePassword(params) {
             email: params.email,
         }
     });
-    console.log("Object ForgotPassword", tmp.dataValue);
     await tmp.destroy();
 
     let hash = bcrypt.hashSync(params.password, 5);
