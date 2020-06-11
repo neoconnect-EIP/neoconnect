@@ -280,8 +280,6 @@ async function registerShop(params) {
     }
 }
 
-
-
 module.exports = {
     login,
     searchUser,

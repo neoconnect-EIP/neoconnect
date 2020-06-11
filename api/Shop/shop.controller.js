@@ -14,10 +14,7 @@ function getMyProfile(req, res, next) {
     userService
         .getMyProfile(req)
         .then(list => {
-            if (list !== undefined)
-                res.json(list).status(200);
-            else
-                res.status(400).json({ message: "Bad Token" })
+            res.status(list.status).json(list.message);
         })
         .catch(err => next(err));
 }
@@ -26,10 +23,7 @@ function getUserProfile(req, res, next) {
     userService
         .getUserProfile(req)
         .then(list => {
-            if (list !== undefined)
-                res.json(list).status(200);
-            else
-                res.status(400).json({ message: "Bad Token" })
+            res.status(list.status).json(list.message);
         })
         .catch(err => next(err));
 }
@@ -38,10 +32,7 @@ function modifyUserProfile(req, res, next) {
     userService
         .modifyUserProfile(req)
         .then(list => {
-            if (list !== undefined)
-                res.json(list).status(200);
-            else
-                res.status(400).json({ message: "Bad request" })
+            res.status(list.status).json(list.message);
         })
         .catch(err => next(err));
 }
@@ -50,10 +41,7 @@ function listInf(req, res, next) {
     userService
         .listInf(req)
         .then(list => {
-            if (list !== undefined)
-                res.json(list).status(200);
-            else
-                res.status(400).json({ message: "Bad Token" })
+            res.status(list.status).json(list.message);
         })
         .catch(err => next(err));
 }

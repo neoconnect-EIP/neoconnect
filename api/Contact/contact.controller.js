@@ -11,7 +11,9 @@ router.post("/user/contact", sendEmail);
 module.exports = router;
 
 function contact (request, response) {
-    const { pseudo, email, subject, message } = request.body
+    const { pseudo, email, subject, message } = request.body;
+    if (!pseudo || !email || !subject || !message)
+        return response.status(400).json("Bad Request, Fields Missing, Please put all of fields (pseudo, email, subject, message)");
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -31,22 +33,17 @@ function contact (request, response) {
     
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
-        console.log("Error :", error);
         response.status(400).json("Email sending failed")
       } else {
-        console.log('Email sent: ' + info.response);
-        response.status(200).json("Email sent")
+        response.status(200).json(`Email sent`)
       }
     });
   }
 
 function sendEmail (request, response) {
-    /*let headerAuth = request.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);*/
-
     const { pseudo, email, subject, message, to } = request.body;
+    if (!pseudo || !email || !subject || !message || !to)
+        return response.status(400).json("Bad Request, Fields Missing, Please put all of fields (pseudo, email, subject, message, to)");
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -66,11 +63,9 @@ function sendEmail (request, response) {
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-            console.log("Error :", error);
             response.status(400).json("Email sending failed")
         } else {
-            console.log('Email sent: ' + info.response);
-            response.status(200).json("Email sent")
+            response.status(200).json(`Email sent`)
         }
     });
 }

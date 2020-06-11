@@ -7,15 +7,12 @@ const   db = require("../_helpers/db"),
 
 async function getMarkAverage(req) {
     if (req.params.id === undefined)
-        return (undefined);
+        return ({status: 400, message: "Bad Request, Please give a id"});
 
     let allMark = await Mark.findAll({
        where: {idUser: req.params.id}
     });
-    if (allMark === null)
-        return (undefined);
-    let average = 0;
-    return (average);
+    return ({status: 200, message: allMark});
 }
 
 async function getMarkAverageUser(id) {
@@ -53,18 +50,20 @@ async function getMarkAverageOffer(id) {
 }
 
 async function offerLastMonth(req) {
+    if (req.params.id === undefined)
+        return ({status: 400, message: "Bad Request, Please give a id"});
     const list = await Shop.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
             'society', 'function']
     });
     if (list === null)
-        return (undefined);
+        return ({status: 200, message: list});
     list.userPicture = await GetImage.getImage({
         idLink: req.params.id.toString(),
         type: 'User'
     });
-    return (list);
+    return ({status: 200, message: list});
 }
 
 module.exports = {

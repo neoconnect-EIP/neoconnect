@@ -25,17 +25,19 @@ async function getMyProfile(req) {
     list.dataValues.average = await statService.getMarkAverageUser(`${userId}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
-    return (list);
+    return ({status: 200, message: list});
 }
 
 async function getUserProfile(req) {
+    if (req.params === undefined || req.params.id === undefined)
+        return ({status: 400, message: "Bad Request, Please give a id"});
     const list = await Shop.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
             'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
     });
     if (list === null)
-        return (undefined);
+        return ({status: 400, message: "Bad Request, User doesn't exist"});
     list.userPicture = await GetImage.getImage({
         idLink: req.params.id.toString(),
         type: 'User'
@@ -43,7 +45,7 @@ async function getUserProfile(req) {
     list.dataValues.average = await statService.getMarkAverageUser(`${req.params.id}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(req.params.id.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(req.params.id.toString());
-    return (list);
+    return ({status:200, message: list});
 }
 
 async function modifyUserProfile(req) {
@@ -94,8 +96,7 @@ async function modifyUserProfile(req) {
         idLink: userId.toString(),
         type: 'User'
     });
-    return (user.get( { plain: true } ))
-
+    return ({status:200, message: user.get({ plain: true })})
 }
 
 async function listInf(req) {
@@ -108,7 +109,7 @@ async function listInf(req) {
         newList[i].dataValues.average = await statService.getMarkAverageUser(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByUserId(`${newList[i].id}`);
     }
-    return (newList);
+    return ({status: 200, message:newList});
 }
 
 module.exports = {
