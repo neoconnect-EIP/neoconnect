@@ -8,11 +8,7 @@ const   db = require("../_helpers/db"),
         userService = require("../User/user.service");
 
 async function addComment(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     let userType = jwtUtils.getUserType(headerAuth);
     let commentType = await userService.getProfile(req.params.id);
     if (commentType.userType === userType)
@@ -30,10 +26,7 @@ async function addComment(req) {
 }
 
 async function addMark(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let userType = jwtUtils.getUserType(headerAuth);
     let commentType = await userService.getProfile(req.params.id);
@@ -50,10 +43,7 @@ async function addMark(req) {
 }
 
 async function addOfferComment(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (userId);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     const dataComment = await Comment.create({
         idOffer: req.params.id,
@@ -64,10 +54,7 @@ async function addOfferComment(req) {
 }
 
 async function addOfferMark(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     const dataMark = await Mark.create({
         idOffer: req.params.id,
@@ -78,11 +65,6 @@ async function addOfferMark(req) {
 }
 
 async function getComment(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (userId);
-
     let dataComment = await Comment.findAll({
         where: {
             idUser: req.params.id,
@@ -92,11 +74,6 @@ async function getComment(req) {
 }
 
 async function getMark(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (userId);
-
     const dataMark = await Mark.findAll({
         where: {
             idUser: req.params.id,
@@ -106,11 +83,6 @@ async function getMark(req) {
 }
 
 async function getOfferComment(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (userId);
-
     let dataComment = await Comment.findAll({
         where: {
             idOffer: req.params.id
@@ -120,11 +92,6 @@ async function getOfferComment(req) {
 }
 
 async function getOfferMark(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (userId);
-
     const dataMark = await Mark.findAll({
         where: {
             idOffer: req.params.id

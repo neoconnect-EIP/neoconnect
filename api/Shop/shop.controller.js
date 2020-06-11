@@ -2,8 +2,6 @@ const   express = require("express"),
         router = express.Router(),
         userService = require("./shop.service");
 
-router.post("/shop/login", login);
-
 router.get("/shop/me", getMyProfile);
 router.put("/shop/me", modifyUserProfile);
 
@@ -11,18 +9,6 @@ router.get("/shop/listInf", listInf);
 router.get("/shop/:id", getUserProfile);
 
 module.exports = router;
-
-//Récupère les données req.body appel login dans service
-function login(req, res, next) {
-    userService
-        .login(req.body)
-        .then(user =>
-            user
-                ? res.json(user)
-                : res.status(400).json({ message: "Username or password is incorrect" })
-                )
-        .catch(err => next(err));        
-}
 
 function getMyProfile(req, res, next) {
     userService

@@ -6,10 +6,7 @@ const   db = require("../_helpers/db"),
 
 
 async function getMarkAverage(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-
-    if (userId < 0 || req.params.id === undefined)
+    if (req.params.id === undefined)
         return (undefined);
 
     let allMark = await Mark.findAll({
@@ -56,13 +53,6 @@ async function getMarkAverageOffer(id) {
 }
 
 async function offerLastMonth(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
-    console.log(req.params.id);
-
     const list = await Shop.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',

@@ -1,5 +1,4 @@
 const   db = require("../_helpers/db"),
-        //jwt = require("jsonwebtoken"),
         bcrypt = require("bcrypt"),
         User = db.Influencer,
         Shop = db.Shop,
@@ -12,30 +11,8 @@ const   db = require("../_helpers/db"),
         commentService = require("../CommentMark/commentMark.service"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
-//Vérifie que le shop existe dans la bdd
-async function login(params) {
-    const user = await User.findOne({
-        where: {
-            pseudo: params.pseudo,
-        }
-    });
-    if (user && bcrypt.compareSync(params.password, user.password)) {
-        return {
-            "userId" : user.id,
-            "userType" : user.userType,
-            "token" : jwtUtils.generateTokenForUser(user)
-        }
-    }
-    else
-        return (undefined);
-}
-
 async function getMyProfile(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     const list = await User.findOne({
         where: { id: userId },
@@ -55,11 +32,6 @@ async function getMyProfile(req) {
 }
 
 async function getUserProfile(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
     const list = await User.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
@@ -79,10 +51,7 @@ async function getUserProfile(req) {
 }
 
 async function modifyUserProfile(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let user = await User.findOne({
         where: {id: userId}
@@ -139,12 +108,6 @@ async function modifyUserProfile(req) {
 }
 
 async function listShop(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-
-    if (userId < 0)
-        return (undefined);
-
     const list = await Shop.findAll({
         attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
         'society', 'function', 'userDescription', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
@@ -158,7 +121,6 @@ async function listShop(req) {
 }
 
 module.exports = {
-    login,
     getMyProfile,
     getUserProfile,
     modifyUserProfile,

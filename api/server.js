@@ -44,11 +44,15 @@ console.log(process.env.EMAIL_PASSWORD);
 //Create router
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", require("./User/user.controller"));
+app.use("/", require("./Contact/contact.controller"));
+app.use("/", require("./ForgotPassword/forgotPassword.controller"));
+
+//Middleware Check token in header
+app.use("/", require("./utils/validation").checkToken);
+
 app.use("/", require("./Shop/shop.controller"));
 app.use("/", require("./Influencer/influencer.controller"));
 app.use("/", require("./Offers/offres.controller"));
-app.use("/", require("./Contact/contact.controller"));
-app.use("/", require("./ForgotPassword/forgotPassword.controller"));
 app.use("/", require("./CommentMark/commentMark.controller"));
 app.use("/", require("./Stat/stat.controller"));
 

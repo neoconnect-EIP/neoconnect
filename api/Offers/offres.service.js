@@ -70,10 +70,6 @@ async function paramOffer(req) {
 }
 
 async function getAll(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
     let list = undefined;
     if (Object.entries(req.query).length !== 0 && Object.entries(req.query).length !== 2)
         list = await paramOffer(req);
@@ -88,11 +84,6 @@ async function getAll(req) {
 }
 
 async function getById(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
     let user = await Offer.findOne({
         where: {id: req.params.id}
     });
@@ -109,11 +100,6 @@ async function getById(req) {
 }
 
 async function getByShop(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
     let listShop = await Offer.findAll({
         where: {idUser: req.params.id}
     });
@@ -139,11 +125,7 @@ function isJson(str) {
 }
 
 async function insert(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     const user = await Offer.create({
         idUser: userId,
 		productName: req.body.productName,
@@ -155,7 +137,6 @@ async function insert(req) {
 	});
     if (req.body.productImg === undefined || isJson(req.body.productImg))
         return (user.get({ plain: true}));
-    console.log(req.body.productImg.length);
     const imageData = await UploadImage.uploadImage({
         idLink: user.id,
         type: 'Offer',
@@ -166,10 +147,7 @@ async function insert(req) {
 }
 
 async function update(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let user = await Shop.findOne({
         where: {id: userId}
@@ -210,10 +188,7 @@ async function update(req) {
 }
 
 async function _delete(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let user = await Shop.findOne({
         where: {id: userId}
@@ -230,10 +205,7 @@ async function _delete(req) {
 }
 
 async function apply(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let user = await User.findOne({
         where: {id: userId}
@@ -252,10 +224,7 @@ async function apply(req) {
 }
 
 async function removeApply(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let user = await User.findOne({
         where: {id: userId}
@@ -280,11 +249,6 @@ async function removeApply(req) {
 }
 
 async function getApplyOffer(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
     let apply = await OfferApply.findAll({
         where: {idOffer: req.params.id}
     });
@@ -294,11 +258,6 @@ async function getApplyOffer(req) {
 }
 
 async function getApplyUser(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
     let apply = await OfferApply.findAll({
         where: {idUser: req.params.id}
     });
