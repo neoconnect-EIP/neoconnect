@@ -12,6 +12,9 @@ const   db = require("../_helpers/db"),
 
 //Vérifie que le shop existe dans la bdd
 async function login(params) {
+    if (params === undefined || params.pseudo === undefined
+        || params.password === undefined)
+        return ({status: 400, message: "Bad Request, Please give a pseudo and a password"});
     let user = await Inf.findOne({
         where: {
             pseudo: params.pseudo,
@@ -26,13 +29,16 @@ async function login(params) {
     }
     if (user && bcrypt.compareSync(params.password, user.password)) {
         return {
-            "userId" : user.id,
-            "userType" : user.userType,
-            "token" : jwtUtils.generateTokenForUser(user)
+            status: 200,
+            message: {
+                "userId": user.id,
+                "userType": user.userType,
+                "token": jwtUtils.generateTokenForUser(user)
+            }
         }
     }
     else
-        return (undefined);
+        return ({status: "401", message: "Bad Request, User doesn't exist or password is incorrect"});
 }
 
 async function verifyUser(params) {
@@ -158,15 +164,15 @@ async function takeHighId() {
 async function registerInf(params) {
     if (params === undefined ||
         params.pseudo === undefined ||
-        params.password === undefined ||
-        (await Inf.findOne({where: {pseudo: params.pseudo}})) ||
-        (await Shop.findOne({where: {pseudo: params.pseudo}}))
-    )
-            return (undefined);
-
-    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$', params.password)
-        || !validation.checkRegex('^(\\w{4,12})$', params.pseudo))
-        return (undefined);
+        params.password === undefined)
+        return ({status: 400, message: "Bad Request, Please give a pseudo and a password"});
+    if ((await Inf.findOne({where: {pseudo: params.pseudo}})) ||
+        (await Shop.findOne({where: {pseudo: params.pseudo}})))
+        return ({status: 400, message: "Bad Request, User already exist"});
+    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$', params.password))
+        return ({status: 400, message: "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters"});
+    if (!validation.checkRegex('^(\\w{4,12})$', params.pseudo))
+        return ({status: 400, message: "Invalid Pseudo, the pseudo must be between 4 and 12 characters"});
 
 
 
@@ -178,7 +184,7 @@ async function registerInf(params) {
         params.twitch !== undefined ||
         params.youtube !== undefined) {
         if (await verifyUser(params))
-            return (undefined);
+            return ({status: 400, message: "Invalid social network account"});
     }
 
     const idMax = await takeHighId();
@@ -214,23 +220,26 @@ async function registerInf(params) {
         })
     }
     return {
-        "token" : jwtUtils.generateTokenForUser(user)
+        status: 200,
+        message: {
+            "token" : jwtUtils.generateTokenForUser(user)
+        }
     }
 }
 
 //Créer un shop dans la bdd en fonction des params
 async function registerShop(params) {
-    if (params === undefined ||
-        params.pseudo === undefined ||
-        params.password === undefined ||
-        await Shop.findOne({where: {pseudo: params.pseudo}}) ||
-        await Inf.findOne({where: {pseudo: params.pseudo}})
-    )
-        return (undefined);
-
-    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$', params.password)
-        || !validation.checkRegex('^(\\w{4,12})$', params.pseudo))
-        return (undefined);
+    if (params === undefined
+        || params.pseudo === undefined
+        || params.password === undefined)
+        return ({status: 400, message: "Bad Request, Please give a pseudo and a password"});
+    if (await Shop.findOne({where: {pseudo: params.pseudo}}) ||
+        await Inf.findOne({where: {pseudo: params.pseudo}}))
+        return ({status: 400, message: "Bad Request, User already exist"});
+    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$', params.password))
+        return ({status: 400, message: "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters"});
+    if (!validation.checkRegex('^(\\w{4,12})$', params.pseudo))
+        return ({status: 400, message: "Invalid Pseudo, the pseudo must be between 4 and 12 characters"});
 
     const idMax = await takeHighId();
 
@@ -264,11 +273,12 @@ async function registerShop(params) {
         })
     }
     return {
-        "token" : jwtUtils.generateTokenForUser(user)
+        status: 200,
+        message: {
+            "token": jwtUtils.generateTokenForUser(user)
+        }
     }
 }
-
-
 
 module.exports = {
     login,
