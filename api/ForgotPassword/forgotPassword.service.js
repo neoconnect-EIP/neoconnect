@@ -15,7 +15,7 @@ function randomInteger(min, max) {
 
 async function forgotPassword(params) {
     if (params.email === undefined || params.email === '')
-        return (undefined);
+        return ({status: 400, message: "Bad Request, Please give an valid email"});
     let user = await Inf.findOne({
         where: {
             email: params.email,
@@ -29,7 +29,7 @@ async function forgotPassword(params) {
         })
     }
     if (!user)
-        return (undefined);
+        return ({status: 400, message: "Bad Request, User doesn't exist"});
     const token = randomInteger(100000, 999999).toString();
     const row = await ForgotPassword.create({
         email: params.email,
@@ -60,36 +60,41 @@ async function forgotPassword(params) {
 
     transporter.sendMail(mailOptions, function (err, response) {
         if (err) {
-            console.error('there was an error: ', err);
+            return ({status: 400, message: "Error Send mail, Please try later or change your email"});
         } else {
-            return ('recovery email sent');
+            return ({status: 200, message:'recovery password email as been sent'});
         }
     });
-    return ('recovery email sent');
+    return ({status: 200, message:'recovery password email as been sent'});
 }
 
 async function resetPassword(req) {
-    if (req === undefined)
-        return (undefined);
+    if (req === undefined || req.params.resetPasswordToken === undefined)
+        return ({status: 400, message:'Bad request, Please give a resetPasswordToken'});
     let select = await ForgotPassword.findOne({
         where: {
             resetPasswordToken: req.params.resetPasswordToken,
         },
     });
     if (select === null)
-        return (undefined);
+        return ({status: 400, message:"Bad request, your reset token doesn't exist"});
     let tmp = new Date();
     if (select.dataValues.resetPasswordExpires.getTime() < tmp.getTime())
-        return (undefined);
+        return ({status: 400, message:"Bad request, your reset token is out of time"});
     return ({
-        email: select.email,
-        message: 'password reset link a-ok',
-    });
+            status: 200,
+            message: {
+                email: select.email,
+                message: 'password reset link a-ok'
+            }
+        }
+    );
 }
 
 async function updatePassword(params) {
-    if (params.email === undefined)
-        return (undefined);
+    if (params === undefined || params.email === undefined || params.resetPasswordToken === undefined
+        || params.password === undefined)
+        return ({status: 400, message:'Bad request, Please give a email, resetPasswordToken and new password'});
     let user = await Inf.findOne({
         where: {
             email: params.email,
@@ -103,14 +108,14 @@ async function updatePassword(params) {
         })
     }
     if (user === null)
-        return (undefined);
+        return ({status: 400, message:"Bad request, User doesn't exist"});
     let checkToken = await ForgotPassword.findOne({
        where: {
            resetPasswordToken: params.resetPasswordToken,
        }
     });
     if (checkToken === null)
-        return (undefined);
+        return ({status: 400, message:"Bad request, your reset token doesn't exist"});
     let tmp = await ForgotPassword.findOne({
         where: {
             email: params.email,
@@ -123,7 +128,7 @@ async function updatePassword(params) {
     await user.update({
         password: hash
     });
-    return ("password updated");
+    return ({status: 200, message:"Your password has been updated"});
 }
 
 module.exports = {

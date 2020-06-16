@@ -12,10 +12,7 @@ function forgotPassword(req, res, next) {
     Service
         .forgotPassword(req.body)
         .then(list => {
-            if (list !== undefined)
-                res.json(list).status(200);
-            else
-                res.status(400).json({ message: "Bad request" })
+            res.status(list.status).json(list.message);
         })
         .catch(err => next(err));
 }
@@ -24,10 +21,7 @@ function resetPassword(req, res, next) {
     Service
         .resetPassword(req)
         .then(list => {
-            if (list !== undefined)
-                res.json(list).status(200);
-            else
-                res.status(400).json({ message: "Bad request" })
+            res.status(list.status).json(list.message);
         })
         .catch(err => next(err));
 }
@@ -36,10 +30,7 @@ function updatePassword(req, res, next) {
     Service
         .updatePassword(req.body)
         .then(list => {
-            if (list !== undefined)
-                res.json(list).status(200);
-            else
-                res.status(400).json({ message: "Bad request" })
+            res.status(list.status).json(list.message);
         })
         .catch(err => next(err));
 }

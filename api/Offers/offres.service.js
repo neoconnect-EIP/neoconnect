@@ -70,10 +70,6 @@ async function paramOffer(req) {
 }
 
 async function getAll(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
     let list = undefined;
     if (Object.entries(req.query).length !== 0 && Object.entries(req.query).length !== 2)
         list = await paramOffer(req);
@@ -84,20 +80,17 @@ async function getAll(req) {
         newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
     }
-    return (newList);
+    return ({status: 200, message: newList});
 }
 
 async function getById(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
+    if (req.params === undefined || req.params.id === undefined)
+        return ({status: 400, message: "Bad Request, Please give a id"});
     let user = await Offer.findOne({
         where: {id: req.params.id}
     });
     if (user === null)
-    	return (undefined);
+        return ({status: 400, message: "Bad id, Offer doesn't exist"});
     const dataImage = await GetImage.getImage({
         idLink: user.id.toString(),
         type: 'Offer'
@@ -105,28 +98,25 @@ async function getById(req) {
     user.productImg = dataImage;
     user.dataValues.average = await statService.getMarkAverageOffer(`${user.id}`);
     user.dataValues.comment = await commentService.getCommentByOfferId(`${user.id}`);
-	return (user);
+    return ({status: 200, message: user});
 }
 
 async function getByShop(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
+    if (req.params === undefined || req.params.id === undefined)
+        return ({status: 400, message: "Bad Request, Please give a id"});
     let listShop = await Offer.findAll({
         where: {idUser: req.params.id}
     });
     if (listShop.length === 0)
-        return ("No offer");
+        return ({status: 200, message: listShop});
     if (listShop === undefined || listShop.length === 0)
-        return (undefined);
+        return ({status: 400, message: "No shop"});
     let newList = await GetImage.regroupImageData(listShop, 'Offer');
     for(let i = 0; i < newList.length; i++) {
         newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
     }
-    return (newList);
+    return ({status: 200, message: newList});
 }
 
 function isJson(str) {
@@ -139,11 +129,7 @@ function isJson(str) {
 }
 
 async function insert(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     const user = await Offer.create({
         idUser: userId,
 		productName: req.body.productName,
@@ -154,22 +140,20 @@ async function insert(req) {
         color: req.body.color
 	});
     if (req.body.productImg === undefined || isJson(req.body.productImg))
-        return (user.get({ plain: true}));
-    console.log(req.body.productImg.length);
+        return ({status: 200, message: user.get( { plain: true } )});
     const imageData = await UploadImage.uploadImage({
         idLink: user.id,
         type: 'Offer',
         image: req.body.productImg
     });
     user.productImg = req.body.productImg;
-	return (user.get( { plain: true } ));
+    return ({status: 200, message: user.get( { plain: true } )});
 }
 
 async function update(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    if (req.params === undefined || req.params.id === undefined)
+        return ({status: 400, message: "Bad Request, Please give a id"});
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let user = await Shop.findOne({
         where: {id: userId}
@@ -178,7 +162,7 @@ async function update(req) {
         where: {id: req.params.id}
     });
     if (user === null || offer === null || offer['idUser'] !== userId)
-        return (undefined);
+        return ({status: 400, message: "Bad Request, This Offer doesn't exist or it is not yours"});
 
     Object.keys(req.body).forEach(function (item) {
         offer[item] = req.body[item];
@@ -206,14 +190,11 @@ async function update(req) {
     });
     offer.dataValues.average = await statService.getMarkAverageOffer(`${user.id}`);
 
-    return (offer.get( { plain: true } ))
+    return ({status:200, message:offer.get( { plain: true } )})
 }
 
 async function _delete(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let user = await Shop.findOne({
         where: {id: userId}
@@ -230,10 +211,9 @@ async function _delete(req) {
 }
 
 async function apply(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    if (req.params === undefined || req.params.id === undefined)
+        return ({status: 400, message: "Bad Request, Please give a id"});
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let user = await User.findOne({
         where: {id: userId}
@@ -242,20 +222,17 @@ async function apply(req) {
         where: {id: req.params.id}
     });
     if (user === null || offer === null)
-        return (undefined);
+        return ({status: 400, message: "Bad Request, Offer doesn't exist"});
     const apply = await OfferApply.create({
        idUser: userId,
        idOffer: req.params.id
     });
 
-    return (offer.get( { plain: true } ));
+    return ({status:200, message:offer.get( { plain: true } )});
 }
 
 async function removeApply(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let user = await User.findOne({
         where: {id: userId}
@@ -280,30 +257,22 @@ async function removeApply(req) {
 }
 
 async function getApplyOffer(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
+    if (req.params === undefined || req.params.id === undefined)
+        return ({status: 400, message: "Bad Request, Please give a id"});
     let apply = await OfferApply.findAll({
         where: {idOffer: req.params.id}
     });
-    if (apply === undefined || apply.length === 0)
-        return (undefined);
-    return (apply);
+    return ({status: 200, message: apply});
 }
 
 async function getApplyUser(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
+    if (req.params === undefined || req.params.id === undefined)
+        return ({status: 400, message: "Bad Request, Please give a id"});
     let apply = await OfferApply.findAll({
         where: {idUser: req.params.id}
     });
     if (apply === undefined || apply.length === 0)
-        return ([]);
+        return ({status: 200, message: apply});
     for (let i = 0; i < apply.length; i++) {
         let offer = await Offer.findOne({where: {id:apply[i].idOffer}});
         let shop = await Shop.findOne({where: {id: offer.idUser}});
@@ -311,5 +280,5 @@ async function getApplyUser(req) {
        apply[i].dataValues.brand = offer.brand;
        apply[i].dataValues.emailShop = shop.email;
     }
-    return (apply);
+    return ({status: 200, message: apply});
 }
