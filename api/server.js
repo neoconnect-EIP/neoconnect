@@ -56,6 +56,8 @@ app.use("/", require("./Offers/offres.controller"));
 app.use("/", require("./CommentMark/commentMark.controller"));
 app.use("/", require("./Stat/stat.controller"));
 
+app.use("/mooc", require("./mooc/mooc.controller"));
+
 //Start server
 app.listen(port, function() {
     console.log(`Running on port ${port}`);
