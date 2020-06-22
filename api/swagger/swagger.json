@@ -1754,7 +1754,7 @@
         }
       }
     },
-    "/actuality": {
+    "/mooc/actuality": {
       "get": {
         "tags": [
           "Mooc"
@@ -1798,7 +1798,7 @@
         }
       }
     },
-    "/follow/{id}": {
+    "/mooc/follow/{id}": {
       "post": {
         "tags": [
           "Mooc"
@@ -1842,7 +1842,7 @@
         }
       }
     },
-    "/suggestion": {
+    "/mooc/suggestion": {
       "get": {
         "tags": [
           "Mooc"
@@ -1886,7 +1886,7 @@
         }
       }
     },
-    "/choiceApply": {
+    "/mooc/choiceApply": {
       "post": {
         "tags": [
           "Mooc"
@@ -1951,7 +1951,7 @@
         }
       }
     },
-    "/sharePublication/{id}": {
+    "/mooc/sharePublication/{id}": {
       "post": {
         "tags": [
           "Mooc"
@@ -2029,7 +2029,7 @@
         }
       }
     },
-    "/suggestionOffer": {
+    "/mooc/suggestionOffer": {
       "get": {
         "tags": [
           "Mooc"
