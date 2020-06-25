@@ -4,7 +4,7 @@ const   express = require("express"),
 
 router.post("/login", login);
 router.post("/user/search", searchUser);
-router.delete("/delete", deleteUser);
+router.delete("/user/delete", deleteUser);
 
 router.post("/inf/register", registerInf);
 router.post("/shop/register", registerShop);
@@ -36,10 +36,10 @@ function deleteUser(req, res, next) {
         .deleteUser(req)
         .then(user =>
             user
-                ? res.json(user).status(200)
-                : res.status(200).json({ message: "Account deleted" })
+                ? res.json("Compte supprimé").status(200)
+                : res.status(user.status).json(user.message)
                 )
-        .catch(err => next(err));        
+        .catch(err => next(err));
 }
 
 function registerInf(req, res, next) {
