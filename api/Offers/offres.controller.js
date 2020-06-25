@@ -12,6 +12,8 @@ router.put("/offer/apply/:id", apply);
 router.delete("/offer/noapply/:id", removeApply);
 router.get("/offer/apply/offer/:id", getApplyOffer);
 router.get("/offer/apply/user/:id", getApplyUser);
+router.post("/offer/share/:id", shareOffer);
+router.post("/offer/report/:id", reportOffer);
 
 module.exports = router;
 
@@ -111,3 +113,26 @@ function getApplyUser(req, res, next) {
         .catch(err => next(err));
 }
 
+function shareOffer(req, res, next) {
+	offresService
+		.shareOffer(req)
+		.then(list => {
+            if (list !== undefined)
+                res.json(list).status(200);
+            else
+                res.status(400).json({ message: "Bad request" })
+		})
+		.catch(err => next(err));
+}
+
+function reportOffer(req, res, next) {
+	offresService
+		.reportOffer(req)
+		.then(list => {
+            if (list !== undefined)
+                res.json(list).status(200);
+            else
+                res.status(400).json({ message: "Bad request" })
+		})
+		.catch(err => next(err));
+}
