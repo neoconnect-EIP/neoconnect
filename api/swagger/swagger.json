@@ -459,7 +459,7 @@
         }
       }
     },
-    "/delete": {
+    "/user/delete": {
       "delete": {
         "tags": [
           "User"
