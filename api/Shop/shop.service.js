@@ -1,7 +1,7 @@
 const   db = require("../_helpers/db"),
         Shop = db.Shop,
         User = db.Influencer,
-        CommentMark = require("../CommentMark/commentMark.service");
+        CommentMark = require("../CommentMark/commentMark.service"),
         bcrypt = require("bcrypt"),
         jwtUtils = require("../utils/jwt.utils"),
         utils = require("../utils/themeSelection"),
@@ -10,31 +10,9 @@ const   db = require("../_helpers/db"),
         commentService = require("../CommentMark/commentMark.service"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
-
-async function login(params) {
-    const user = await Shop.findOne({
-        where: {
-            pseudo: params.pseudo,
-        }
-    });
-    if (user && bcrypt.compareSync(params.password, user.password)) {
-        return {
-            "userId" : user.id,
-            "userType" : user.userType,
-            "token" : jwtUtils.generateTokenForUser(user)
-        }
-    }
-    else
-        return (undefined);
-}
-
 async function getMyProfile(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-
-    if (userId < 0)
-        return (undefined);
-
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    
     const list = await Shop.findOne({
         where: { id: userId },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
@@ -47,22 +25,19 @@ async function getMyProfile(req) {
     list.dataValues.average = await statService.getMarkAverageUser(`${userId}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
-    return (list);
+    return ({status: 200, message: list});
 }
 
 async function getUserProfile(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
+    if (req.params === undefined || req.params.id === undefined)
+        return ({status: 400, message: "Bad Request, Please give a id"});
     const list = await Shop.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
             'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
     });
     if (list === null)
-        return (undefined);
+        return ({status: 400, message: "Bad Request, User doesn't exist"});
     list.userPicture = await GetImage.getImage({
         idLink: req.params.id.toString(),
         type: 'User'
@@ -70,14 +45,11 @@ async function getUserProfile(req) {
     list.dataValues.average = await statService.getMarkAverageUser(`${req.params.id}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(req.params.id.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(req.params.id.toString());
-    return (list);
+    return ({status:200, message: list});
 }
 
 async function modifyUserProfile(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let user = await Shop.findOne({
         where: {id: userId}
@@ -124,17 +96,10 @@ async function modifyUserProfile(req) {
         idLink: userId.toString(),
         type: 'User'
     });
-    return (user.get( { plain: true } ))
-
+    return ({status:200, message: user.get({ plain: true })})
 }
 
 async function listInf(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-
-    if (userId < 0)
-        return (undefined);
-
     const list = await User.findAll({
         attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
         'facebook', 'sexe', 'pinterest', 'twitch', 'youtube', 'twitter', 'snapchat', 'instagram', 'userDescription']
@@ -144,11 +109,10 @@ async function listInf(req) {
         newList[i].dataValues.average = await statService.getMarkAverageUser(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByUserId(`${newList[i].id}`);
     }
-    return (newList);
+    return ({status: 200, message:newList});
 }
 
 module.exports = {
-    login,
     getMyProfile,
     getUserProfile,
     modifyUserProfile,

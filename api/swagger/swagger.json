@@ -46,6 +46,10 @@
     {
       "name": "Reset Password",
       "description": "Reset Password related requests"
+    },
+    {
+      "name": "Mooc",
+      "description": "Exemple route for the current sprint"
     }
   ],
   "paths": {
@@ -455,16 +459,13 @@
         }
       }
     },
-    "/user/{id}": {
+    "/user/delete": {
       "delete": {
         "tags": [
           "User"
         ],
         "summary": "Delete One User",
         "parameters": [
-          {
-            "$ref": "#/components/parameters/idUser"
-          },
           {
             "$ref": "#/components/parameters/Header"
           }
@@ -498,19 +499,34 @@
       }
     },
     "/user/search": {
-      "get": {
+      "post": {
         "tags": [
           "User"
         ],
         "summary": "Search for Users related to a keyword",
         "parameters": [
           {
-            "$ref": "#/components/parameters/Keyword"
-          },
-          {
             "$ref": "#/components/parameters/Header"
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pseudo": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "pseudo": "jordan"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success",
@@ -1551,55 +1567,6 @@
         }
       }
     },
-    "/offer/sort": {
-      "get": {
-        "tags": [
-          "Offers"
-        ],
-        "summary": "Sort Offers related to a keyword",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/Keyword"
-          },
-          {
-            "$ref": "#/components/parameters/Header"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OfferResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Request Body Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                },
-                "examples": {
-                  "Error Parameters": {
-                    "value": {
-                      "code": 400,
-                      "message": "Mauvais paramètre"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          }
-        }
-      }
-    },
     "/contact": {
       "post": {
         "tags": [
@@ -1765,6 +1732,325 @@
         "responses": {
           "204": {
             "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
+                  },
+                  "Mauvais token": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais reset token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mooc/actuality": {
+      "get": {
+        "tags": [
+          "Mooc"
+        ],
+        "summary": "les 5 profiles les plus visites de shop ou inf en fonction du profile de la request",
+        "description": "renvoie 5 profiles les plus visites",
+        "responses": {
+          "200": {
+            "description": "5 profils of user in array"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
+                  },
+                  "Mauvais token": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais reset token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mooc/follow/{id}": {
+      "post": {
+        "tags": [
+          "Mooc"
+        ],
+        "summary": "request avec l'id d'un shop, l'influenceur recevra un mail a chaque creation d'une nouvelle offre que le shop aura creer",
+        "description": "Request pour influenceur avec id de shop en params",
+        "responses": {
+          "200": {
+            "description": "follow success"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
+                  },
+                  "Mauvais token": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais reset token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mooc/suggestion": {
+      "get": {
+        "tags": [
+          "Mooc"
+        ],
+        "summary": "renvoie des 5 premiers user avec le meme theme",
+        "description": "renvoie des 5 premiers user avec le meme theme",
+        "responses": {
+          "200": {
+            "description": "profile users"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
+                  },
+                  "Mauvais token": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais reset token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mooc/choiceApply": {
+      "post": {
+        "tags": [
+          "Mooc"
+        ],
+        "summary": "Un shop pourra accepter ou refuser les apply des inf. Par la suite envoie d'une notif a l'inf si accepter ou refuser, true or false pour le choix du shop",
+        "description": "Un shop pourra accepter ou refuser les apply des inf. Par la suite envoie d'une notif a l'inf si accepter ou refuser, true or false pour le choix du shop",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId" : {
+                    "type": "string"
+                  },
+                  "idOffer" : {
+                    "type": "string"
+                  },
+                  "choice": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "response success"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
+                  },
+                  "Mauvais token": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais reset token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mooc/sharePublication/{id}": {
+      "post": {
+        "tags": [
+          "Mooc"
+        ],
+        "summary": "Cette request prend en params l'id de l'offre et prend en body les url des lien de post des inf sur les reseau sociaux. Par la suite un mail est envoyer au shop avec les lien de ces post sur le/les reseaux.",
+        "description": "Cette request prend en params l'id de l'offre et prend en body les url des lien de post des inf sur les reseau sociaux. Par la suite un mail est envoyer au shop avec les lien de ces post sur le/les reseaux.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "instagram" : {
+                    "type": "string"
+                  },
+                  "facebook" : {
+                    "type": "string"
+                  },
+                  "snapchat": {
+                    "type": "string"
+                  },
+                  "twitter" : {
+                    "type": "string"
+                  },
+                  "youtube" : {
+                    "type": "string"
+                  },
+                  "pinterest" : {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "instagram": "https://www.instagram.com/p/CBvQj9aK8Bp/?utm_source=ig_web_copy_link",
+                "facebook": "https://www.facebook.com/Crunchyroll/posts/10158123941164340"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Share Success"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
+                  },
+                  "Mauvais token": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais reset token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mooc/suggestionOffer": {
+      "get": {
+        "tags": [
+          "Mooc"
+        ],
+        "summary": "renvoie des 5 premier offre avec le meme theme et  productSubject que le user",
+        "description": "renvoie des 5 premier offre avec le meme theme et  productSubject que le user",
+        "responses": {
+          "200": {
+            "description": "liste de 5 offres"
           },
           "400": {
             "description": "Request Body Error",
