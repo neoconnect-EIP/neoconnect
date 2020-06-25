@@ -459,16 +459,13 @@
         }
       }
     },
-    "/user/{id}": {
+    "/delete": {
       "delete": {
         "tags": [
           "User"
         ],
         "summary": "Delete One User",
         "parameters": [
-          {
-            "$ref": "#/components/parameters/idUser"
-          },
           {
             "$ref": "#/components/parameters/Header"
           }
@@ -502,19 +499,34 @@
       }
     },
     "/user/search": {
-      "get": {
+      "post": {
         "tags": [
           "User"
         ],
         "summary": "Search for Users related to a keyword",
         "parameters": [
           {
-            "$ref": "#/components/parameters/Keyword"
-          },
-          {
             "$ref": "#/components/parameters/Header"
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pseudo": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "pseudo": "jordan"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success",
