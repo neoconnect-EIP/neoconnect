@@ -91,7 +91,7 @@ async function searchUser(req) {
         });
     if (list === null)
         return (undefined);
-    list.userPicture = await GetImage.getImage({
+    list.userPicture = await UploadImage.getImage({
         idLink: list.id.toString(),
         type: 'User'
     });
