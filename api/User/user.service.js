@@ -122,7 +122,11 @@ async function deleteUser(req) {
             }
         })
     }
-    await user.destroy();
+    if (user != null) {
+        await user.destroy();
+    } else {
+        return {status: 400, message: "Utilisateur introuvable"}
+    }
 }
 
 async function getProfile(id) {
