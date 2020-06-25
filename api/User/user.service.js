@@ -125,7 +125,7 @@ async function deleteUser(req) {
     if (user != null) {
         await user.destroy();
     } else {
-        return ({status: 400, message: "Utilisateur introuvable"});
+        return ({status: "400", message: "Utilisateur introuvable"});
     }
 }
 
