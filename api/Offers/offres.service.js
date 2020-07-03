@@ -12,6 +12,8 @@ const   jwt = require("jsonwebtoken"),
         GetAllImage = require("../UploadImage/uploadImage.service"),
         commentService = require("../CommentMark/commentMark.service");
         statService = require("../Stat/stat.service");
+        nodemailer = require('nodemailer');
+
 
 module.exports = {
 	insert,
@@ -305,6 +307,7 @@ async function shareOffer(req) {
     });
     if (offer === null)
         return ({status: 400, message: "Bad Request: Offre inexistante"});
+
     const dataImage = await GetImage.getImage({
         idLink: offer.id.toString(),
         type: 'Offer'

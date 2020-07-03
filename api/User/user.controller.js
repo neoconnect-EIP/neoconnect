@@ -4,7 +4,9 @@ const   express = require("express"),
 
 router.post("/login", login);
 router.post("/user/search", searchUser);
+router.post("/user/report/:id", reportUser);
 router.delete("/user/delete", deleteUser);
+
 
 router.post("/inf/register", registerInf);
 router.post("/shop/register", registerShop);
