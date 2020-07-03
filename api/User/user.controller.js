@@ -31,6 +31,15 @@ function searchUser(req, res, next) {
         .catch(err => next(err));        
 }
 
+function reportUser(req, res, next) {
+    userService
+        .reportUser(req)
+        .then(user => {
+            res.status(user.status).json(user.message);
+        })
+        .catch(err => next(err));        
+}
+
 function deleteUser(req, res, next) {
     userService
         .deleteUser(req)
