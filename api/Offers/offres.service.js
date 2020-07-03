@@ -299,13 +299,15 @@ async function shareOffer(req) {
     let user = await User.findOne({
             where: {id: req.body.userId}
         });
-    console.log(user)
+    if (user === null)
+    return ({status: 400, message: "Bad Request: Utilisateur inexistant"});
     let offer = await Offer.findOne({
         where: {id: req.params.id},
         attributes: ['id', 'productName', 'productSubject']
     });
     if (offer === null)
-    	return (undefined);
+        return ({status: 400, message: "Bad Request: Offre inexistante"});
+
     const dataImage = await GetImage.getImage({
         idLink: offer.id.toString(),
         type: 'Offer'
@@ -338,7 +340,7 @@ async function shareOffer(req) {
             console.log('Email sent: ' + info.response);
         }
     });
-	return (offer);
+    return ({status: 200, message: "Offre partagée"});
 }
 async function reportOffer(req) {
     let headerAuth = req.headers['authorization'];
@@ -349,6 +351,8 @@ async function reportOffer(req) {
     let offerReported = await Offer.findOne({
             where: {id: req.params.id}
         });
+        if (offerReported === null)
+        return ({status: 400, message: "Bad Request: ID inexistant"});
     const { offerName, message} = req.body;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -374,5 +378,5 @@ async function reportOffer(req) {
             console.log('Email sent: ' + info.response);
         }
     });
-    return ("Signalement envoyé pour l'id " + offerReported.id);
+    return ({status: 200, message: "Signalement envoyé pour l'id " + offerReported.id});
 }

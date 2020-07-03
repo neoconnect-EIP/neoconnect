@@ -15,6 +15,7 @@ router.get("/offer/apply/user/:id", getApplyUser);
 router.post("/offer/share/:id", shareOffer);
 router.post("/offer/report/:id", reportOffer);
 
+
 module.exports = router;
 
 function insert(req, res, next) {
@@ -117,10 +118,7 @@ function shareOffer(req, res, next) {
 	offresService
 		.shareOffer(req)
 		.then(list => {
-            if (list !== undefined)
-                res.json(list).status(200);
-            else
-                res.status(400).json({ message: "Bad request" })
+            res.status(list.status).json(list.message);
 		})
 		.catch(err => next(err));
 }
@@ -129,10 +127,8 @@ function reportOffer(req, res, next) {
 	offresService
 		.reportOffer(req)
 		.then(list => {
-            if (list !== undefined)
-                res.json(list).status(200);
-            else
-                res.status(400).json({ message: "Bad request" })
+            res.status(list.status).json(list.message);
 		})
 		.catch(err => next(err));
 }
+

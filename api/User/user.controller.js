@@ -36,11 +36,9 @@ function searchUser(req, res, next) {
 function reportUser(req, res, next) {
     userService
         .reportUser(req)
-        .then(user =>
-            user
-                ? res.json(user).status(200)
-                : res.status(400).json({ message: "User can't be reported" })
-                )
+        .then(user => {
+            res.status(user.status).json(user.message);
+        })
         .catch(err => next(err));        
 }
 
