@@ -11,7 +11,7 @@ async function addComment(req) {
     if (req.params === undefined || req.params.id === undefined || req.body.comment === undefined)
         return ({status: 400, message: "Bad Request, Please give id and comment"});
     let userId = jwtUtils.getUserId(req.headers['authorization']);
-    let userType = jwtUtils.getUserType(headerAuth);
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
     let commentType = await userService.getProfile(req.params.id);
     if (commentType.userType === userType)
         return ({status: 400, message: "Bad Request, you cannot comment on a user in the same category as yours"});
@@ -29,7 +29,7 @@ async function addMark(req) {
         return ({status: 400, message: "Bad Request, Please give id and mark"});
     let userId = jwtUtils.getUserId(req.headers['authorization']);
 
-    let userType = jwtUtils.getUserType(headerAuth);
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
     let commentType = await userService.getProfile(req.params.id);
     if (commentType.userType === userType)
         return ({status: 400, message: "Bad Request, you cannot mark on a user in the same category as yours"});
