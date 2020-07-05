@@ -48,6 +48,10 @@
       "description": "Reset Password related requests"
     },
     {
+      "name": "Message",
+      "description": "Send Messsage to other users"
+    },
+    {
       "name": "Mooc",
       "description": "Exemple route for the current sprint"
     }
@@ -1766,6 +1770,174 @@
         }
       }
     },
+    "/message": {
+      "get": {
+        "tags": [
+          "Message"
+        ],
+        "summary": "get all channel",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "description": "renvoie tout les channel de message creer avec le user actuelle",
+        "responses": {
+          "200": {
+            "description": "Liste des channel creer avec d'autres users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllChannel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
+                  },
+                  "Mauvais token": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais reset token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Message"
+        ],
+        "summary": "Post message",
+        "description": "Envoie un message a un user via son id. Si nn message a deja ete envoyer alors il est ajouter au channel existant, sinon le message provoque la creation d'un channel directement et enregistre le message dedans.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChannelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/message/{idChannel}": {
+      "get": {
+        "tags": [
+          "Message"
+        ],
+        "summary": "get all message in one channel",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "description": "renvoie tout le channel en fonction de l'id",
+        "responses": {
+          "200": {
+            "description": "renvoie le detail du channel",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetChannelId"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
+                  },
+                  "Mauvais token": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais reset token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/mooc/actuality": {
       "get": {
         "tags": [
@@ -2765,6 +2937,92 @@
             "type": "number"
           }
         }
+      },
+      "GetAllChannel": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "user_1": {
+              "type": "string"
+            },
+            "user_2": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "date"
+            },
+            "updatedAt": {
+              "type": "date"
+            },
+            "pseudo": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "GetChannelId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "user_1": {
+              "type": "string"
+            },
+          "user_2": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string"
+                    },
+                    "pseudo": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "date"
+                    }
+                  }
+                }
+              }
+          },
+          "createdAt": {
+            "type": "date"
+          },
+          "updatedAt": {
+            "type": "date"
+            }
+          }
+        }
+      },
+      "ChannelRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "message"
+        ]
       }
     }
   }

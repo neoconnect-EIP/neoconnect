@@ -55,6 +55,7 @@ app.use("/", require("./Influencer/influencer.controller"));
 app.use("/", require("./Offers/offres.controller"));
 app.use("/", require("./CommentMark/commentMark.controller"));
 app.use("/", require("./Stat/stat.controller"));
+app.use("/", require("./Message/message.controller"));
 
 app.use("/mooc", require("./mooc/mooc.controller"));
 

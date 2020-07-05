@@ -112,12 +112,14 @@ async function reportUser(req) {
     let userReported = await Inf.findOne({
             where: {id: req.params.id}
         });
-        if (userReported == null)
+    if (userReported === null)
         {
             userReported = await Shop.findOne({
                 where: {id: req.params.id}
             });
         }
+    if (userReported === null)
+        return ({status: 400, message: "Bad Request: ID inexistant"});
     const { pseudo, subject, message} = req.body;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -143,7 +145,7 @@ async function reportUser(req) {
             console.log('Email sent: ' + info.response);
         }
     });
-    return ("Signalement envoyé pour l'id " + userReported.id);
+    return ({status: 200, message: "Signalement envoyé pour l'id " + userReported.id});
 }
 
 async function deleteUser(req) {
@@ -167,7 +169,7 @@ async function deleteUser(req) {
     if (user != null) {
         await user.destroy();
     } else {
-        return {status: 400, message: "Utilisateur introuvable"}
+        return ({status: "400", message: "Utilisateur introuvable"});
     }
 }
 
