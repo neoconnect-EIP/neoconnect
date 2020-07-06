@@ -4,7 +4,9 @@ const   express = require("express"),
 
 router.post("/login", login);
 router.post("/user/search", searchUser);
+router.post("/user/report/:id", reportUser);
 router.delete("/user/delete", deleteUser);
+
 
 router.post("/inf/register", registerInf);
 router.post("/shop/register", registerShop);
@@ -28,6 +30,15 @@ function searchUser(req, res, next) {
                 ? res.json(user).status(204)
                 : res.status(400).json({ message: "User can't be searched" })
                 )
+        .catch(err => next(err));        
+}
+
+function reportUser(req, res, next) {
+    userService
+        .reportUser(req)
+        .then(user => {
+            res.status(user.status).json(user.message);
+        })
         .catch(err => next(err));        
 }
 

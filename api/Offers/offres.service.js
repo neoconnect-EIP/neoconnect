@@ -12,6 +12,8 @@ const   jwt = require("jsonwebtoken"),
         GetAllImage = require("../UploadImage/uploadImage.service"),
         commentService = require("../CommentMark/commentMark.service");
         statService = require("../Stat/stat.service");
+        nodemailer = require('nodemailer');
+
 
 module.exports = {
 	insert,
@@ -23,7 +25,9 @@ module.exports = {
     removeApply,
 	delete: _delete,
     getApplyOffer,
-    getApplyUser
+    getApplyUser,
+    shareOffer,
+    reportOffer
 };
 
 async function paramOffer(req) {
@@ -280,5 +284,99 @@ async function getApplyUser(req) {
        apply[i].dataValues.brand = offer.brand;
        apply[i].dataValues.emailShop = shop.email;
     }
-    return ({status: 200, message: apply});
+    return (apply);
+}
+
+async function shareOffer(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+
+    let me = await User.findOne({
+            where: {id: userId}
+        });
+    let user = await User.findOne({
+            where: {id: req.body.userId}
+        });
+    if (user === null)
+    return ({status: 400, message: "Bad Request: Utilisateur inexistant"});
+    let offer = await Offer.findOne({
+        where: {id: req.params.id},
+        attributes: ['id', 'productName', 'productSubject']
+    });
+    if (offer === null)
+        return ({status: 400, message: "Bad Request: Offre inexistante"});
+
+    const dataImage = await GetImage.getImage({
+        idLink: offer.id.toString(),
+        type: 'Offer'
+    });
+
+    offer.productImg = dataImage;
+    offer.link = "http://168.63.65.106/dashboard/item?id=" + offer.id.toString()
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'contact.neoconnect@gmail.com',
+            pass: 'neo!support123'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+    var mailOptions = {
+        from: me.pseudo,
+        to: user.email,
+        subject: "Partage d'une offre",
+        text: me.pseudo + " souhaite partager cette offre avec vous:" + "\n" + offer.link
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log("Error :", error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+    return ({status: 200, message: "Offre partagée"});
+}
+async function reportOffer(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+
+    let offerReported = await Offer.findOne({
+            where: {id: req.params.id}
+        });
+        if (offerReported === null)
+        return ({status: 400, message: "Bad Request: ID inexistant"});
+    const { offerName, message} = req.body;
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'contact.neoconnect@gmail.com',
+            pass: 'neo!support123'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+    var mailOptions = {
+        from: "NeoConnect",
+        to: 'contact.neoconnect@gmail.com',
+        subject: "Signalement d'une offre",
+        text: "Signalement de l'offre " + offerName + "\n" + "Message: " + message
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log("Error :", error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+    return ({status: 200, message: "Signalement envoyé pour l'id " + offerReported.id});
 }

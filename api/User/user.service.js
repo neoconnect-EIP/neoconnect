@@ -97,11 +97,55 @@ async function searchUser(req) {
         });
     if (list === null)
         return (undefined);
-    list.userPicture = await GetImage.getImage({
+    list.userPicture = await UploadImage.getImage({
         idLink: list.id.toString(),
         type: 'User'
     });
     return (list);
+}
+async function reportUser(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+
+    let userReported = await Inf.findOne({
+            where: {id: req.params.id}
+        });
+    if (userReported === null)
+        {
+            userReported = await Shop.findOne({
+                where: {id: req.params.id}
+            });
+        }
+    if (userReported === null)
+        return ({status: 400, message: "Bad Request: ID inexistant"});
+    const { pseudo, subject, message} = req.body;
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'contact.neoconnect@gmail.com',
+            pass: 'neo!support123'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+    var mailOptions = {
+        from: "NeoConnect",
+        to: 'contact.neoconnect@gmail.com',
+        subject: "Signalement d'un utilisateur",
+        text: "Signalement de " + pseudo + "\n" + "Sujet: " + subject + "\n" + "Message: " + message
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log("Error :", error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+    return ({status: 200, message: "Signalement envoyé pour l'id " + userReported.id});
 }
 
 async function deleteUser(req) {
@@ -125,7 +169,7 @@ async function deleteUser(req) {
     if (user != null) {
         await user.destroy();
     } else {
-        return {status: 400, message: "Utilisateur introuvable"}
+        return ({status: "400", message: "Utilisateur introuvable"});
     }
 }
 
@@ -287,6 +331,7 @@ async function registerShop(params) {
 module.exports = {
     login,
     searchUser,
+    reportUser,
     deleteUser,
     registerInf,
     registerShop,
