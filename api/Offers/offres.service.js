@@ -284,7 +284,7 @@ async function getApplyUser(req) {
        apply[i].dataValues.brand = offer.brand;
        apply[i].dataValues.emailShop = shop.email;
     }
-    return (apply);
+    return ({status: 200, message: apply});
 }
 
 async function shareOffer(req) {

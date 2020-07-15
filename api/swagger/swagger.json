@@ -502,6 +502,38 @@
         }
       }
     },
+    "/user/suggestion": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "renvoie des 5 premiers user avec le meme theme",
+        "description": "renvoie des 5 premiers user avec le meme theme",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShopResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
     "/user/search": {
       "post": {
         "tags": [

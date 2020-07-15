@@ -7,6 +7,8 @@ router.post("/user/search", searchUser);
 router.post("/user/report/:id", reportUser);
 router.delete("/user/delete", deleteUser);
 
+router.get("/user/suggestion", userSuggestion);
+
 
 router.post("/inf/register", registerInf);
 router.post("/shop/register", registerShop);
@@ -50,6 +52,15 @@ function deleteUser(req, res, next) {
                 ? res.json("Compte supprimé").status(200)
                 : res.status(user.status).json(user.message)
                 )
+        .catch(err => next(err));
+}
+
+function userSuggestion(req, res, next) {
+    userService
+        .userSuggestion(req)
+        .then(user => {
+            res.status(user.status).json(user.message);
+        })
         .catch(err => next(err));
 }
 

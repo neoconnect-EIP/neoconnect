@@ -1,12 +1,18 @@
 const express = require("express");
+const jwtUtils = require("../utils/jwt.utils");
 const router = express.Router();
 
+
 router.get("/actuality", actuality);
+
 router.post("/follow/:id", follow);
 router.get("/suggestion", getSuggestion);
 
+//Faire ces 2 request avant mardi
 router.post("/choiceApply", choiceApply);
 router.post("/sharePublication/:id", sharePublication);
+
+
 router.get("/suggestionOffer", suggestionOffre);
 
 module.exports = router;
@@ -15,69 +21,534 @@ function actuality(req, res, next) {
 
     //creer un champ nbr de visite dans la db pour comptailiser le nombre de visite de chaque compte utilisateur et offre quand get id
 
-    //decoder le token si inf envoyer  5 offre et 5 shop (plus grand nombre de visite),
-    // si shop envoyer les inf
+    // Pour les Inf :
+
+    // renvoie un objet contenant 6 tableau qui se nommeront :
+    /*
+    * listShopPopulaires : tableau de 5 objet des profile shop avec le plus grand nombre de visite (getById),
+    * listShopNotes : tableau de 5 objet des profiles shop avec les meilleures note ,
+    * listShopTendances : tableau de 5 objet des profiles shop creer ces 7 dernier jours avec le plus grand nombre de visite (getById)
+    * listOffrePopulaires : idem shop mais en offre,
+    * listOffreNotes : idem shop mais en offre,
+    * listOffreTendances : idem shop mais en offre
+    * */
+
+    // Pour les Shop :
+
+    // renvoie un objet contenant 3 tableau qui se nommeront :
+    /*
+    * listInfPopulaires : tableau de 5 objet des profile inf avec le plus grand nombre de visite (getById),
+    * listInfNotes : tableau de 5 objet des profiles inf avec les meilleures note ,
+    * listInfTendances : tableau de 5 objet des profiles inf creer ces 7 dernier jours avec le plus grand nombre de visite (getById)
+
+    * */
 
     //'id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
     //            'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription'
 
-    res.status(200).json(
-        [
-        {
-            'id': 1,
-            'pseudo': 'jordan',
-            'userType': 'shop',
-            'full_name': 'jordan mick',
-            'email': 'jordan@jordan.com',
-            'phone': '0102030405',
-            'postal': '75001',
-            'city': 'Paris',
-            'theme': 'sport',
-            'sexe': 'male',
-            'pinterest': null,
-            'twitch': null,
-            'youtube': null,
-            'facebook': null,
-            'twitter': null,
-            'snapchat': null,
-            'instagram': null,
-            'userDescription': '',
-            "userPicture": [
+    if (jwtUtils.getUserType(req.headers['authorization']) === 'influencer') {
+        res.status(200).json({
+            "listShopPopulaires": [
                 {
-                    "idLink": "51",
-                    "imageName": "51_Boss",
-                    "imageData": "http://localhost:8080/image/User_51_51_Boss.png"
+                    'id': 1,
+                    'pseudo': 'jordan',
+                    'userType': 'shop',
+                    'full_name': 'jordan mick',
+                    'email': 'jordan@jordan.com',
+                    'phone': '0102030405',
+                    'postal': '75001',
+                    'city': 'Paris',
+                    'theme': 'sport',
+                    'sexe': 'male',
+                    'pinterest': null,
+                    'twitch': null,
+                    'youtube': null,
+                    'facebook': null,
+                    'twitter': null,
+                    'snapchat': null,
+                    'instagram': null,
+                    'userDescription': '',
+                    "userPicture": [
+                        {
+                            "idLink": "51",
+                            "imageName": "51_Boss",
+                            "imageData": "https://cdn.myanimelist.net/images/userimages/5177116.webp?t=1594818600"
+                        }
+                    ],
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                },
+                {
+                    "id": 51,
+                    "pseudo": "Boss",
+                    "userType": "shop",
+                    "full_name": "Hugo Boss",
+                    "email": "hugo-boss@boss.com",
+                    "phone": "0145323412",
+                    "postal": "75001",
+                    "city": "Paris",
+                    "userDescription": "Magasin de vetement, chaussure, parfun",
+                    "theme": "mode",
+                    "society": "Boss entreprise",
+                    "function": "Boutique",
+                    "website": null,
+                    "twitter": null,
+                    "facebook": null,
+                    "snapchat": null,
+                    "instagram": null,
+                    "userPicture": null,
+                    "average": null,
+                    "comment": [],
+                    "mark": []
                 }
             ],
-            "average": null,
-            "comment": [],
-            "mark": []
-        },
-        {
-            "id": 51,
-            "pseudo": "Boss",
-            "userType": "shop",
-            "full_name": "Hugo Boss",
-            "email": "hugo-boss@boss.com",
-            "phone": "0145323412",
-            "postal": "75001",
-            "city": "Paris",
-            "userDescription": "Magasin de vetement, chaussure, parfun",
-            "theme": "mode",
-            "society": "Boss entreprise",
-            "function": "Boutique",
-            "website": null,
-            "twitter": null,
-            "facebook": null,
-            "snapchat": null,
-            "instagram": null,
-            "userPicture": null,
-            "average": null,
-            "comment": [],
-            "mark": []
-        }
-        ]
-    )
+            "listShopNotes": [
+                {
+                    'id': 1,
+                    'pseudo': 'jordan',
+                    'userType': 'shop',
+                    'full_name': 'jordan mick',
+                    'email': 'jordan@jordan.com',
+                    'phone': '0102030405',
+                    'postal': '75001',
+                    'city': 'Paris',
+                    'theme': 'sport',
+                    'sexe': 'male',
+                    'pinterest': null,
+                    'twitch': null,
+                    'youtube': null,
+                    'facebook': null,
+                    'twitter': null,
+                    'snapchat': null,
+                    'instagram': null,
+                    'userDescription': '',
+                    "userPicture": [
+                        {
+                            "idLink": "51",
+                            "imageName": "51_Boss",
+                            "imageData": "https://cdn.myanimelist.net/images/userimages/5177116.webp?t=1594818600"
+                        }
+                    ],
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                },
+                {
+                    "id": 51,
+                    "pseudo": "Boss",
+                    "userType": "shop",
+                    "full_name": "Hugo Boss",
+                    "email": "hugo-boss@boss.com",
+                    "phone": "0145323412",
+                    "postal": "75001",
+                    "city": "Paris",
+                    "userDescription": "Magasin de vetement, chaussure, parfun",
+                    "theme": "mode",
+                    "society": "Boss entreprise",
+                    "function": "Boutique",
+                    "website": null,
+                    "twitter": null,
+                    "facebook": null,
+                    "snapchat": null,
+                    "instagram": null,
+                    "userPicture": null,
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                }
+            ],
+            "listShopTendances": [
+                {
+                    'id': 1,
+                    'pseudo': 'jordan',
+                    'userType': 'shop',
+                    'full_name': 'jordan mick',
+                    'email': 'jordan@jordan.com',
+                    'phone': '0102030405',
+                    'postal': '75001',
+                    'city': 'Paris',
+                    'theme': 'sport',
+                    'sexe': 'male',
+                    'pinterest': null,
+                    'twitch': null,
+                    'youtube': null,
+                    'facebook': null,
+                    'twitter': null,
+                    'snapchat': null,
+                    'instagram': null,
+                    'userDescription': '',
+                    "userPicture": [
+                        {
+                            "idLink": "51",
+                            "imageName": "51_Boss",
+                            "imageData": "https://cdn.myanimelist.net/images/userimages/5177116.webp?t=1594818600"
+                        }
+                    ],
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                },
+                {
+                    "id": 51,
+                    "pseudo": "Boss",
+                    "userType": "shop",
+                    "full_name": "Hugo Boss",
+                    "email": "hugo-boss@boss.com",
+                    "phone": "0145323412",
+                    "postal": "75001",
+                    "city": "Paris",
+                    "userDescription": "Magasin de vetement, chaussure, parfun",
+                    "theme": "mode",
+                    "society": "Boss entreprise",
+                    "function": "Boutique",
+                    "website": null,
+                    "twitter": null,
+                    "facebook": null,
+                    "snapchat": null,
+                    "instagram": null,
+                    "userPicture": null,
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                }
+            ],
+            "listOffrePopulaires": [
+                {
+                    'id': 1,
+                    'pseudo': 'jordan',
+                    'userType': 'shop',
+                    'full_name': 'jordan mick',
+                    'email': 'jordan@jordan.com',
+                    'phone': '0102030405',
+                    'postal': '75001',
+                    'city': 'Paris',
+                    'theme': 'sport',
+                    'sexe': 'male',
+                    'pinterest': null,
+                    'twitch': null,
+                    'youtube': null,
+                    'facebook': null,
+                    'twitter': null,
+                    'snapchat': null,
+                    'instagram': null,
+                    'userDescription': '',
+                    "userPicture": [
+                        {
+                            "idLink": "51",
+                            "imageName": "51_Boss",
+                            "imageData": "https://cdn.myanimelist.net/images/userimages/5177116.webp?t=1594818600"
+                        }
+                    ],
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                },
+                {
+                    "id": 51,
+                    "pseudo": "Boss",
+                    "userType": "shop",
+                    "full_name": "Hugo Boss",
+                    "email": "hugo-boss@boss.com",
+                    "phone": "0145323412",
+                    "postal": "75001",
+                    "city": "Paris",
+                    "userDescription": "Magasin de vetement, chaussure, parfun",
+                    "theme": "mode",
+                    "society": "Boss entreprise",
+                    "function": "Boutique",
+                    "website": null,
+                    "twitter": null,
+                    "facebook": null,
+                    "snapchat": null,
+                    "instagram": null,
+                    "userPicture": null,
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                }
+            ],
+            "listOffreNotes": [
+                {
+                    'id': 1,
+                    'pseudo': 'jordan',
+                    'userType': 'shop',
+                    'full_name': 'jordan mick',
+                    'email': 'jordan@jordan.com',
+                    'phone': '0102030405',
+                    'postal': '75001',
+                    'city': 'Paris',
+                    'theme': 'sport',
+                    'sexe': 'male',
+                    'pinterest': null,
+                    'twitch': null,
+                    'youtube': null,
+                    'facebook': null,
+                    'twitter': null,
+                    'snapchat': null,
+                    'instagram': null,
+                    'userDescription': '',
+                    "userPicture": [
+                        {
+                            "idLink": "51",
+                            "imageName": "51_Boss",
+                            "imageData": "https://cdn.myanimelist.net/images/userimages/5177116.webp?t=1594818600"
+                        }
+                    ],
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                },
+                {
+                    "id": 51,
+                    "pseudo": "Boss",
+                    "userType": "shop",
+                    "full_name": "Hugo Boss",
+                    "email": "hugo-boss@boss.com",
+                    "phone": "0145323412",
+                    "postal": "75001",
+                    "city": "Paris",
+                    "userDescription": "Magasin de vetement, chaussure, parfun",
+                    "theme": "mode",
+                    "society": "Boss entreprise",
+                    "function": "Boutique",
+                    "website": null,
+                    "twitter": null,
+                    "facebook": null,
+                    "snapchat": null,
+                    "instagram": null,
+                    "userPicture": null,
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                }
+            ],
+            "listOffreTendances": [
+                {
+                    'id': 1,
+                    'pseudo': 'jordan',
+                    'userType': 'shop',
+                    'full_name': 'jordan mick',
+                    'email': 'jordan@jordan.com',
+                    'phone': '0102030405',
+                    'postal': '75001',
+                    'city': 'Paris',
+                    'theme': 'sport',
+                    'sexe': 'male',
+                    'pinterest': null,
+                    'twitch': null,
+                    'youtube': null,
+                    'facebook': null,
+                    'twitter': null,
+                    'snapchat': null,
+                    'instagram': null,
+                    'userDescription': '',
+                    "userPicture": [
+                        {
+                            "idLink": "51",
+                            "imageName": "51_Boss",
+                            "imageData": "https://cdn.myanimelist.net/images/userimages/5177116.webp?t=1594818600"
+                        }
+                    ],
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                },
+                {
+                    "id": 51,
+                    "pseudo": "Boss",
+                    "userType": "shop",
+                    "full_name": "Hugo Boss",
+                    "email": "hugo-boss@boss.com",
+                    "phone": "0145323412",
+                    "postal": "75001",
+                    "city": "Paris",
+                    "userDescription": "Magasin de vetement, chaussure, parfun",
+                    "theme": "mode",
+                    "society": "Boss entreprise",
+                    "function": "Boutique",
+                    "website": null,
+                    "twitter": null,
+                    "facebook": null,
+                    "snapchat": null,
+                    "instagram": null,
+                    "userPicture": null,
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                }
+            ]
+            });
+    }
+    else {
+        res.status(200).json({
+            "listInfPopulaires": [
+                {
+                    'id': 1,
+                    'pseudo': 'jordan',
+                    'userType': 'shop',
+                    'full_name': 'jordan mick',
+                    'email': 'jordan@jordan.com',
+                    'phone': '0102030405',
+                    'postal': '75001',
+                    'city': 'Paris',
+                    'theme': 'sport',
+                    'sexe': 'male',
+                    'pinterest': null,
+                    'twitch': null,
+                    'youtube': null,
+                    'facebook': null,
+                    'twitter': null,
+                    'snapchat': null,
+                    'instagram': null,
+                    'userDescription': '',
+                    "userPicture": [
+                        {
+                            "idLink": "51",
+                            "imageName": "51_Boss",
+                            "imageData": "https://cdn.myanimelist.net/images/userimages/5177116.webp?t=1594818600"
+                        }
+                    ],
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                },
+                {
+                    "id": 51,
+                    "pseudo": "Boss",
+                    "userType": "shop",
+                    "full_name": "Hugo Boss",
+                    "email": "hugo-boss@boss.com",
+                    "phone": "0145323412",
+                    "postal": "75001",
+                    "city": "Paris",
+                    "userDescription": "Magasin de vetement, chaussure, parfun",
+                    "theme": "mode",
+                    "society": "Boss entreprise",
+                    "function": "Boutique",
+                    "website": null,
+                    "twitter": null,
+                    "facebook": null,
+                    "snapchat": null,
+                    "instagram": null,
+                    "userPicture": null,
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                }
+            ],
+            "listInfNotes": [
+                {
+                    'id': 1,
+                    'pseudo': 'jordan',
+                    'userType': 'shop',
+                    'full_name': 'jordan mick',
+                    'email': 'jordan@jordan.com',
+                    'phone': '0102030405',
+                    'postal': '75001',
+                    'city': 'Paris',
+                    'theme': 'sport',
+                    'sexe': 'male',
+                    'pinterest': null,
+                    'twitch': null,
+                    'youtube': null,
+                    'facebook': null,
+                    'twitter': null,
+                    'snapchat': null,
+                    'instagram': null,
+                    'userDescription': '',
+                    "userPicture": [
+                        {
+                            "idLink": "51",
+                            "imageName": "51_Boss",
+                            "imageData": "https://cdn.myanimelist.net/images/userimages/5177116.webp?t=1594818600"
+                        }
+                    ],
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                },
+                {
+                    "id": 51,
+                    "pseudo": "Boss",
+                    "userType": "shop",
+                    "full_name": "Hugo Boss",
+                    "email": "hugo-boss@boss.com",
+                    "phone": "0145323412",
+                    "postal": "75001",
+                    "city": "Paris",
+                    "userDescription": "Magasin de vetement, chaussure, parfun",
+                    "theme": "mode",
+                    "society": "Boss entreprise",
+                    "function": "Boutique",
+                    "website": null,
+                    "twitter": null,
+                    "facebook": null,
+                    "snapchat": null,
+                    "instagram": null,
+                    "userPicture": null,
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                }
+            ],
+            "listInfTendances": [
+                {
+                    'id': 1,
+                    'pseudo': 'jordan',
+                    'userType': 'shop',
+                    'full_name': 'jordan mick',
+                    'email': 'jordan@jordan.com',
+                    'phone': '0102030405',
+                    'postal': '75001',
+                    'city': 'Paris',
+                    'theme': 'sport',
+                    'sexe': 'male',
+                    'pinterest': null,
+                    'twitch': null,
+                    'youtube': null,
+                    'facebook': null,
+                    'twitter': null,
+                    'snapchat': null,
+                    'instagram': null,
+                    'userDescription': '',
+                    "userPicture": [
+                        {
+                            "idLink": "51",
+                            "imageName": "51_Boss",
+                            "imageData": "https://cdn.myanimelist.net/images/userimages/5177116.webp?t=1594818600"
+                        }
+                    ],
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                },
+                {
+                    "id": 51,
+                    "pseudo": "Boss",
+                    "userType": "shop",
+                    "full_name": "Hugo Boss",
+                    "email": "hugo-boss@boss.com",
+                    "phone": "0145323412",
+                    "postal": "75001",
+                    "city": "Paris",
+                    "userDescription": "Magasin de vetement, chaussure, parfun",
+                    "theme": "mode",
+                    "society": "Boss entreprise",
+                    "function": "Boutique",
+                    "website": null,
+                    "twitter": null,
+                    "facebook": null,
+                    "snapchat": null,
+                    "instagram": null,
+                    "userPicture": null,
+                    "average": null,
+                    "comment": [],
+                    "mark": []
+                }
+            ]
+        });
+    }
 }
 
 function follow(req, res, next) {
