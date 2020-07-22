@@ -502,6 +502,38 @@
         }
       }
     },
+    "/user/suggestion": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "renvoie des 5 premiers user avec le meme theme",
+        "description": "renvoie des 5 premiers user avec le meme theme",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShopResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
     "/user/search": {
       "post": {
         "tags": [
@@ -1567,6 +1599,84 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/offer/sharePublication/{id}": {
+      "post": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Cette request prend en params l'id de l'offre et prend en body les url des lien de post des inf sur les reseau sociaux. Par la suite un mail est envoyer au shop avec les lien de ces post sur le/les reseaux.",
+        "description": "Cette request prend en params l'id de l'offre et prend en body les url des lien de post des inf sur les reseau sociaux. Par la suite un mail est envoyer au shop avec les lien de ces post sur le/les reseaux.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "instagram" : {
+                    "type": "string"
+                  },
+                  "facebook" : {
+                    "type": "string"
+                  },
+                  "snapchat": {
+                    "type": "string"
+                  },
+                  "twitter" : {
+                    "type": "string"
+                  },
+                  "youtube" : {
+                    "type": "string"
+                  },
+                  "pinterest" : {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "instagram": "https://www.instagram.com/p/CBvQj9aK8Bp/?utm_source=ig_web_copy_link",
+                "facebook": "https://www.facebook.com/Crunchyroll/posts/10158123941164340"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Share Success"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Email non reconnu": {
+                    "value": {
+                      "code": 400,
+                      "message": "Adresse mail non existante"
+                    }
+                  },
+                  "Mauvais token": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais reset token"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
