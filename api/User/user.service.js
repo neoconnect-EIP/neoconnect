@@ -8,6 +8,8 @@ const   db = require("../_helpers/db"),
         fetch = require("../utils/fetch"),
         validation = require("../utils/validation"),
         utils = require("../utils/themeSelection"),
+        statService = require("../Stat/stat.service"),
+        commentService = require("../CommentMark/commentMark.service");
         UploadImage = require("../UploadImage/uploadImage.service");
 
 //Vérifie que le shop existe dans la bdd
@@ -103,6 +105,7 @@ async function searchUser(req) {
     });
     return (list);
 }
+
 async function reportUser(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
@@ -171,6 +174,45 @@ async function deleteUser(req) {
     } else {
         return ({status: "400", message: "Utilisateur introuvable"});
     }
+}
+
+async function userSuggestion(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
+    let user;
+    if (userType === 'influencer')
+        user = await Inf.findOne({
+        where: { id: userId},
+        attributes: ['theme']});
+    else
+        user = await Shop.findOne({
+            where: { id: userId},
+            attributes: ['theme']});
+
+    let list;
+    if (userType === 'influencer') {
+        list = await Shop.findAll({
+            where: {theme: user.theme},
+            attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
+                'society', 'function', 'userDescription', 'website', 'twitter', 'facebook', 'snapchat', 'instagram'],
+            limit: 5
+        });
+    } else {
+        list = await Inf.findAll({
+            where: {theme: user.theme},
+            attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
+                'facebook', 'sexe', 'pinterest', 'twitch', 'youtube', 'twitter', 'snapchat', 'instagram', 'userDescription'],
+            limit: 5
+        });
+    }
+    if (list.length === 0)
+        return ({status: 400, message: "No Data"});
+    let newList = await UploadImage.regroupImageData(list, 'User');
+    for(let i = 0; i < newList.length; i++) {
+        newList[i].dataValues.average = await statService.getMarkAverageUser(`${newList[i].id}`);
+        newList[i].dataValues.comment = await commentService.getCommentByUserId(`${newList[i].id}`);
+    }
+    return ({status: 200, message:newList});
 }
 
 async function getProfile(id) {
@@ -333,6 +375,7 @@ module.exports = {
     searchUser,
     reportUser,
     deleteUser,
+    userSuggestion,
     registerInf,
     registerShop,
     getProfile

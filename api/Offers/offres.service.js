@@ -27,7 +27,8 @@ module.exports = {
     getApplyOffer,
     getApplyUser,
     shareOffer,
-    reportOffer
+    reportOffer,
+    sharePublication
 };
 
 async function paramOffer(req) {
@@ -227,6 +228,8 @@ async function apply(req) {
     });
     if (user === null || offer === null)
         return ({status: 400, message: "Bad Request, Offer doesn't exist"});
+    if (await OfferApply.findOne({where: {idUser: userId, idOffer: req.params.id}}))
+        return ({status: 400, message: "Bad Request, your already apply to this offer"});
     const apply = await OfferApply.create({
        idUser: userId,
        idOffer: req.params.id
@@ -266,6 +269,10 @@ async function getApplyOffer(req) {
     let apply = await OfferApply.findAll({
         where: {idOffer: req.params.id}
     });
+    for (let i = 0; i < apply.length; i++) {
+        let user = await User.findOne({where: {id: apply[i]['idUser']}});
+        apply[i].dataValues['pseudoUser'] = user.pseudo;
+    }
     return ({status: 200, message: apply});
 }
 
@@ -284,7 +291,7 @@ async function getApplyUser(req) {
        apply[i].dataValues.brand = offer.brand;
        apply[i].dataValues.emailShop = shop.email;
     }
-    return (apply);
+    return ({status: 200, message: apply});
 }
 
 async function shareOffer(req) {
@@ -379,4 +386,55 @@ async function reportOffer(req) {
         }
     });
     return ({status: 200, message: "Signalement envoyé pour l'id " + offerReported.id});
+}
+
+async function sharePublication(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    if (req.body === undefined || req.params.id === undefined)
+        return ({status: 400, message: "Bad Request, Please give a id"});
+    let offer = await Offer.findOne({
+        where: {id: req.params.id}
+    });
+    if (offer === null)
+        return ({status: 400, message: "Bad Request, id is invalid"});
+    let shop = await Shop.findOne({
+        where: {id: offer.idUser}
+    });
+    if (shop.email === null)
+        return ({status: 400, message: "Bad Request, Shop has no email"});
+    let user = await User.findOne({
+        where: {id: userId}
+    });
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'contact.neoconnect@gmail.com',
+            pass: 'neo!support123'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+    var mailOptions = {
+        from: "NeoConnect",
+        to: shop.email,
+        subject: `Share Offer by ${user.pseudo}`,
+        text: "Voici les liens de partage de l'influencer\n" +
+            `facebook : ${req.body.facebook}\n` +
+            `twitter : ${req.body.twitter}\n` +
+            `instagram : ${req.body.instagram}\n` +
+            `pinterest : ${req.body.pinterest}\n` +
+            `twitch : ${req.body.twitch}\n` +
+            `youtube : ${req.body.youtube}\n` +
+            `tiktok : ${req.body.tiktok}`
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log("Error :", error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+    return ({status: 200, message: "Share success"});
 }
