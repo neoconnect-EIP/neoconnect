@@ -360,7 +360,7 @@ async function reportOffer(req) {
         });
         if (offerReported === null)
         return ({status: 400, message: "Bad Request: ID inexistant"});
-    const { offerName, message} = req.body;
+    const { offerName, subject,  message} = req.body;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -375,7 +375,7 @@ async function reportOffer(req) {
         from: "NeoConnect",
         to: 'contact.neoconnect@gmail.com',
         subject: "Signalement d'une offre",
-        text: "Signalement de l'offre " + offerName + "\n" + "Message: " + message
+        text: "Signalement de l'offre " + offerName + "\n" + "Sujet: " + subject +  "\n" + "Message: " + message
     };
 
     transporter.sendMail(mailOptions, function(error, info){

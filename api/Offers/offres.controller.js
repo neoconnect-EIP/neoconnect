@@ -10,12 +10,12 @@ router.put("/offer/:id", update);
 router.delete("/offer/:id", _delete);
 router.put("/offer/apply/:id", apply);
 router.delete("/offer/noapply/:id", removeApply);
-router.get("/offer/apply/offer/:id", getApplyOffer);
-router.get("/offer/apply/user/:id", getApplyUser);
 router.post("/offer/share/:id", shareOffer);
 router.post("/offer/report/:id", reportOffer);
 router.post("/offer/sharePublication/:id", sharePublication);
 
+router.get("/offer/apply/:id", getApplyOffer);
+router.get("/inf/offer/applied/:id", getApplyUser);
 
 module.exports = router;
 
