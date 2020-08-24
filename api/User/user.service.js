@@ -82,30 +82,6 @@ async function verifyUser(params) {
     return (undefined)
 }
 
-async function searchUser(req) {
-    let headerAuth = req.headers['authorization'];
-    let userId = jwtUtils.getUserId(headerAuth);
-    if (userId < 0)
-        return (undefined);
-
-     list = await Inf.findOne({
-        where: { pseudo: req.body.pseudo},
-        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
-    });
-    if (list === null)
-        list = await Shop.findOne({
-            where: { pseudo: req.body.pseudo},
-            attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
-        });
-    if (list === null)
-        return (undefined);
-    list.userPicture = await UploadImage.getImage({
-        idLink: list.id.toString(),
-        type: 'User'
-    });
-    return (list);
-}
-
 async function reportUser(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
@@ -372,7 +348,6 @@ async function registerShop(params) {
 
 module.exports = {
     login,
-    searchUser,
     reportUser,
     deleteUser,
     userSuggestion,
