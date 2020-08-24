@@ -534,12 +534,76 @@
         }
       }
     },
-    "/user/search": {
+    "/inf/search": {
       "post": {
         "tags": [
-          "User"
+          "Influencers"
         ],
-        "summary": "Search for Users related to a keyword",
+        "summary": "Search for Influencer related to a keyword",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pseudo": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "pseudo": "jordan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Parameters": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais paramètre"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/shop/search": {
+      "post": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "Search for Shop related to a keyword",
         "parameters": [
           {
             "$ref": "#/components/parameters/Header"

@@ -112,9 +112,29 @@ async function listInf(req) {
     return ({status: 200, message:newList});
 }
 
+async function searchShop(req) {
+    let headerAuth = req.headers['authorization'];
+    let userId = jwtUtils.getUserId(headerAuth);
+    if (userId < 0)
+        return (undefined);
+
+    list = await Shop.findOne({
+        where: { pseudo: req.body.pseudo},
+        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
+    });
+    if (list === null)
+        return (undefined);
+    list.userPicture = await UploadImage.getImage({
+        idLink: list.id.toString(),
+        type: 'User'
+    });
+    return (list);
+}
+
 module.exports = {
     getMyProfile,
     getUserProfile,
     modifyUserProfile,
-    listInf
+    listInf,
+    searchShop
 };
