@@ -534,12 +534,76 @@
         }
       }
     },
-    "/user/search": {
+    "/inf/search": {
       "post": {
         "tags": [
-          "User"
+          "Influencers"
         ],
-        "summary": "Search for Users related to a keyword",
+        "summary": "Search for Influencer related to a keyword",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pseudo": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "pseudo": "jordan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Parameters": {
+                    "value": {
+                      "code": 400,
+                      "message": "Mauvais paramètre"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/shop/search": {
+      "post": {
+        "tags": [
+          "Shop"
+        ],
+        "summary": "Search for Shop related to a keyword",
         "parameters": [
           {
             "$ref": "#/components/parameters/Header"
@@ -641,6 +705,68 @@
                     "value": {
                       "code": 400,
                       "message": "Erreur dans un champ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/report/{id}": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Report a user",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportRequest"
+              },
+              "example": {
+                "pseudo": "Sardoche",
+                "subject": "subject mail",
+                "message": "Message Mail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
                     }
                   }
                 }
@@ -807,7 +933,7 @@
         }
       }
     },
-    "/inf/offers/{id}": {
+    "/inf/offer/applied/{id}": {
       "get": {
         "tags": [
           "Influencers"
@@ -1013,10 +1139,10 @@
         }
       }
     },
-    "/shop/offers/{id}": {
+    "/offer/shop/{id}": {
       "get": {
         "tags": [
-          "Shop"
+          "Offers"
         ],
         "summary": "Get Offers Added by a Shop",
         "parameters": [
@@ -1617,22 +1743,22 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "instagram" : {
+                  "instagram": {
                     "type": "string"
                   },
-                  "facebook" : {
+                  "facebook": {
                     "type": "string"
                   },
                   "snapchat": {
                     "type": "string"
                   },
-                  "twitter" : {
+                  "twitter": {
                     "type": "string"
                   },
-                  "youtube" : {
+                  "youtube": {
                     "type": "string"
                   },
-                  "pinterest" : {
+                  "pinterest": {
                     "type": "string"
                   }
                 }
@@ -1677,6 +1803,170 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/offer/report/{id}": {
+      "post": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Report an offer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idOffer"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportRequest"
+              },
+              "example": {
+                "offerName": "Offer name",
+                "subject": "subject mail",
+                "message": "Message Mail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/offer/noapply/{id}": {
+      "delete": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Remove apply from offer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idOffer"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/offer/share/{id}": {
+      "post": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Share offer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idOffer"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ID"
+              },
+              "example": {
+                "userId": 2
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -2194,10 +2484,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "userId" : {
+                  "userId": {
                     "type": "string"
                   },
-                  "idOffer" : {
+                  "idOffer": {
                     "type": "string"
                   },
                   "choice": {
@@ -2259,22 +2549,22 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "instagram" : {
+                  "instagram": {
                     "type": "string"
                   },
-                  "facebook" : {
+                  "facebook": {
                     "type": "string"
                   },
                   "snapchat": {
                     "type": "string"
                   },
-                  "twitter" : {
+                  "twitter": {
                     "type": "string"
                   },
-                  "youtube" : {
+                  "youtube": {
                     "type": "string"
                   },
-                  "pinterest" : {
+                  "pinterest": {
                     "type": "string"
                   }
                 }
@@ -2973,6 +3263,20 @@
           }
         }
       },
+      "ReportRequest": {
+        "type": "object",
+        "properties": {
+          "pseudo": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
       "ForgetPasswordRequest": {
         "type": "object",
         "properties": {
@@ -3081,8 +3385,8 @@
             "type": "integer"
           },
           "user_1": {
-              "type": "string"
-            },
+            "type": "string"
+          },
           "user_2": {
             "type": "string"
           },

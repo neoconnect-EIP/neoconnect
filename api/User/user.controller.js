@@ -3,12 +3,10 @@ const   express = require("express"),
         userService = require("./user.service");
 
 router.post("/login", login);
-router.post("/user/search", searchUser);
 router.post("/user/report/:id", reportUser);
 router.delete("/user/delete", deleteUser);
 
 router.get("/user/suggestion", userSuggestion);
-
 
 router.post("/inf/register", registerInf);
 router.post("/shop/register", registerShop);
@@ -22,16 +20,6 @@ function login(req, res, next) {
         .then(user => {
             res.status(user.status).json(user.message);
         })
-        .catch(err => next(err));        
-}
-function searchUser(req, res, next) {
-    userService
-        .searchUser(req)
-        .then(user =>
-            user
-                ? res.json(user).status(204)
-                : res.status(400).json({ message: "User can't be searched" })
-                )
         .catch(err => next(err));        
 }
 

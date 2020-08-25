@@ -32,52 +32,26 @@ module.exports = {
 };
 
 async function paramOffer(req) {
-    let value = Object.entries(req.query)[0][1];
-    let field = Object.entries(req.query)[0][0];
     let list = undefined;
-    if (field === 'productSex') {
+    if (req.hasOwnProperty('order')) {
+        var orderValue = req['order'];
+        delete req['order'];
         list = await Offer.findAll({
-            where: {
-                productSex: value
-            }
-        });
-    }
-    else if (field === 'brand') {
+            order: [['updatedAt', orderValue]],
+            where: req
+        })
+    } else {
         list = await Offer.findAll({
-            where: {
-                brand: value
-            }
-        });
-    }
-    else if (field === 'color') {
-        list = await Offer.findAll({
-            where: {
-                color: value
-            }
-        });
-    }
-    else if (field === 'order') {
-        if (value === 'desc') {
-            list = await Offer.findAll({
-                order: [['updatedAt', 'DESC']]
-            });
-        }
-        else {
-            list = await Offer.findAll({
-                order: [['updatedAt', 'ASC']]
-            });
-        }
-    }
-    else {
-        list = await Offer.findAll();
+            where: req
+        })
     }
     return (list)
 }
 
 async function getAll(req) {
     let list = undefined;
-    if (Object.entries(req.query).length !== 0 && Object.entries(req.query).length !== 2)
-        list = await paramOffer(req);
+    if (Object.keys(req.query).length !== 0)
+        list = await paramOffer(req.query);
     else
         list = await Offer.findAll();
     let newList = await GetImage.regroupImageData(list, 'Offer');
@@ -360,7 +334,7 @@ async function reportOffer(req) {
         });
         if (offerReported === null)
         return ({status: 400, message: "Bad Request: ID inexistant"});
-    const { offerName, message} = req.body;
+    const { offerName, subject,  message} = req.body;
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -375,7 +349,7 @@ async function reportOffer(req) {
         from: "NeoConnect",
         to: 'contact.neoconnect@gmail.com',
         subject: "Signalement d'une offre",
-        text: "Signalement de l'offre " + offerName + "\n" + "Message: " + message
+        text: "Signalement de l'offre " + offerName + "\n" + "Sujet: " + subject +  "\n" + "Message: " + message
     };
 
     transporter.sendMail(mailOptions, function(error, info){
