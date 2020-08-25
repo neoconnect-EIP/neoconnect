@@ -6,10 +6,14 @@ const router = express.Router();
 router.get("/actuality", actuality);
 
 router.post("/follow/:id", follow);
+
+//DONE
 router.get("/suggestion", getSuggestion);
 
 //Faire ces 2 request avant mardi
 router.post("/choiceApply", choiceApply);
+
+//DONE
 router.post("/sharePublication/:id", sharePublication);
 
 
@@ -646,7 +650,7 @@ function sharePublication(req, res, next) {
 
 function suggestionOffre(req, res, next) {
 
-    // renvoie des 5 premier offre avec le meme theme et  productSubject que le user.
+    // renvoie des 5 premier offre avec le meme theme (user) et productSubject (offre).
 
     res.status(200).json([
         {

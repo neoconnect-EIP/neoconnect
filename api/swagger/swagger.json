@@ -1291,6 +1291,38 @@
         }
       }
     },
+    "/offer/suggestion": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "renvoie des 5 premieres Offres avec le meme theme user et ProductSubject offre",
+        "description": "renvoie des 5 premieres Offres avec le meme theme user et ProductSubject offre",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfferResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
     "/offer/{id}": {
       "get": {
         "tags": [

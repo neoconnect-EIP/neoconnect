@@ -28,7 +28,8 @@ module.exports = {
     getApplyUser,
     shareOffer,
     reportOffer,
-    sharePublication
+    sharePublication,
+    offerSuggestion
 };
 
 async function paramOffer(req) {
@@ -411,4 +412,33 @@ async function sharePublication(req) {
         }
     });
     return ({status: 200, message: "Share success"});
+}
+
+async function offerSuggestion(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
+    let user;
+    if (userType === 'influencer')
+        user = await User.findOne({
+            where: { id: userId},
+            attributes: ['theme']});
+    else
+        user = await Shop.findOne({
+            where: { id: userId},
+            attributes: ['theme']});
+
+    let list;
+
+    list = await Offer.findAll({
+        where: {productSubject : user.theme},
+        limit: 5
+    });
+    if (list.length === 0)
+        return ({status: 400, message: "No Data"});
+    let newList = await GetImage.regroupImageData(list, 'Offer');
+    for(let i = 0; i < newList.length; i++) {
+        newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
+        newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
+    }
+    return ({status: 200, message: newList});
 }
