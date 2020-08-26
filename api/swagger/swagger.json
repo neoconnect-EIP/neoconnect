@@ -52,6 +52,10 @@
       "description": "Send Messsage to other users"
     },
     {
+      "name": "Follow",
+      "description": "Route pour follow des boutique en tant que influenceur"
+    },
+    {
       "name": "Mooc",
       "description": "Exemple route for the current sprint"
     }
@@ -2370,6 +2374,229 @@
         }
       }
     },
+    "/shop/follow/{id}": {
+      "put": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "Permet de follow un shop et de recevoir des mails a chaque nouvelle offre cree",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Follow Success"
+          },
+          "400": {
+            "description": "Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "Permet de recuperer la liste des followers du shop",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "liste des followers du Shop",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "number"
+                    },
+                    "idFollow": {
+                      "type": "number"
+                    },
+                    "id": {
+                      "type": "number"
+                    },
+                    "pseudo": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/shop/unfollow/{id}": {
+      "put": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "Permet de unfollow un shop et de ne plus recevoir des mails a chaque nouvelle offre cree",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unfollow Success"
+          },
+          "400": {
+            "description": "Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/follow": {
+      "get": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "Permet de recuperer la liste des shop follow par l'influencer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "liste des follow de l'influencer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "number"
+                    },
+                    "idFollow": {
+                      "type": "number"
+                    },
+                    "id": {
+                      "type": "number"
+                    },
+                    "pseudo": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
     "/mooc/actuality": {
       "get": {
         "tags": [
@@ -3445,12 +3672,12 @@
                   }
                 }
               }
-          },
-          "createdAt": {
-            "type": "date"
-          },
-          "updatedAt": {
-            "type": "date"
+            },
+            "createdAt": {
+              "type": "date"
+            },
+            "updatedAt": {
+              "type": "date"
             }
           }
         }

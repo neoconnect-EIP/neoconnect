@@ -5,6 +5,7 @@ const   jwt = require("jsonwebtoken"),
     	Shop = db.Shop,
         User = db.Influencer,
         OfferApply = db.OfferApply,
+        Follow = db.Follow,
         config = require("../config"),
 		jwtUtils = require("../utils/jwt.utils"),
         UploadImage = require("../UploadImage/uploadImage.service"),
@@ -119,6 +120,7 @@ async function insert(req) {
         brand: req.body.brand,
         color: req.body.color
 	});
+    sendMailToFollowersOfShop(userId);
     if (req.body.productImg === undefined || isJson(req.body.productImg))
         return ({status: 200, message: user.get( { plain: true } )});
     const imageData = await UploadImage.uploadImage({
@@ -324,6 +326,7 @@ async function shareOffer(req) {
     });
     return ({status: 200, message: "Offre partagée"});
 }
+
 async function reportOffer(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
@@ -441,4 +444,48 @@ async function offerSuggestion(req) {
         newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
     }
     return ({status: 200, message: newList});
+}
+
+async function sendMailToFollowersOfShop(idShop) {
+    let follow = await Follow.findAll({
+        where: { idFollow: idShop},
+        attributes: ['idUser', 'idFollow']
+    });
+    if (follow === null || follow.length === 0)
+        return (true);
+    for (let i = 0; i < follow.length; i++) {
+        let tmp = await User.findOne({where:{id: follow[i].idUser}, attributes: ['email']});
+        follow[i].dataValues.email = tmp.dataValues.email;
+    }
+    let shop = await Shop.findOne({where:{id: idShop}, attributes: ['email', 'pseudo']});
+    for (let i = 0; i < follow.length; i++) {
+        if (follow[i].dataValues.email !== null) {
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'contact.neoconnect@gmail.com',
+                    pass: 'neo!support123'
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
+            });
+            let mailOptions = {
+                from: "NeoConnect",
+                to: follow[i].dataValues.email,
+                subject: `Nouvelle offre de ${shop.dataValues.pseudo}`,
+                text: `L'utilisateur ${shop.dataValues.pseudo} vient de poster une nouvelle Offre\n` +
+                    `Venez vite sur notre site pour en prendre connaissance`
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log("Error :", error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+        }
+    }
+    return (true);
 }

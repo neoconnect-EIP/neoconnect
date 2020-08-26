@@ -5,18 +5,19 @@ const router = express.Router();
 
 router.get("/actuality", actuality);
 
+//Done
 router.post("/follow/:id", follow);
 
 //DONE
 router.get("/suggestion", getSuggestion);
 
-//Faire ces 2 request avant mardi
+
 router.post("/choiceApply", choiceApply);
 
 //DONE
 router.post("/sharePublication/:id", sharePublication);
 
-
+//Done
 router.get("/suggestionOffer", suggestionOffre);
 
 module.exports = router;
