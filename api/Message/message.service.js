@@ -3,6 +3,7 @@ const   db = require("../_helpers/db"),
     Shop = db.Shop,
     Message = db.Message,
     jwtUtils = require("../utils/jwt.utils"),
+    GetImage = require("../UploadImage/uploadImage.service"),
     validation = require('../utils/validation');
 
 async function get(req) {
@@ -20,9 +21,21 @@ async function get(req) {
         let userPseudo = message[i].user_1;
         if (message[i].user_1 === userId.toString())
             userPseudo = message[i].user_2;
-        message[i].dataValues.pseudo = (await User.findOne({where: {id: userPseudo}, attributes: ['pseudo']})).pseudo;
-        if (!message[i].dataValues.pseudo)
-            message[i].dataValues.pseudo = (await Shop.findOne({where: {id: userPseudo}, attributes: ['pseudo']})).pseudo;
+        let user = (await User.findOne({where: {id: userPseudo}, attributes: ['id', 'pseudo']}));
+        if (user != null) {
+            message[i].dataValues.pseudo = user.pseudo;
+            message[i].dataValues.userPicture = await GetImage.getImage({
+                idLink: user.id.toString(),
+                type: 'User'
+            });
+        } else {
+            user = await Shop.findOne({where: {id: userPseudo}, attributes: ['id', 'pseudo']});
+            message[i].dataValues.pseudo = user.pseudo;
+            message[i].dataValues.userPicture = await GetImage.getImage({
+                idLink: user.id.toString(),
+                type: 'User'
+            });
+        }   
     }
     return ({status: 200, message: message});
 }
