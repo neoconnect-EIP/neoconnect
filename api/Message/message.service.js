@@ -46,7 +46,7 @@ async function getById(id) {
     let chan = await Message.findOne({where: {id: id}});
     if (!chan)
         return ({status: 400, message: "No Channel with this id"});
-    chan = JSON.parse(chan.data);
+    chan.data = JSON.parse(chan.data).data;
     return({status: 200, message: chan})
 }
 
