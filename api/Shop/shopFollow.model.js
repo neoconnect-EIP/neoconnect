@@ -1,17 +1,13 @@
 module.exports = (sequelize, Sequelize) =>  {
     return sequelize.define(
-        "OfferApply",
+        "ShopFollow",
         {
             idUser: {
                 type: Sequelize.INTEGER,
                 default: undefined
             },
-            idOffer: {
+            idFollow: {
                 type: Sequelize.INTEGER,
-                default: undefined
-            },
-            status: {
-                type: Sequelize.STRING,
                 default: undefined
             }
         },

@@ -275,7 +275,8 @@ async function registerInf(params) {
             sexe: params.sexe,
             pinterest: params.pinterest,
             twitch: params.twitch,
-            youtube: params.youtube
+            youtube: params.youtube,
+            visitNumber: 0
         });
     if (params.userPicture !== undefined) {
         const imageData = await UploadImage.uploadImage({
@@ -328,7 +329,8 @@ async function registerShop(params) {
         facebook: params.facebook,
         twitter: params.twitter,
         snapchat: params.snapchat,
-        instagram: params.instagram
+        instagram: params.instagram,
+        visitNumber: 0
     });
     if (params.userPicture !== undefined) {
         const imageData = await UploadImage.uploadImage({

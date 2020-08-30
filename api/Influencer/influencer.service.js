@@ -32,13 +32,15 @@ async function getMyProfile(req) {
 async function getUserProfile(req) {
     if (req.params === undefined || req.params.id === undefined)
         return ({status: 400, message: "Bad Request, Please give a id"});
-    const list = await User.findOne({
+    let list = await User.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-           'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription']
+           'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription', 'visitNumber']
     });
     if (list === null)
         return ({status: 400, message: "Bad Request, User doesn't exist"});
+    list["visitNumber"] = list.visitNumber + 1;
+    list.save().then(() => {});
     list.userPicture = await GetImage.getImage({
         idLink: req.params.id.toString(),
         type: 'User'

@@ -5,6 +5,7 @@ const   jwt = require("jsonwebtoken"),
     	Shop = db.Shop,
         User = db.Influencer,
         OfferApply = db.OfferApply,
+        Follow = db.Follow,
         config = require("../config"),
 		jwtUtils = require("../utils/jwt.utils"),
         UploadImage = require("../UploadImage/uploadImage.service"),
@@ -28,7 +29,9 @@ module.exports = {
     getApplyUser,
     shareOffer,
     reportOffer,
-    sharePublication
+    sharePublication,
+    offerSuggestion,
+    chooseApply
 };
 
 async function paramOffer(req) {
@@ -70,6 +73,8 @@ async function getById(req) {
     });
     if (user === null)
         return ({status: 400, message: "Bad id, Offer doesn't exist"});
+    user["visitNumber"] = user.visitNumber + 1;
+    user.save().then(() => {});
     const dataImage = await GetImage.getImage({
         idLink: user.id.toString(),
         type: 'Offer'
@@ -116,8 +121,10 @@ async function insert(req) {
 		productDesc: req.body.productDesc,
 		productSubject: req.body.productSubject,
         brand: req.body.brand,
-        color: req.body.color
+        color: req.body.color,
+        visitNumber: 0
 	});
+    sendMailToFollowersOfShop(userId);
     if (req.body.productImg === undefined || isJson(req.body.productImg))
         return ({status: 200, message: user.get( { plain: true } )});
     const imageData = await UploadImage.uploadImage({
@@ -206,7 +213,8 @@ async function apply(req) {
         return ({status: 400, message: "Bad Request, your already apply to this offer"});
     const apply = await OfferApply.create({
        idUser: userId,
-       idOffer: req.params.id
+       idOffer: req.params.id,
+        status: 'pending'
     });
 
     return ({status:200, message:offer.get( { plain: true } )});
@@ -268,6 +276,78 @@ async function getApplyUser(req) {
     return ({status: 200, message: apply});
 }
 
+async function chooseApply(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
+    if (userType !== 'shop')
+        return ({status: 400, message: "Bad Request, Only for Shop"});
+    if (req.body.idUser === undefined || req.body.idOffer === undefined || req.body.status === undefined)
+        return ({status: 400, message: "Bad Request, please Put idUser, idOffer and status in body"});
+    if (req.body.status !== true && req.body.status !== false)
+        return ({status: 400, message: "Bad Request, Bad field status"});
+    let offer = await Offer.findOne({
+        where: {
+            idUser : userId,
+            id: req.body.idOffer
+        }
+    });
+    if (offer === null)
+        return ({status: 400, message: "Bad Request, No authorized"});
+    let apply = await OfferApply.findOne({
+        where: {
+            idUser: req.body.idUser,
+            idOffer: req.body.idOffer,
+            status: 'pending'
+        }
+    });
+    if (apply === null)
+        return ({status: 400, message: "Bad Request, No apply"});
+    let status;
+    if (req.body.status === true)
+        status = 'accepted';
+    else
+        status = 'refused';
+    apply["status"] = status;
+    apply.save().then(() => {});
+
+    let inf = await User.findOne({
+        where: {
+            id: req.body.idUser
+        }
+    });
+    if (inf["email"] === undefined)
+        return ({status: 200, message: "Success"});
+
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'contact.neoconnect@gmail.com',
+            pass: 'neo!support123'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+    var mailOptions = {
+        from: "NeoConnect",
+        to: inf["email"],
+        subject: `Offer apply ${status}`,
+        text: `Votre inscription a l'offre ${offer['productName']} a ete ${status}`
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log("Error :", error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+    return ({status: 200, message: "Success"});
+
+
+}
+
 async function shareOffer(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
@@ -323,6 +403,7 @@ async function shareOffer(req) {
     });
     return ({status: 200, message: "Offre partagée"});
 }
+
 async function reportOffer(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
@@ -411,4 +492,77 @@ async function sharePublication(req) {
         }
     });
     return ({status: 200, message: "Share success"});
+}
+
+async function offerSuggestion(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
+    let user;
+    if (userType === 'influencer')
+        user = await User.findOne({
+            where: { id: userId},
+            attributes: ['theme']});
+    else
+        user = await Shop.findOne({
+            where: { id: userId},
+            attributes: ['theme']});
+
+    let list;
+
+    list = await Offer.findAll({
+        where: {productSubject : user.theme},
+        limit: 5
+    });
+    if (list.length === 0)
+        return ({status: 400, message: "No Data"});
+    let newList = await GetImage.regroupImageData(list, 'Offer');
+    for(let i = 0; i < newList.length; i++) {
+        newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
+        newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
+    }
+    return ({status: 200, message: newList});
+}
+
+async function sendMailToFollowersOfShop(idShop) {
+    let follow = await Follow.findAll({
+        where: { idFollow: idShop},
+        attributes: ['idUser', 'idFollow']
+    });
+    if (follow === null || follow.length === 0)
+        return (true);
+    for (let i = 0; i < follow.length; i++) {
+        let tmp = await User.findOne({where:{id: follow[i].idUser}, attributes: ['email']});
+        follow[i].dataValues.email = tmp.dataValues.email;
+    }
+    let shop = await Shop.findOne({where:{id: idShop}, attributes: ['email', 'pseudo']});
+    for (let i = 0; i < follow.length; i++) {
+        if (follow[i].dataValues.email !== null) {
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'contact.neoconnect@gmail.com',
+                    pass: 'neo!support123'
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
+            });
+            let mailOptions = {
+                from: "NeoConnect",
+                to: follow[i].dataValues.email,
+                subject: `Nouvelle offre de ${shop.dataValues.pseudo}`,
+                text: `L'utilisateur ${shop.dataValues.pseudo} vient de poster une nouvelle Offre\n` +
+                    `Venez vite sur notre site pour en prendre connaissance`
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log("Error :", error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+        }
+    }
+    return (true);
 }
