@@ -36,10 +36,12 @@ async function getUserProfile(req) {
     const list = await Shop.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
-            'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
+            'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram', 'visitNumber']
     });
     if (list === null)
         return ({status: 400, message: "Bad Request, User doesn't exist"});
+    list["visitNumber"] = list.visitNumber + 1;
+    list.save().then(() => {});
     list.userPicture = await GetImage.getImage({
         idLink: req.params.id.toString(),
         type: 'User'
@@ -121,12 +123,14 @@ async function searchShop(req) {
     if (userId < 0)
         return (undefined);
 
-    list = await Shop.findOne({
+    let list = await Shop.findOne({
         where: { pseudo: req.body.pseudo},
-        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
+        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone', 'visitNumber']
     });
     if (list === null)
         return (undefined);
+    list["visitNumber"] = list.visitNumber + 1;
+    list.save().then(() => {});
     list.userPicture = await UploadImage.getImage({
         idLink: list.id.toString(),
         type: 'User'
@@ -239,5 +243,6 @@ module.exports = {
     followShop,
     unfollowShop,
     getAllFollow,
-    getMyFollowUps
+    getMyFollowUps,
+    getFollow
 };

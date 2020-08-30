@@ -72,6 +72,8 @@ async function getById(req) {
     });
     if (user === null)
         return ({status: 400, message: "Bad id, Offer doesn't exist"});
+    user["visitNumber"] = user.visitNumber + 1;
+    user.save().then(() => {});
     const dataImage = await GetImage.getImage({
         idLink: user.id.toString(),
         type: 'Offer'
@@ -118,7 +120,8 @@ async function insert(req) {
 		productDesc: req.body.productDesc,
 		productSubject: req.body.productSubject,
         brand: req.body.brand,
-        color: req.body.color
+        color: req.body.color,
+        visitNumber: 0
 	});
     sendMailToFollowersOfShop(userId);
     if (req.body.productImg === undefined || isJson(req.body.productImg))

@@ -56,6 +56,10 @@
       "description": "Route pour follow des boutique en tant que influenceur"
     },
     {
+      "name": "Actuality",
+      "description": "route actuality"
+    },
+    {
       "name": "Mooc",
       "description": "Exemple route for the current sprint"
     }
@@ -2597,6 +2601,37 @@
         }
       }
     },
+    "/actuality": {
+      "get": {
+        "tags": [
+          "Actuality"
+        ],
+        "summary": "Permet de recuperer la liste des actuality",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
     "/mooc/actuality": {
       "get": {
         "tags": [
@@ -3682,20 +3717,80 @@
           }
         }
       },
-      "ChannelRequest": {
+      "actuality": {
         "type": "object",
         "properties": {
-          "userId": {
-            "type": "string"
+          "listShopNotes": {
+            "type": "object",
+            "properties": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+            }
           },
-          "message": {
-            "type": "string"
+          "listShopPopulaire": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "listShopTendance": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "listOfferNotes": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "listOfferPopulaire": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "listOfferTendance": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
           }
-        },
-        "required": [
-          "userId",
-          "message"
-        ]
+        }
       }
     }
   }
