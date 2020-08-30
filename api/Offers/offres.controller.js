@@ -17,6 +17,7 @@ router.post("/offer/sharePublication/:id", sharePublication);
 
 router.get("/offer/apply/:id", getApplyOffer);
 router.get("/inf/offer/applied/:id", getApplyUser);
+router.post("/offer/choiceApply", choiceApply);
 
 module.exports = router;
 
@@ -146,6 +147,15 @@ function sharePublication(req, res, next) {
 function offerSuggestion(req, res, next) {
     offresService
         .offerSuggestion(req)
+        .then(list => {
+            res.status(list.status).json(list.message);
+        })
+        .catch(err => next(err));
+}
+
+function choiceApply(req, res, next) {
+    offresService
+        .chooseApply(req)
         .then(list => {
             res.status(list.status).json(list.message);
         })

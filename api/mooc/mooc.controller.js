@@ -2,7 +2,7 @@ const express = require("express");
 const jwtUtils = require("../utils/jwt.utils");
 const router = express.Router();
 
-
+//Done
 router.get("/actuality", actuality);
 
 //Done

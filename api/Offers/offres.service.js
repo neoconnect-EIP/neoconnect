@@ -30,7 +30,8 @@ module.exports = {
     shareOffer,
     reportOffer,
     sharePublication,
-    offerSuggestion
+    offerSuggestion,
+    chooseApply
 };
 
 async function paramOffer(req) {
@@ -212,7 +213,8 @@ async function apply(req) {
         return ({status: 400, message: "Bad Request, your already apply to this offer"});
     const apply = await OfferApply.create({
        idUser: userId,
-       idOffer: req.params.id
+       idOffer: req.params.id,
+        status: 'pending'
     });
 
     return ({status:200, message:offer.get( { plain: true } )});
@@ -272,6 +274,78 @@ async function getApplyUser(req) {
        apply[i].dataValues.emailShop = shop.email;
     }
     return ({status: 200, message: apply});
+}
+
+async function chooseApply(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
+    if (userType !== 'shop')
+        return ({status: 400, message: "Bad Request, Only for Shop"});
+    if (req.body.idUser === undefined || req.body.idOffer === undefined || req.body.status === undefined)
+        return ({status: 400, message: "Bad Request, please Put idUser, idOffer and status in body"});
+    if (req.body.status !== true && req.body.status !== false)
+        return ({status: 400, message: "Bad Request, Bad field status"});
+    let offer = await Offer.findOne({
+        where: {
+            idUser : userId,
+            id: req.body.idOffer
+        }
+    });
+    if (offer === null)
+        return ({status: 400, message: "Bad Request, No authorized"});
+    let apply = await OfferApply.findOne({
+        where: {
+            idUser: req.body.idUser,
+            idOffer: req.body.idOffer,
+            status: 'pending'
+        }
+    });
+    if (apply === null)
+        return ({status: 400, message: "Bad Request, No apply"});
+    let status;
+    if (req.body.status === true)
+        status = 'accepted';
+    else
+        status = 'refused';
+    apply["status"] = status;
+    apply.save().then(() => {});
+
+    let inf = await User.findOne({
+        where: {
+            id: req.body.idUser
+        }
+    });
+    if (inf["email"] === undefined)
+        return ({status: 200, message: "Success"});
+
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'contact.neoconnect@gmail.com',
+            pass: 'neo!support123'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+    var mailOptions = {
+        from: "NeoConnect",
+        to: inf["email"],
+        subject: `Offer apply ${status}`,
+        text: `Votre inscription a l'offre ${offer['productName']} a ete ${status}`
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log("Error :", error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+    return ({status: 200, message: "Success"});
+
+
 }
 
 async function shareOffer(req) {

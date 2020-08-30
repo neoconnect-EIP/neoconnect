@@ -9,6 +9,10 @@ module.exports = (sequelize, Sequelize) =>  {
             idOffer: {
                 type: Sequelize.INTEGER,
                 default: undefined
+            },
+            status: {
+                type: Sequelize.STRING,
+                default: undefined
             }
         },
         { freezeTableName: true }

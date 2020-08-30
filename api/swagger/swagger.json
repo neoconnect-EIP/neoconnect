@@ -1567,6 +1567,59 @@
         }
       }
     },
+    "/offer/choiceApply": {
+      "post": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "permet au shop d'accepter ou refuser l'apply d'un influencer et de lui envoyer cette reponse par email",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/choiceApply"
+              },
+              "example": {
+                "idUser": "1",
+                "idOffer": "2",
+                "status": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
     "/offer/comment/{id}": {
       "post": {
         "tags": [
@@ -3563,6 +3616,20 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "choiceApply": {
+        "type": "object",
+        "properties": {
+          "idUser": {
+            "type": "string"
+          },
+          "idOffer": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
           }
         }
       },
