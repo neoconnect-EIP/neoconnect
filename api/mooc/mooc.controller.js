@@ -2,17 +2,22 @@ const express = require("express");
 const jwtUtils = require("../utils/jwt.utils");
 const router = express.Router();
 
-
+//Done
 router.get("/actuality", actuality);
 
+//Done
 router.post("/follow/:id", follow);
+
+//DONE
 router.get("/suggestion", getSuggestion);
 
-//Faire ces 2 request avant mardi
+
 router.post("/choiceApply", choiceApply);
+
+//DONE
 router.post("/sharePublication/:id", sharePublication);
 
-
+//Done
 router.get("/suggestionOffer", suggestionOffre);
 
 module.exports = router;
@@ -646,7 +651,7 @@ function sharePublication(req, res, next) {
 
 function suggestionOffre(req, res, next) {
 
-    // renvoie des 5 premier offre avec le meme theme et  productSubject que le user.
+    // renvoie des 5 premier offre avec le meme theme (user) et productSubject (offre).
 
     res.status(200).json([
         {

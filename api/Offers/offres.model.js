@@ -33,6 +33,10 @@ module.exports = (sequelize, Sequelize) =>  {
             color: {
                 type: Sequelize.STRING,
                 default: undefined
+            },
+            visitNumber: {
+                type: Sequelize.INTEGER,
+                default: 0
             }
         },
         { freezeTableName: true }

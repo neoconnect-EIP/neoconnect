@@ -52,6 +52,14 @@
       "description": "Send Messsage to other users"
     },
     {
+      "name": "Follow",
+      "description": "Route pour follow des boutique en tant que influenceur"
+    },
+    {
+      "name": "Actuality",
+      "description": "route actuality"
+    },
+    {
       "name": "Mooc",
       "description": "Exemple route for the current sprint"
     }
@@ -1291,6 +1299,38 @@
         }
       }
     },
+    "/offer/suggestion": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "renvoie des 5 premieres Offres avec le meme theme user et ProductSubject offre",
+        "description": "renvoie des 5 premieres Offres avec le meme theme user et ProductSubject offre",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfferResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
     "/offer/{id}": {
       "get": {
         "tags": [
@@ -1502,6 +1542,59 @@
         "responses": {
           "204": {
             "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/offer/choiceApply": {
+      "post": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "permet au shop d'accepter ou refuser l'apply d'un influencer et de lui envoyer cette reponse par email",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/choiceApply"
+              },
+              "example": {
+                "idUser": "1",
+                "idOffer": "2",
+                "status": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           },
           "400": {
             "description": "Request Body Error",
@@ -2017,6 +2110,51 @@
         }
       }
     },
+    "/user/feddback": {
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Send a mail to the support",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserFeedback"
+              },
+              "example": {
+                "environnement": "ios",
+                "type": "amelioration",
+                "fonctionnalite": "Sujet Mail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/forgotPassword": {
       "post": {
         "tags": [
@@ -2334,6 +2472,260 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/shop/follow/{id}": {
+      "put": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "Permet de follow un shop et de recevoir des mails a chaque nouvelle offre cree",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Follow Success"
+          },
+          "400": {
+            "description": "Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "Permet de recuperer la liste des followers du shop",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "liste des followers du Shop",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "number"
+                    },
+                    "idFollow": {
+                      "type": "number"
+                    },
+                    "id": {
+                      "type": "number"
+                    },
+                    "pseudo": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/shop/unfollow/{id}": {
+      "put": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "Permet de unfollow un shop et de ne plus recevoir des mails a chaque nouvelle offre cree",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUser"
+          },
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unfollow Success"
+          },
+          "400": {
+            "description": "Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  },
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/follow": {
+      "get": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "Permet de recuperer la liste des shop follow par l'influencer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "liste des follow de l'influencer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idUser": {
+                      "type": "number"
+                    },
+                    "idFollow": {
+                      "type": "number"
+                    },
+                    "id": {
+                      "type": "number"
+                    },
+                    "pseudo": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Id non existant": {
+                    "value": {
+                      "code": 400,
+                      "message": "Id non existant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/actuality": {
+      "get": {
+        "tags": [
+          "Actuality"
+        ],
+        "summary": "Permet de recuperer la liste des actuality",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -2856,6 +3248,20 @@
           }
         }
       },
+      "UserFeedback": {
+        "type": "object",
+        "properties": {
+          "environnement": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "fonctionnalite": {
+            "type": "string"
+          }
+        }
+      },
       "InfRequest": {
         "type": "object",
         "properties": {
@@ -3213,6 +3619,20 @@
           }
         }
       },
+      "choiceApply": {
+        "type": "object",
+        "properties": {
+          "idUser": {
+            "type": "string"
+          },
+          "idOffer": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
       "CommentRequest": {
         "type": "object",
         "properties": {
@@ -3413,30 +3833,90 @@
                   }
                 }
               }
-          },
-          "createdAt": {
-            "type": "date"
-          },
-          "updatedAt": {
-            "type": "date"
+            },
+            "createdAt": {
+              "type": "date"
+            },
+            "updatedAt": {
+              "type": "date"
             }
           }
         }
       },
-      "ChannelRequest": {
+      "actuality": {
         "type": "object",
         "properties": {
-          "userId": {
-            "type": "string"
+          "listShopNotes": {
+            "type": "object",
+            "properties": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+            }
           },
-          "message": {
-            "type": "string"
+          "listShopPopulaire": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "listShopTendance": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "listOfferNotes": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "listOfferPopulaire": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
+          },
+          "listOfferTendance": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/InfResponse"
+                  }
+                }
+              }
+            }
           }
-        },
-        "required": [
-          "userId",
-          "message"
-        ]
+        }
       }
     }
   }

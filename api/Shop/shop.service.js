@@ -1,6 +1,7 @@
 const   db = require("../_helpers/db"),
         Shop = db.Shop,
         User = db.Influencer,
+        Follow = db.Follow,
         CommentMark = require("../CommentMark/commentMark.service"),
         bcrypt = require("bcrypt"),
         jwtUtils = require("../utils/jwt.utils"),
@@ -31,13 +32,16 @@ async function getMyProfile(req) {
 async function getUserProfile(req) {
     if (req.params === undefined || req.params.id === undefined)
         return ({status: 400, message: "Bad Request, Please give a id"});
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     const list = await Shop.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
-            'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
+            'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram', 'visitNumber']
     });
     if (list === null)
         return ({status: 400, message: "Bad Request, User doesn't exist"});
+    list["visitNumber"] = list.visitNumber + 1;
+    list.save().then(() => {});
     list.userPicture = await GetImage.getImage({
         idLink: req.params.id.toString(),
         type: 'User'
@@ -45,6 +49,7 @@ async function getUserProfile(req) {
     list.dataValues.average = await statService.getMarkAverageUser(`${req.params.id}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(req.params.id.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(req.params.id.toString());
+    list.dataValues.follow = await getFollow(req.params.id, userId);
     return ({status:200, message: list});
 }
 
@@ -118,12 +123,14 @@ async function searchShop(req) {
     if (userId < 0)
         return (undefined);
 
-    list = await Shop.findOne({
+    let list = await Shop.findOne({
         where: { pseudo: req.body.pseudo},
-        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
+        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone', 'visitNumber']
     });
     if (list === null)
         return (undefined);
+    list["visitNumber"] = list.visitNumber + 1;
+    list.save().then(() => {});
     list.userPicture = await UploadImage.getImage({
         idLink: list.id.toString(),
         type: 'User'
@@ -131,10 +138,111 @@ async function searchShop(req) {
     return (list);
 }
 
+async function followShop(req) {
+    if (req.params.id === undefined)
+        return ({status: 400, message: "Bad request, this request need id"});
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
+    if (userType !== 'influencer')
+        return ({status: 401, message: "Unauthorized"});
+    let user = await User.findOne({
+        where: { id: userId},
+        attributes: ['id']
+    });
+    let shop = await Shop.findOne({
+        where: { id: req.params.id},
+        attributes: ['id']
+    });
+    if (user === null || shop === null)
+        return ({status: 401, message: "User doesn't exist"});
+    let follow = await Follow.findOne({
+        where: { idUser: user.id, idFollow: shop.id}
+    });
+    if (follow !== null)
+        return ({status: 400, message: "Bad request, your already follow this shop"});
+    await Follow.create({
+        idUser: user.id,
+        idFollow: shop.id
+    });
+    return ({status: 200, message: "Follow success"});
+}
+
+async function unfollowShop(req) {
+    if (req.params.id === undefined)
+        return ({status: 400, message: "Bad request, this request need id"});
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
+    if (userType !== 'influencer')
+        return ({status: 401, message: "Unauthorized"});
+    let follow = await Follow.findOne({
+        where: { idUser: userId, idFollow: req.params.id}
+    });
+    if (follow === null)
+        return ({status: 400, message: "Bad request, your don't follow this shop"});
+    await follow.destroy();
+    return ({status: 200, message: "Unfollowed success"});
+}
+
+async function getFollow(idShop, idUser) {
+    if (!await Follow.findOne({
+        where: { idUser: idUser, idFollow: idShop}
+    }))
+        return (false);
+    return (true)
+}
+
+async function getAllFollow(req) {
+    if (req.params.id === undefined)
+        return ({status: 400, message: "Bad request, this request need id"});
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
+    if (userType !== 'influencer')
+        return ({status: 401, message: "Unauthorized"});
+    let follow = await Follow.findAll({
+        where: { idFollow: req.params.id},
+        attributes: ['idUser', 'idFollow']
+    });
+    if (follow === null)
+        return ({status: 200, message: follow});
+    for (let i = 0; i < follow.length; i++) {
+        let tmp = await User.findOne({where:{id: follow[i].idUser}, attributes: ['id', 'pseudo', 'email']});
+        follow[i].dataValues.id = tmp.id;
+        follow[i].dataValues.pseudo = tmp.pseudo;
+        follow[i].dataValues.email = tmp.email;
+    }
+    return ({status: 200, message: follow});
+}
+
+async function getMyFollowUps(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
+    if (userType !== 'influencer')
+        return ({status: 401, message: "Unauthorized"});
+    let follow = await Follow.findAll({
+        where: { idUser: userId},
+        attributes: ['idUser', 'idFollow']
+    });
+    if (follow === null)
+        return ({status: 200, message: follow});
+    for (let i = 0; i < follow.length; i++) {
+        let tmp = await Shop.findOne({where:{id: follow[i].idFollow}, attributes: ['id', 'pseudo', 'email']});
+        follow[i].dataValues.id = tmp.id;
+        follow[i].dataValues.pseudo = tmp.pseudo;
+        follow[i].dataValues.email = tmp.email;
+    }
+    return ({status: 200, message: follow});
+}
+
+
+
 module.exports = {
     getMyProfile,
     getUserProfile,
     modifyUserProfile,
     listInf,
-    searchShop
+    searchShop,
+    followShop,
+    unfollowShop,
+    getAllFollow,
+    getMyFollowUps,
+    getFollow
 };

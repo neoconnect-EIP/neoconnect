@@ -5,14 +5,31 @@ const   db = require("../_helpers/db"),
         Mark = db.Mark,
         Shop = db.Shop,
         jwtUtils = require("../utils/jwt.utils");
-        userService = require("../User/user.service");
+
+async function getProfile(id) {
+    let user = await User.findOne({
+        where: {
+            id: id
+        }
+    });
+    if (user === null) {
+        user = await Shop.findOne({
+            where: {
+                id: id
+            }
+        });
+        if (user === null)
+            return (undefined)
+    }
+    return (user.get( { plain: true } ));
+}
 
 async function addComment(req) {
     if (req.params === undefined || req.params.id === undefined || req.body.comment === undefined)
         return ({status: 400, message: "Bad Request, Please give id and comment"});
     let userId = jwtUtils.getUserId(req.headers['authorization']);
     let userType = jwtUtils.getUserType(req.headers['authorization']);
-    let commentType = await userService.getProfile(req.params.id);
+    let commentType = await getProfile(req.params.id);
     if (commentType.userType === userType)
         return ({status: 400, message: "Bad Request, you cannot comment on a user in the same category as yours"});
     const dataComment = await Comment.create({
@@ -30,7 +47,7 @@ async function addMark(req) {
     let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     let userType = jwtUtils.getUserType(req.headers['authorization']);
-    let commentType = await userService.getProfile(req.params.id);
+    let commentType = await getProfile(req.params.id);
     if (commentType.userType === userType)
         return ({status: 400, message: "Bad Request, you cannot mark on a user in the same category as yours"});
 

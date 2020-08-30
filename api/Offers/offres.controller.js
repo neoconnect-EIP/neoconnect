@@ -4,6 +4,7 @@ const offresService = require("./offres.service");
 
 router.post("/offer/insert", insert);
 router.get("/offer/list", getAll);
+router.get("/offer/suggestion", offerSuggestion);
 router.get("/offer/:id", getById);
 router.get("/offer/shop/:id", getByShop);
 router.put("/offer/:id", update);
@@ -16,6 +17,7 @@ router.post("/offer/sharePublication/:id", sharePublication);
 
 router.get("/offer/apply/:id", getApplyOffer);
 router.get("/inf/offer/applied/:id", getApplyUser);
+router.post("/offer/choiceApply", choiceApply);
 
 module.exports = router;
 
@@ -136,6 +138,24 @@ function reportOffer(req, res, next) {
 function sharePublication(req, res, next) {
     offresService
         .sharePublication(req)
+        .then(list => {
+            res.status(list.status).json(list.message);
+        })
+        .catch(err => next(err));
+}
+
+function offerSuggestion(req, res, next) {
+    offresService
+        .offerSuggestion(req)
+        .then(list => {
+            res.status(list.status).json(list.message);
+        })
+        .catch(err => next(err));
+}
+
+function choiceApply(req, res, next) {
+    offresService
+        .chooseApply(req)
         .then(list => {
             res.status(list.status).json(list.message);
         })
