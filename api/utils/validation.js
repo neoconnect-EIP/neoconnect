@@ -20,5 +20,13 @@ module.exports = {
         if (userId < 0)
             return (res.status(401).json('Bad Token'));
         next();
+    },
+
+    checkSelectField: function(field, array) {
+        for(const element of array) {
+            if (element === field)
+                return (true)
+        }
+        return (false);
     }
 };

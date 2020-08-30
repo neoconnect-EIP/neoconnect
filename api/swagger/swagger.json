@@ -2057,6 +2057,51 @@
         }
       }
     },
+    "/user/feddback": {
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Send a mail to the support",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserFeedback"
+              },
+              "example": {
+                "environnement": "ios",
+                "type": "amelioration",
+                "fonctionnalite": "Sujet Mail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "Error Body": {
+                    "value": {
+                      "code": 400,
+                      "message": "Erreur dans un champ"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/forgotPassword": {
       "post": {
         "tags": [
@@ -3146,6 +3191,20 @@
             "type": "string"
           },
           "message": {
+            "type": "string"
+          }
+        }
+      },
+      "UserFeedback": {
+        "type": "object",
+        "properties": {
+          "environnement": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "fonctionnalite": {
             "type": "string"
           }
         }
