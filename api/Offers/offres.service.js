@@ -358,7 +358,7 @@ async function shareOffer(req) {
             where: {id: userId}
         });
     let user = await User.findOne({
-            where: {id: req.body.userId}
+            where: {email: req.body.email}
         });
     if (user === null)
     return ({status: 400, message: "Bad Request: Utilisateur inexistant"});
