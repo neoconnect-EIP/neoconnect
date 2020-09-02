@@ -40,7 +40,7 @@ async function getById(id) {
 async function add(req) {
     let userId = jwtUtils.getUserId(req.headers['authorization']);
     if (req.body.userId === undefined || req.body.message === undefined ||
-        req.body.message === '' || req.body.userId === '')
+        req.body.message === '' || req.body.userId === '' || typeof req.body.userId !== 'string')
         return ({status: 400, message: "Bad request"});
     if (userId.toString() === req.body.userId)
         return ({status: 400, message: "Same Id"});
