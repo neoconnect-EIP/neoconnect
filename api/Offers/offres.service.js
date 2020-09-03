@@ -191,6 +191,10 @@ async function _delete(req) {
     if (user === null || offer === null || offer['idUser'] !== userId)
         return (undefined);
 
+    await OfferApply.destroy({
+        where: {idOffer: req.params.id}
+    });
+
     await offer.destroy();
 
     return ("Offer destroy");
@@ -358,7 +362,7 @@ async function shareOffer(req) {
             where: {id: userId}
         });
     let user = await User.findOne({
-            where: {id: req.body.userId}
+            where: {email: req.body.email}
         });
     if (user === null)
     return ({status: 400, message: "Bad Request: Utilisateur inexistant"});

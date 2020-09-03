@@ -4,6 +4,7 @@ const   db = require("../_helpers/db"),
     Shop = db.Shop,
     ForgotPassword = db.ForgotPassword,
     bcrypt = require("bcrypt"),
+    validation = require("../utils/validation"),
     jwtUtils = require("../utils/jwt.utils");
 
 
@@ -95,6 +96,8 @@ async function updatePassword(params) {
     if (params === undefined || params.email === undefined || params.resetPasswordToken === undefined
         || params.password === undefined)
         return ({status: 400, message:'Bad request, Please give a email, resetPasswordToken and new password'});
+    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$', params.password))
+        return ({status: 400, message: "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters"});
     let user = await Inf.findOne({
         where: {
             email: params.email,

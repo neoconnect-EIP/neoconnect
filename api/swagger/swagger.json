@@ -3843,6 +3843,17 @@
           }
         }
       },
+      "ChannelRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        }
+      },
       "actuality": {
         "type": "object",
         "properties": {
