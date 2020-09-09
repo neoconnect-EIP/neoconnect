@@ -1,5 +1,3 @@
-const statService = require("../Stat/stat.service");
-
 const   jwt = require("jsonwebtoken"),
 		db = require("../_helpers/db"),
 		bcrypt = require("bcrypt"),
