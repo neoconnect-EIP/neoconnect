@@ -139,9 +139,9 @@ async function searchShop(req) {
         where: { idUser: userId, idFollow: list.id}
     });
     if (follow != null) {
-        list.follow = follow
+        list.dataValues.follow = true
     } else {
-        list.follow = false
+        list.dataValues.follow = false
     }
     return (list);
 }
