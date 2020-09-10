@@ -135,6 +135,12 @@ async function searchShop(req) {
         idLink: list.id.toString(),
         type: 'User'
     });
+    let follow = await Follow.findOne({
+        where: { idUser: userId, idFollow: list.id}
+    });
+    if (follow != null) {
+        list.follow = follow
+    }
     return (list);
 }
 
