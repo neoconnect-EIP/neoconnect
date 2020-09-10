@@ -140,6 +140,8 @@ async function searchShop(req) {
     });
     if (follow != null) {
         list.follow = follow
+    } else {
+        list.follow = false
     }
     return (list);
 }
