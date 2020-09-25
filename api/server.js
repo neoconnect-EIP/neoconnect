@@ -46,6 +46,7 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", require("./User/user.controller"));
 app.use("/", require("./Contact/contact.controller"));
 app.use("/", require("./ForgotPassword/forgotPassword.controller"));
+app.use("/", require("./IA/ia.controller"));
 
 //Middleware Check token in header
 app.use("/", require("./utils/validation").checkToken);

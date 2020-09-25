@@ -35,5 +35,6 @@ db.Mark = require("../CommentMark/mark.model")(sequelize, Sequelize);
 db.Comment = require("../CommentMark/comment.model")(sequelize, Sequelize);
 db.Message = require("../Message/message.model")(sequelize, Sequelize);
 db.Follow = require("../Shop/shopFollow.model")(sequelize, Sequelize);
+db.IA = require("../IA/ia.model")(sequelize, Sequelize);
 
 module.exports = db;
