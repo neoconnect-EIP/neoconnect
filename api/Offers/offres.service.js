@@ -279,14 +279,17 @@ async function getApplyUser(req) {
     for (let i = 0; i < apply.length; i++) {
         let offer = await Offer.findOne({where: {id:apply[i].idOffer}});
         let shop = await Shop.findOne({where: {id: offer.idUser}});
+
        apply[i].dataValues.productName = offer.productName;
        apply[i].dataValues.brand = offer.brand;
        apply[i].dataValues.theme = offer.productSubject;
-       apply[i].dataValues.emailShop = shop.email;
         apply[i].dataValues.productImg = await GetImage.getImage({
             idLink: apply[i].idOffer.toString(),
             type: 'Offer'
         })
+      if (shop === undefined)
+            return ({status: 200, message: apply});
+       apply[i].dataValues.emailShop = shop.email;
     }
     return ({status: 200, message: apply});
 }
