@@ -258,6 +258,12 @@ async function getApplyOffer(req) {
     for (let i = 0; i < apply.length; i++) {
         let user = await User.findOne({where: {id: apply[i]['idUser']}});
         apply[i].dataValues['pseudoUser'] = user.pseudo;
+        apply[i].dataValues['pseudo'] = user.pseudo;
+        apply[i].dataValues['average'] = await statService.getMarkAverageUser(apply[i]['idUser']);
+        apply[i].dataValues['userPicture'] = await GetImage.getImage({
+            idLink: apply[i]['idUser'].toString(),
+            type: 'User'
+        })
     }
     return ({status: 200, message: apply});
 }
@@ -273,11 +279,17 @@ async function getApplyUser(req) {
     for (let i = 0; i < apply.length; i++) {
         let offer = await Offer.findOne({where: {id:apply[i].idOffer}});
         let shop = await Shop.findOne({where: {id: offer.idUser}});
-        apply[i].dataValues.productName = offer.productName;
-        apply[i].dataValues.brand = offer.brand;
-        if (shop === undefined)
+
+       apply[i].dataValues.productName = offer.productName;
+       apply[i].dataValues.brand = offer.brand;
+       apply[i].dataValues.theme = offer.productSubject;
+        apply[i].dataValues.productImg = await GetImage.getImage({
+            idLink: apply[i].idOffer.toString(),
+            type: 'Offer'
+        })
+      if (shop === undefined)
             return ({status: 200, message: apply});
-        apply[i].dataValues.emailShop = shop.email;
+       apply[i].dataValues.emailShop = shop.email;
     }
     return ({status: 200, message: apply});
 }
@@ -364,7 +376,7 @@ async function shareOffer(req) {
             where: {id: userId}
         });
     let user = await User.findOne({
-            where: {id: req.body.userId}
+            where: {email: req.body.email}
         });
     if (user === null)
     return ({status: 400, message: "Bad Request: Utilisateur inexistant"});

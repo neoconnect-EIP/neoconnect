@@ -3,6 +3,7 @@ const   db = require("../_helpers/db"),
     Shop = db.Shop,
     Message = db.Message,
     jwtUtils = require("../utils/jwt.utils"),
+    GetImage = require("../UploadImage/uploadImage.service"),
     validation = require('../utils/validation');
 
 async function get(req) {
@@ -20,14 +21,24 @@ async function get(req) {
         let userPseudo = message[i].user_1;
         if (message[i].user_1 === userId.toString())
             userPseudo = message[i].user_2;
-        let user = await User.findOne({where: {id: userPseudo}, attributes: ['pseudo']});
-        if (user !== null)
+
+        let user = (await User.findOne({where: {id: userPseudo}, attributes: ['id', 'pseudo']}));
+        if (user !== null) {
             message[i].dataValues.pseudo = user.pseudo;
-        if (!message[i].dataValues.pseudo) {
-            let shop = await Shop.findOne({where: {id: userPseudo}, attributes: ['pseudo']});
-            if (shop !== null)
-                message[i].dataValues.pseudo = shop.pseudo;
-        }
+            message[i].dataValues.userPicture = await GetImage.getImage({
+                idLink: user.id.toString(),
+                type: 'User'
+            });
+        } else {
+            user = await Shop.findOne({where: {id: userPseudo}, attributes: ['id', 'pseudo']});
+          if (user !== null) {
+            message[i].dataValues.pseudo = user.pseudo;
+            message[i].dataValues.userPicture = await GetImage.getImage({
+                idLink: user.id.toString(),
+                type: 'User'
+            });
+           }
+        }   
     }
     return ({status: 200, message: message});
 }
@@ -38,7 +49,7 @@ async function getById(id) {
     let chan = await Message.findOne({where: {id: id}});
     if (!chan)
         return ({status: 400, message: "No Channel with this id"});
-    chan.data = JSON.parse(chan.data);
+    chan.data = JSON.parse(chan.data).data;
     return({status: 200, message: chan})
 }
 

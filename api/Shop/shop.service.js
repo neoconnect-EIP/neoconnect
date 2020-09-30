@@ -135,6 +135,14 @@ async function searchShop(req) {
         idLink: list.id.toString(),
         type: 'User'
     });
+    let follow = await Follow.findOne({
+        where: { idUser: userId, idFollow: list.id}
+    });
+    if (follow != null) {
+        list.dataValues.follow = true
+    } else {
+        list.dataValues.follow = false
+    }
     return (list);
 }
 
