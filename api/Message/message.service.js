@@ -21,8 +21,9 @@ async function get(req) {
         let userPseudo = message[i].user_1;
         if (message[i].user_1 === userId.toString())
             userPseudo = message[i].user_2;
+
         let user = (await User.findOne({where: {id: userPseudo}, attributes: ['id', 'pseudo']}));
-        if (user != null) {
+        if (user !== null) {
             message[i].dataValues.pseudo = user.pseudo;
             message[i].dataValues.userPicture = await GetImage.getImage({
                 idLink: user.id.toString(),
@@ -30,11 +31,13 @@ async function get(req) {
             });
         } else {
             user = await Shop.findOne({where: {id: userPseudo}, attributes: ['id', 'pseudo']});
+          if (user !== null) {
             message[i].dataValues.pseudo = user.pseudo;
             message[i].dataValues.userPicture = await GetImage.getImage({
                 idLink: user.id.toString(),
                 type: 'User'
             });
+           }
         }   
     }
     return ({status: 200, message: message});
