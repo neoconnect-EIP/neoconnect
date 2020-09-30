@@ -32,7 +32,7 @@ async function iaPostInfo(req) {
         return ({status: 200, message: iaCount});
     } else {
         return ({status: 200,
-            message: 
+            message:
                 await IA.create({[req.body.socialNetwork]: 1})
         });
     }

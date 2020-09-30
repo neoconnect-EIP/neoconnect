@@ -20,9 +20,14 @@ async function get(req) {
         let userPseudo = message[i].user_1;
         if (message[i].user_1 === userId.toString())
             userPseudo = message[i].user_2;
-        message[i].dataValues.pseudo = (await User.findOne({where: {id: userPseudo}, attributes: ['pseudo']})).pseudo;
-        if (!message[i].dataValues.pseudo)
-            message[i].dataValues.pseudo = (await Shop.findOne({where: {id: userPseudo}, attributes: ['pseudo']})).pseudo;
+        let user = await User.findOne({where: {id: userPseudo}, attributes: ['pseudo']});
+        if (user !== null)
+            message[i].dataValues.pseudo = user.pseudo;
+        if (!message[i].dataValues.pseudo) {
+            let shop = await Shop.findOne({where: {id: userPseudo}, attributes: ['pseudo']});
+            if (shop !== null)
+                message[i].dataValues.pseudo = shop.pseudo;
+        }
     }
     return ({status: 200, message: message});
 }
