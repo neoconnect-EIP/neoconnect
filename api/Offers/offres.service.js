@@ -99,6 +99,19 @@ async function getByShop(req) {
     for(let i = 0; i < newList.length; i++) {
         newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
+        newList[i].dataValues.apply = await OfferApply.findAll({
+            where: {idOffer: `${newList[i].id}`}
+        });
+        for (let j = 0; j < newList[i].dataValues.apply.length; j++) {
+            let user = await User.findOne({where: {id: newList[i].dataValues.apply[j]['idUser']}});
+            newList[i].dataValues.apply[j]['pseudoUser'] = user.pseudo;
+            newList[i].dataValues.apply[j].dataValues['pseudo'] = user.pseudo;
+            newList[i].dataValues.apply[j].dataValues['average'] = await statService.getMarkAverageUser(newList[i].dataValues.apply[j]['idUser']);
+            newList[i].dataValues.apply[j].dataValues['userPicture'] = await GetImage.getImage({
+                idLink: newList[i].dataValues.apply[j]['idUser'].toString(),
+                type: 'User'
+            })
+        }
     }
     return ({status: 200, message: newList});
 }
