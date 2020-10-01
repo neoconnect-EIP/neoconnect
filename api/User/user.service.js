@@ -35,6 +35,7 @@ async function login(params) {
             message: {
                 "userId": user.id,
                 "userType": user.userType,
+                "theme": user.theme,
                 "token": jwtUtils.generateTokenForUser(user)
             }
         }
