@@ -3619,6 +3619,82 @@
           }
         }
       },
+      "OfferResponseApply": {
+        "type": "object",
+        "properties": {
+          "idUser": {
+            "type": "integer"
+          },
+          "productImg": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "productSex": {
+            "type": "string"
+          },
+          "productDesc": {
+            "type": "string"
+          },
+          "productSubject": {
+            "type": "string"
+          },
+          "productColor": {
+            "type": "string"
+          },
+          "productType": {
+            "type": "string"
+          },
+          "productSociety": {
+            "type": "string"
+          },
+          "mark": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "comment": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "apply": {
+            "type": "object",
+            "properties": {
+              "id" : {
+                "type": "integer"
+              },
+              "idUser" : {
+                "type": "integer"
+              },
+              "idOffer" : {
+                "type": "integer"
+              },
+              "status": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "date"
+              },
+              "updatedAt":{
+                "type": "date"
+              },
+              "pseudo": {
+                "type": "string"
+              },
+              "average" : {
+                "type": "integer"
+              },
+              "userPicture" : {
+                "type": "UserPicture"
+              }
+            }
+          }
+        }
+      },
       "choiceApply": {
         "type": "object",
         "properties": {
