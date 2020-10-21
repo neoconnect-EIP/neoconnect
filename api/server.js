@@ -9,6 +9,7 @@ const swaggerDocument =  require('./swagger/swagger.json'),
         app = express(),
         db = require("./_helpers/db"),
         port = process.env.PORT || 8080,
+        utils = require('./utils/createUser'),
         basicAuth = require('basic-auth');
 
 
@@ -37,6 +38,10 @@ app.use('/image', express.static('image'));
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 app.use(cors());
+
+
+//set admin user
+utils.registerTestAccounts().then(res => console.log(res));
 
 console.log(process.env.EMAIL_ADDRESS);
 console.log(process.env.EMAIL_PASSWORD);
