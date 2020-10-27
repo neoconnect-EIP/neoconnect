@@ -60,7 +60,7 @@ async function modifyUserProfile(req) {
     });
 
     if (user === null)
-        return (undefined);
+        return ({status:400, message: "No User"});
 
     Object.keys(req.body).forEach(function (item) {
         user["pseudo"] = req.body["pseudo"];
@@ -126,9 +126,11 @@ async function searchInf(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
     if (userId < 0)
+        return ({status:401, message: "Bad Token"});
+    if (req.body === undefined || req.body.pseudo === undefined) {
         return (undefined);
-
-     list = await User.findOne({
+    }
+    let list = await User.findOne({
         where: { pseudo: req.body.pseudo},
         attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
     });
