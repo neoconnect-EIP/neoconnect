@@ -123,6 +123,10 @@ async function searchShop(req) {
     if (userId < 0)
         return (undefined);
 
+    if (req.body === undefined || req.body.pseudo === undefined) {
+        return (undefined);
+    }
+
     let list = await Shop.findOne({
         where: { pseudo: req.body.pseudo},
         attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone', 'visitNumber']
