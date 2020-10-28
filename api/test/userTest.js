@@ -111,7 +111,7 @@ describe('Request USER API', () => {
 
     });
 
-    describe('/user/report/:id', () => {
+    /*describe('/user/report/:id', () => {
 
         it('bad token', function(done) { // <= Pass in done callback
             chai.request(`${URL}`)
@@ -145,7 +145,7 @@ describe('Request USER API', () => {
                 });
         });
 
-    });
+    });*/
 
     describe('/user/suggestion', () => {
 
