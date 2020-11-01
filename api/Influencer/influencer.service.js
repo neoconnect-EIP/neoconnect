@@ -9,6 +9,7 @@ const   db = require("../_helpers/db"),
         GetImage = require("../UploadImage/uploadImage.service"),
         statService = require("../Stat/stat.service"),
         commentService = require("../CommentMark/commentMark.service"),
+        verifyDuplicateField = require("../utils/verifyDuplicateFieldUser"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
 async function getMyProfile(req) {
@@ -61,6 +62,10 @@ async function modifyUserProfile(req) {
 
     if (user === null)
         return ({status:400, message: "No User"});
+
+    let duplicate = await verifyDuplicateField.checkDuplicateField(req.body);
+    if (!duplicate)
+        return ({status: 400, message: "Error, account already exists"});
 
     Object.keys(req.body).forEach(function (item) {
         user["pseudo"] = req.body["pseudo"];

@@ -9,6 +9,7 @@ const   db = require("../_helpers/db"),
         validation = require("../utils/validation"),
         utils = require("../utils/themeSelection"),
         statService = require("../Stat/stat.service"),
+        verifyDuplicateField = require("../utils/verifyDuplicateFieldUser"),
         commentService = require("../CommentMark/commentMark.service");
         UploadImage = require("../UploadImage/uploadImage.service");
 
@@ -236,8 +237,9 @@ async function takeHighId() {
 async function registerInf(params) {
     if (params === undefined ||
         params.pseudo === undefined ||
-        params.password === undefined)
-        return ({status: 400, message: "Bad Request, Please give a pseudo and a password"});
+        params.password === undefined ||
+        params.email === undefined)
+        return ({status: 400, message: "Bad Request, Please give a pseudo, email and a password"});
     if ((await Inf.findOne({where: {pseudo: params.pseudo}})) ||
         (await Shop.findOne({where: {pseudo: params.pseudo}})))
         return ({status: 400, message: "Bad Request, User already exist"});
@@ -246,7 +248,9 @@ async function registerInf(params) {
     if (!validation.checkRegex('^(\\w{4,24})$', params.pseudo))
         return ({status: 400, message: "Invalid Pseudo, the pseudo must be between 4 and 24 characters"});
 
-
+    let duplicate = await verifyDuplicateField.checkDuplicateField(params);
+    if (!duplicate)
+        return ({status: 400, message: "Error, account already exists"});
 
     if (params.instagram !== undefined ||
         params.twitter !== undefined ||
@@ -303,8 +307,9 @@ async function registerInf(params) {
 async function registerShop(params) {
     if (params === undefined
         || params.pseudo === undefined
-        || params.password === undefined)
-        return ({status: 400, message: "Bad Request, Please give a pseudo and a password"});
+        || params.password === undefined
+        || params.email === undefined)
+        return ({status: 400, message: "Bad Request, Please give a pseudo, email and a password"});
     if (await Shop.findOne({where: {pseudo: params.pseudo}}) ||
         await Inf.findOne({where: {pseudo: params.pseudo}}))
         return ({status: 400, message: "Bad Request, User already exist"});
@@ -312,6 +317,10 @@ async function registerShop(params) {
         return ({status: 400, message: "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 18 characters"});
     if (!validation.checkRegex('^(\\w{4,24})$', params.pseudo))
         return ({status: 400, message: "Invalid Pseudo, the pseudo must be between 4 and 24 characters"});
+
+    let duplicate = await verifyDuplicateField.checkDuplicateField(params);
+    if (!duplicate)
+        return ({status: 400, message: "Error, account already exists"});
 
     const idMax = await takeHighId();
 
