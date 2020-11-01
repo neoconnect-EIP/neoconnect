@@ -9,6 +9,7 @@ const   db = require("../_helpers/db"),
         validation = require("../utils/validation"),
         utils = require("../utils/themeSelection"),
         statService = require("../Stat/stat.service"),
+        verifyDuplicateField = require("../utils/verifyDuplicateFieldUser"),
         commentService = require("../CommentMark/commentMark.service");
         UploadImage = require("../UploadImage/uploadImage.service");
 
@@ -87,7 +88,7 @@ async function reportUser(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
     if (userId < 0)
-        return (undefined);
+        return ({status: 401, message: "Bad Token"});
 
     let userReported = await Inf.findOne({
             where: {id: req.params.id}
@@ -101,6 +102,8 @@ async function reportUser(req) {
     if (userReported === null)
         return ({status: 400, message: "Bad Request: ID inexistant"});
     const { pseudo, subject, message} = req.body;
+    if (!pseudo || !subject || !message)
+        return ({status: 400, message: "Bad Request: Merci de renseigner les champs suivants pseudo, subject, message"});
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -132,7 +135,7 @@ async function deleteUser(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
     if (userId < 0)
-        return (undefined);
+        return ({status: 401, message: "Bad token"});
         
     let user = await Inf.findOne({
         where: {
@@ -148,14 +151,17 @@ async function deleteUser(req) {
     }
     if (user != null) {
         await user.destroy();
+        return ({status: 200, message: "Utilisateur supprimer"});
     } else {
-        return ({status: "400", message: "Utilisateur introuvable"});
+        return ({status: 400, message: "Utilisateur introuvable"});
     }
 }
 
 async function userSuggestion(req) {
     let userId = jwtUtils.getUserId(req.headers['authorization']);
     let userType = jwtUtils.getUserType(req.headers['authorization']);
+    if (userId < 0)
+        return ({status: 401, message: "Bad Token"});
     let user;
     if (userType === 'influencer')
         user = await Inf.findOne({
@@ -231,17 +237,20 @@ async function takeHighId() {
 async function registerInf(params) {
     if (params === undefined ||
         params.pseudo === undefined ||
-        params.password === undefined)
-        return ({status: 400, message: "Bad Request, Please give a pseudo and a password"});
+        params.password === undefined ||
+        params.email === undefined)
+        return ({status: 400, message: "Bad Request, Please give a pseudo, email and a password"});
     if ((await Inf.findOne({where: {pseudo: params.pseudo}})) ||
         (await Shop.findOne({where: {pseudo: params.pseudo}})))
         return ({status: 400, message: "Bad Request, User already exist"});
-    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$', params.password))
-        return ({status: 400, message: "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters"});
-    if (!validation.checkRegex('^(\\w{4,12})$', params.pseudo))
-        return ({status: 400, message: "Invalid Pseudo, the pseudo must be between 4 and 12 characters"});
+    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,18}$', params.password))
+        return ({status: 400, message: "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 18 characters"});
+    if (!validation.checkRegex('^(\\w{4,24})$', params.pseudo))
+        return ({status: 400, message: "Invalid Pseudo, the pseudo must be between 4 and 24 characters"});
 
-
+    let duplicate = await verifyDuplicateField.checkDuplicateField(params);
+    if (!duplicate)
+        return ({status: 400, message: "Error, account already exists"});
 
     if (params.instagram !== undefined ||
         params.twitter !== undefined ||
@@ -295,19 +304,23 @@ async function registerInf(params) {
     }
 }
 
-//Créer un shop dans la bdd en fonction des params
 async function registerShop(params) {
     if (params === undefined
         || params.pseudo === undefined
-        || params.password === undefined)
-        return ({status: 400, message: "Bad Request, Please give a pseudo and a password"});
+        || params.password === undefined
+        || params.email === undefined)
+        return ({status: 400, message: "Bad Request, Please give a pseudo, email and a password"});
     if (await Shop.findOne({where: {pseudo: params.pseudo}}) ||
         await Inf.findOne({where: {pseudo: params.pseudo}}))
         return ({status: 400, message: "Bad Request, User already exist"});
-    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$', params.password))
-        return ({status: 400, message: "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters"});
-    if (!validation.checkRegex('^(\\w{4,12})$', params.pseudo))
-        return ({status: 400, message: "Invalid Pseudo, the pseudo must be between 4 and 12 characters"});
+    if (!validation.checkRegex('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,18}$', params.password))
+        return ({status: 400, message: "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 18 characters"});
+    if (!validation.checkRegex('^(\\w{4,24})$', params.pseudo))
+        return ({status: 400, message: "Invalid Pseudo, the pseudo must be between 4 and 24 characters"});
+
+    let duplicate = await verifyDuplicateField.checkDuplicateField(params);
+    if (!duplicate)
+        return ({status: 400, message: "Error, account already exists"});
 
     const idMax = await takeHighId();
 

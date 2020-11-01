@@ -9,6 +9,7 @@ const   db = require("../_helpers/db"),
         GetImage = require("../UploadImage/uploadImage.service"),
         statService = require("../Stat/stat.service"),
         commentService = require("../CommentMark/commentMark.service"),
+        verifyDuplicateField = require("../utils/verifyDuplicateFieldUser"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
 async function getMyProfile(req) {
@@ -60,7 +61,11 @@ async function modifyUserProfile(req) {
     });
 
     if (user === null)
-        return (undefined);
+        return ({status:400, message: "No User"});
+
+    let duplicate = await verifyDuplicateField.checkDuplicateField(req.body);
+    if (!duplicate)
+        return ({status: 400, message: "Error, account already exists"});
 
     Object.keys(req.body).forEach(function (item) {
         user["pseudo"] = req.body["pseudo"];
@@ -126,9 +131,11 @@ async function searchInf(req) {
     let headerAuth = req.headers['authorization'];
     let userId = jwtUtils.getUserId(headerAuth);
     if (userId < 0)
+        return ({status:401, message: "Bad Token"});
+    if (req.body === undefined || req.body.pseudo === undefined) {
         return (undefined);
-
-     list = await User.findOne({
+    }
+    let list = await User.findOne({
         where: { pseudo: req.body.pseudo},
         attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
     });
