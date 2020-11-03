@@ -6,10 +6,12 @@ const   db = require("../_helpers/db"),
         jwtUtils = require("../utils/jwt.utils"),
         GetImage = require("../UploadImage/uploadImage.service"),
         CommentMark = require("../CommentMark/commentMark.service"),
+        OfferService = require("../Offers/offres.service"),
+        ShopService = require("../Shop/shop.service"),
         Mark = db.Mark;
 
 
-async function get5FamousLast7Days(type) {
+async function get5FamousLast7Days(type, userId = null) {
     let dateOneWeekAgo = new Date();
     dateOneWeekAgo.setTime(dateOneWeekAgo.getTime() - 604800000);
 
@@ -42,6 +44,7 @@ async function get5FamousLast7Days(type) {
         });
         for (let i = 0; i < list.length; i++) {
             list[i] = await getShopProfile(list[i].id)
+            list[i].dataValues.follow = await ShopService.getFollow(list[i].id, userId);
         }
     }
     else {
@@ -57,12 +60,13 @@ async function get5FamousLast7Days(type) {
         });
         for (let i = 0; i < list.length; i++) {
             list[i] = await getOffer(list[i].id)
+            list[i].dataValues.status = await OfferService.getApply(userId, list[i].id)
         }
     }
     return (list);
 }
 
-async function get5Famous(type) {
+async function get5Famous(type, userId = null) {
     let list;
     if (type === 'influencer') {
         list = await User.findAll({
@@ -82,6 +86,7 @@ async function get5Famous(type) {
         });
         for (let i = 0; i < list.length; i++) {
             list[i] = await getShopProfile(list[i].id)
+            list[i].dataValues.follow = await ShopService.getFollow(list[i].id, userId);
         }
     }
     else {
@@ -92,6 +97,7 @@ async function get5Famous(type) {
         });
         for (let i = 0; i < list.length; i++) {
             list[i] = await getOffer(list[i].id)
+            list[i].dataValues.status = await OfferService.getApply(userId, list[i].id)
         }
     }
     return (list);
@@ -175,7 +181,7 @@ function takeOnly5BestAverage(list) {
     return (newList);
 }
 
-async function get5BestMarkAverage(type) {
+async function get5BestMarkAverage(type, userId = null) {
     let list = [];
     if (type === 'influencer') {
         let inf = await User.findAll({
@@ -203,6 +209,7 @@ async function get5BestMarkAverage(type) {
         list = takeOnly5BestAverage(list);
         for (let i = 0; i < list.length; i++) {
             list[i] = await getShopProfile(list[i].id)
+            list[i].dataValues.follow = await ShopService.getFollow(list[i].id, userId);
         }
     }
     else {
@@ -217,6 +224,7 @@ async function get5BestMarkAverage(type) {
         list = takeOnly5BestAverage(list);
         for (let i = 0; i < list.length; i++) {
             list[i] = await getOffer(list[i].id)
+            list[i].dataValues.status = await OfferService.getApply(userId, list[i].id)
         }
     }
     return (list);
@@ -271,15 +279,16 @@ async function getOffer(id) {
 
 async function actuality(req) {
     let userType = jwtUtils.getUserType(req.headers['authorization']);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     let listActuality;
     if (userType === 'influencer')
         listActuality = {
-            listShopNotes: await get5BestMarkAverage('shop'),
-            listShopPopulaire: await get5Famous('shop'),
-            listShopTendance: await get5FamousLast7Days('shop'),
-            listOfferNotes: await get5BestMarkAverage('offer'),
-            listOfferPopulaire: await get5Famous('offer'),
-            listOfferTendance: await get5FamousLast7Days('offer')
+            listShopNotes: await get5BestMarkAverage('shop', userId),
+            listShopPopulaire: await get5Famous('shop', userId),
+            listShopTendance: await get5FamousLast7Days('shop', userId),
+            listOfferNotes: await get5BestMarkAverage('offer', userId),
+            listOfferPopulaire: await get5Famous('offer', userId),
+            listOfferTendance: await get5FamousLast7Days('offer', userId)
         };
     else {
         listActuality = {
