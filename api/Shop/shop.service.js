@@ -212,9 +212,6 @@ async function getFollow(idShop, idUser) {
 async function getAllFollow(req) {
     if (req.params.id === undefined)
         return ({status: 400, message: "Bad request, this request need id"});
-    let userType = jwtUtils.getUserType(req.headers['authorization']);
-    if (userType !== 'influencer')
-        return ({status: 401, message: "Unauthorized"});
     let follow = await Follow.findAll({
         where: { idFollow: req.params.id},
         attributes: ['idUser', 'idFollow']
