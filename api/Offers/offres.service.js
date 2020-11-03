@@ -31,7 +31,8 @@ module.exports = {
     reportOffer,
     sharePublication,
     offerSuggestion,
-    chooseApply
+    chooseApply,
+    getApply
 };
 
 async function paramOffer(req) {
@@ -52,6 +53,7 @@ async function paramOffer(req) {
 }
 
 async function getAll(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     let list = undefined;
     if (Object.keys(req.query).length !== 0)
         list = await paramOffer(req.query);
@@ -61,6 +63,7 @@ async function getAll(req) {
     for(let i = 0; i < newList.length; i++) {
         newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
+        newList[i].dataValues.status = await getApply(userId, `${newList[i].id}`)
     }
     return ({status: 200, message: newList});
 }
@@ -68,6 +71,7 @@ async function getAll(req) {
 async function getById(req) {
     if (req.params === undefined || req.params.id === undefined)
         return ({status: 400, message: "Bad Request, Please give a id"});
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     let user = await Offer.findOne({
         where: {id: req.params.id}
     });
@@ -82,6 +86,7 @@ async function getById(req) {
     user.productImg = dataImage;
     user.dataValues.average = await statService.getMarkAverageOffer(`${user.id}`);
     user.dataValues.comment = await commentService.getCommentByOfferId(`${user.id}`);
+    user.dataValues.status = await getApply(userId, `${user.id}`);
     return ({status: 200, message: user});
 }
 
@@ -279,6 +284,15 @@ async function getApplyOffer(req) {
         })
     }
     return ({status: 200, message: apply});
+}
+
+async function getApply(idUser, idOffer) {
+    let apply = await OfferApply.findOne({
+        where: {idUser: idUser, idOffer: idOffer}
+    })
+    if (apply !== null)
+        apply = apply.status;
+    return (apply);
 }
 
 async function getApplyUser(req) {
