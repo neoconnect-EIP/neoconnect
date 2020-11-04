@@ -135,6 +135,14 @@ async function getByShop(req) {
                 idLink: newList[i].dataValues.apply[j]['idUser'].toString(),
                 type: 'User'
             })
+            newList[i].dataValues.apply[j].dataValues['facebook'] = user.facebook;
+            newList[i].dataValues.apply[j].dataValues['twitter'] = user.twitter;
+            newList[i].dataValues.apply[j].dataValues['instagram'] = user.instagram;
+            newList[i].dataValues.apply[j].dataValues['snapchat'] = user.snapchat;
+            newList[i].dataValues.apply[j].dataValues['twitch'] = user.twitch;
+            newList[i].dataValues.apply[j].dataValues['pinterest'] = user.pinterest;
+            newList[i].dataValues.apply[j].dataValues['youtube'] = user.youtube;
+            newList[i].dataValues.apply[j].dataValues['tiktok'] = user.tiktok;
         }
     }
     return ({status: 200, message: newList});
@@ -301,6 +309,14 @@ async function getApplyOffer(req) {
             idLink: apply[i]['idUser'].toString(),
             type: 'User'
         })
+        apply[i].dataValues['facebook'] = user.facebook;
+        apply[i].dataValues['twitter'] = user.twitter;
+        apply[i].dataValues['instagram'] = user.instagram;
+        apply[i].dataValues['snapchat'] = user.snapchat;
+        apply[i].dataValues['twitch'] = user.twitch;
+        apply[i].dataValues['pinterest'] = user.pinterest;
+        apply[i].dataValues['youtube'] = user.youtube;
+        apply[i].dataValues['tiktok'] = user.tiktok;
     }
     return ({status: 200, message: apply});
 }

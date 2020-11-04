@@ -3,6 +3,7 @@ const   db = require("../_helpers/db"),
         User = db.Influencer,
         Mark = db.Mark,
         Follow = db.Follow,
+        Offer = db.Offre,
         CommentMark = require("../CommentMark/commentMark.service"),
         bcrypt = require("bcrypt"),
         jwtUtils = require("../utils/jwt.utils"),
@@ -43,8 +44,19 @@ async function getMyProfile(req) {
         type: 'User'
     });
     list.dataValues.average = await getMarkAverageUser(`${userId}`);
+    let listOffer = await Offer.findAll({
+        where: {idUser: userId.toString()}
+    });
+    if (listOffer === undefined || listOffer.length === 0) {
+        list.dataValues.average = 0;
+    } else {
+        let avg = 0;
+        for (let i = 0; i < listOffer.length; i++) {
+            avg += await statService.getMarkAverageOffer(`${listOffer[i].id}`)
+        }
+        list.dataValues.average = avg / listOffer.length;
+    }
     list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
-    list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
     return ({status: 200, message: list});
 }
 
