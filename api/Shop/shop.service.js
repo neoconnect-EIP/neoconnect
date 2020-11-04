@@ -1,6 +1,7 @@
 const   db = require("../_helpers/db"),
         Shop = db.Shop,
         User = db.Influencer,
+        Mark = db.Mark,
         Follow = db.Follow,
         CommentMark = require("../CommentMark/commentMark.service"),
         bcrypt = require("bcrypt"),
@@ -11,6 +12,23 @@ const   db = require("../_helpers/db"),
         commentService = require("../CommentMark/commentMark.service"),
         verifyDuplicateField = require("../utils/verifyDuplicateFieldUser"),
         GetAllImage = require("../UploadImage/uploadImage.service");
+
+async function getMarkAverageUser(id) {
+    if (id === undefined)
+        return (undefined);
+    let allMark = await Mark.findAll({
+        where: { idUser : id.toString() },
+        attributes: ['mark']
+    });
+    if (allMark.length === 0)
+        return (null);
+    let array = [];
+    for (let i = 0; i < allMark.length; i++) {
+        array.push(parseInt(allMark[i].dataValues.mark))
+    }
+    let average = (array) => array.reduce((a, b) => a + b) / array.length;
+    return (average(array));
+}
 
 async function getMyProfile(req) {
     let userId = jwtUtils.getUserId(req.headers['authorization']);
@@ -24,7 +42,7 @@ async function getMyProfile(req) {
         idLink: userId.toString(),
         type: 'User'
     });
-    list.dataValues.average = await statService.getMarkAverageUser(`${userId}`);
+    list.dataValues.average = await getMarkAverageUser(`${userId}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
     return ({status: 200, message: list});
@@ -47,7 +65,7 @@ async function getUserProfile(req) {
         idLink: req.params.id.toString(),
         type: 'User'
     });
-    list.dataValues.average = await statService.getMarkAverageUser(`${req.params.id}`);
+    list.dataValues.average = await getMarkAverageUser(`${req.params.id}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(req.params.id.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(req.params.id.toString());
     list.dataValues.follow = await getFollow(req.params.id, userId);
@@ -117,7 +135,7 @@ async function listInf(req) {
     });
     let newList = await GetImage.regroupImageData(list, 'User');
     for(let i = 0; i < newList.length; i++) {
-        newList[i].dataValues.average = await statService.getMarkAverageUser(`${newList[i].id}`);
+        newList[i].dataValues.average = await getMarkAverageUser(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByUserId(`${newList[i].id}`);
     }
     return ({status: 200, message:newList});
