@@ -13,7 +13,6 @@ const   jwt = require("jsonwebtoken"),
         GetImage = require("../UploadImage/uploadImage.service"),
         GetAllImage = require("../UploadImage/uploadImage.service"),
         commentService = require("../CommentMark/commentMark.service");
-        statService = require("../Stat/stat.service");
         nodemailer = require('nodemailer');
 
 
@@ -53,6 +52,22 @@ async function getMarkAverageOffer(id) {
     return (average(array));
 }
 
+async function getMarkAverageUser(id) {
+    if (id === undefined)
+        return (undefined);
+    let allMark = await Mark.findAll({
+        where: { idUser : id.toString() },
+        attributes: ['mark']
+    });
+    if (allMark.length === 0)
+        return (null);
+    let array = [];
+    for (let i = 0; i < allMark.length; i++) {
+        array.push(parseInt(allMark[i].dataValues.mark))
+    }
+    let average = (array) => array.reduce((a, b) => a + b) / array.length;
+    return (average(array));
+}
 
 async function paramOffer(req) {
     let list = undefined;
@@ -130,7 +145,7 @@ async function getByShop(req) {
             let user = await User.findOne({where: {id: newList[i].dataValues.apply[j]['idUser']}});
             newList[i].dataValues.apply[j]['pseudoUser'] = user.pseudo;
             newList[i].dataValues.apply[j].dataValues['pseudo'] = user.pseudo;
-            newList[i].dataValues.apply[j].dataValues['average'] = await statService.getMarkAverageUser(newList[i].dataValues.apply[j]['idUser']);
+            newList[i].dataValues.apply[j].dataValues['average'] = await getMarkAverageUser(newList[i].dataValues.apply[j]['idUser']);
             newList[i].dataValues.apply[j].dataValues['userPicture'] = await GetImage.getImage({
                 idLink: newList[i].dataValues.apply[j]['idUser'].toString(),
                 type: 'User'
@@ -304,7 +319,7 @@ async function getApplyOffer(req) {
         let user = await User.findOne({where: {id: apply[i]['idUser']}});
         apply[i].dataValues['pseudoUser'] = user.pseudo;
         apply[i].dataValues['pseudo'] = user.pseudo;
-        apply[i].dataValues['average'] = await statService.getMarkAverageUser(apply[i]['idUser']);
+        apply[i].dataValues['average'] = await getMarkAverageUser(apply[i]['idUser']);
         apply[i].dataValues['userPicture'] = await GetImage.getImage({
             idLink: apply[i]['idUser'].toString(),
             type: 'User'

@@ -265,7 +265,7 @@ async function getShopProfile(id) {
     } else {
         let avg = 0;
         for (let i = 0; i < listOffer.length; i++) {
-            avg += await statService.getMarkAverageOffer(`${listOffer[i].id}`)
+            avg += await getMarkAverageOffer(`${listOffer[i].id}`)
         }
         list.dataValues.average = avg / listOffer.length;
     }
