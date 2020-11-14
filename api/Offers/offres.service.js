@@ -4,6 +4,7 @@ const   jwt = require("jsonwebtoken"),
         Offer = db.Offre,
     	Shop = db.Shop,
         User = db.Influencer,
+        Mark = db.Mark,
         OfferApply = db.OfferApply,
         Follow = db.Follow,
         config = require("../config"),
@@ -31,8 +32,27 @@ module.exports = {
     reportOffer,
     sharePublication,
     offerSuggestion,
-    chooseApply
+    chooseApply,
+    getApply
 };
+
+async function getMarkAverageOffer(id) {
+    if (id === undefined)
+        return (undefined);
+    let allMark = await Mark.findAll({
+        where: {idOffer: id.toString()},
+        attributes: ['mark']
+    });
+    if (allMark.length === 0)
+        return (null);
+    let array = [];
+    for (let i = 0; i < allMark.length; i++) {
+        array.push(parseInt(allMark[i].dataValues.mark))
+    }
+    let average = (array) => array.reduce((a, b) => a + b) / array.length;
+    return (average(array));
+}
+
 
 async function paramOffer(req) {
     let list = undefined;
@@ -52,6 +72,7 @@ async function paramOffer(req) {
 }
 
 async function getAll(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     let list = undefined;
     if (Object.keys(req.query).length !== 0)
         list = await paramOffer(req.query);
@@ -59,8 +80,9 @@ async function getAll(req) {
         list = await Offer.findAll();
     let newList = await GetImage.regroupImageData(list, 'Offer');
     for(let i = 0; i < newList.length; i++) {
-        newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
+        newList[i].dataValues.average = await getMarkAverageOffer(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
+        newList[i].dataValues.status = await getApply(userId, `${newList[i].id}`)
     }
     return ({status: 200, message: newList});
 }
@@ -68,6 +90,7 @@ async function getAll(req) {
 async function getById(req) {
     if (req.params === undefined || req.params.id === undefined)
         return ({status: 400, message: "Bad Request, Please give a id"});
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     let user = await Offer.findOne({
         where: {id: req.params.id}
     });
@@ -80,8 +103,9 @@ async function getById(req) {
         type: 'Offer'
     });
     user.productImg = dataImage;
-    user.dataValues.average = await statService.getMarkAverageOffer(`${user.id}`);
+    user.dataValues.average = await getMarkAverageOffer(`${user.id}`);
     user.dataValues.comment = await commentService.getCommentByOfferId(`${user.id}`);
+    user.dataValues.status = await getApply(userId, `${user.id}`);
     return ({status: 200, message: user});
 }
 
@@ -97,7 +121,7 @@ async function getByShop(req) {
         return ({status: 400, message: "No shop"});
     let newList = await GetImage.regroupImageData(listShop, 'Offer');
     for(let i = 0; i < newList.length; i++) {
-        newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
+        newList[i].dataValues.average = await getMarkAverageOffer(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
         newList[i].dataValues.apply = await OfferApply.findAll({
             where: {idOffer: `${newList[i].id}`}
@@ -195,7 +219,7 @@ async function update(req) {
         idLink: user.id.toString(),
         type: 'Offer'
     });
-    offer.dataValues.average = await statService.getMarkAverageOffer(`${user.id}`);
+    offer.dataValues.average = await getMarkAverageOffer(`${user.id}`);
 
     return ({status:200, message:offer.get( { plain: true } )})
 }
@@ -295,6 +319,15 @@ async function getApplyOffer(req) {
         apply[i].dataValues['tiktok'] = user.tiktok;
     }
     return ({status: 200, message: apply});
+}
+
+async function getApply(idUser, idOffer) {
+    let apply = await OfferApply.findOne({
+        where: {idUser: idUser, idOffer: idOffer}
+    })
+    if (apply !== null)
+        apply = apply.status;
+    return (apply);
 }
 
 async function getApplyUser(req) {
@@ -561,10 +594,10 @@ async function offerSuggestion(req) {
         limit: 5
     });
     if (list.length === 0)
-        return ({status: 400, message: "No Data"});
+        return ({status: 200, message: "No Data"});
     let newList = await GetImage.regroupImageData(list, 'Offer');
     for(let i = 0; i < newList.length; i++) {
-        newList[i].dataValues.average = await statService.getMarkAverageOffer(`${newList[i].id}`);
+        newList[i].dataValues.average = await getMarkAverageOffer(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
     }
     return ({status: 200, message: newList});

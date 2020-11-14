@@ -318,16 +318,6 @@ describe('Request Shop API', () => {
                 });
         });
 
-        it('bad user type', function(done) { // <= Pass in done callback
-            chai.request(`${URL}`)
-                .get(`/shop/follow/${userId}`)
-                .set('Authorization', `Bearer ${token}`)
-                .end(function(err, res) {
-                    expect(res).to.have.status(401);
-                    done();                               // <= Call done to signal callback end
-                });
-        });
-
         it('normal request', function(done) { // <= Pass in done callback
             chai.request(`${URL}`)
                 .get(`/shop/follow/${userId}`)

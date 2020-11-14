@@ -10,6 +10,7 @@ const   db = require("../_helpers/db"),
         statService = require("../Stat/stat.service"),
         commentService = require("../CommentMark/commentMark.service"),
         verifyDuplicateField = require("../utils/verifyDuplicateFieldUser"),
+        ShopService = require("../Shop/shop.service"),
         GetAllImage = require("../UploadImage/uploadImage.service");
 
 async function getMyProfile(req) {
@@ -115,6 +116,7 @@ async function modifyUserProfile(req) {
 }
 
 async function listShop(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     const list = await Shop.findAll({
         attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
         'society', 'function', 'userDescription', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
@@ -123,6 +125,7 @@ async function listShop(req) {
     for(let i = 0; i < newList.length; i++) {
         newList[i].dataValues.average = await statService.getMarkAverageUser(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByUserId(`${newList[i].id}`);
+        newList[i].dataValues.follow = await ShopService.getFollow(newList[i].id, userId)
     }
     return ({status: 200, message:newList});
 }
