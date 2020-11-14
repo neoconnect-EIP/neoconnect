@@ -9,7 +9,6 @@ const   db = require("../_helpers/db"),
         jwtUtils = require("../utils/jwt.utils"),
         utils = require("../utils/themeSelection"),
         GetImage = require("../UploadImage/uploadImage.service"),
-        statService = require("../Stat/stat.service"),
         commentService = require("../CommentMark/commentMark.service"),
         verifyDuplicateField = require("../utils/verifyDuplicateFieldUser"),
         GetAllImage = require("../UploadImage/uploadImage.service");
@@ -19,6 +18,23 @@ async function getMarkAverageUser(id) {
         return (undefined);
     let allMark = await Mark.findAll({
         where: { idUser : id.toString() },
+        attributes: ['mark']
+    });
+    if (allMark.length === 0)
+        return (null);
+    let array = [];
+    for (let i = 0; i < allMark.length; i++) {
+        array.push(parseInt(allMark[i].dataValues.mark))
+    }
+    let average = (array) => array.reduce((a, b) => a + b) / array.length;
+    return (average(array));
+}
+
+async function getMarkAverageOffer(id) {
+    if (id === undefined)
+        return (undefined);
+    let allMark = await Mark.findAll({
+        where: {idOffer: id.toString()},
         attributes: ['mark']
     });
     if (allMark.length === 0)
@@ -52,7 +68,7 @@ async function getMyProfile(req) {
     } else {
         let avg = 0;
         for (let i = 0; i < listOffer.length; i++) {
-            avg += await statService.getMarkAverageOffer(`${listOffer[i].id}`)
+            avg += await getMarkAverageOffer(`${listOffer[i].id}`)
         }
         list.dataValues.average = avg / listOffer.length;
     }

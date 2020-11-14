@@ -10,6 +10,7 @@ const   chai = require('chai'),
 let token = undefined;
 let offerId = undefined;
 let idShop = undefined;
+let idInf = undefined;
 let tokenInf = undefined;
 
 chai.use(chaiHttp);
@@ -55,6 +56,19 @@ describe('Request Offer API', () => {
                     expect(res.body).to.have.property('token');
                     expect(res.body.token).to.be.a('string');
                     tokenInf = res.body.token;
+                    done();
+                });
+        });
+
+        it('Test Normal GET /inf/me', function(done) {
+            chai.request(`${URL}`)
+                .get('/inf/me')
+                .set('Authorization', `Bearer ${tokenInf}`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.be.a('object');
+                    expect(res.body).to.have.property('id');
+                    idInf = res.body.id;
                     done();
                 });
         });
@@ -220,7 +234,7 @@ describe('Request Offer API', () => {
                 });
         });
 
-        it('test with bad body', function(done) {
+        it('test with bad id', function(done) {
             chai.request(`${URL}`)
                 .put(`/offer/23233232`)
                 .set('Authorization', `Bearer ${token}`)
@@ -242,6 +256,151 @@ describe('Request Offer API', () => {
                 });
         });
 
+    });
+
+    describe('PUT /offer/apply/:id', () => {
+
+        it('test with bad token', function(done) {
+            chai.request(`${URL}`)
+                .put(`/offer/apply/${offerId}`)
+                .set('Authorization', `Bearer ghjhgfgh78j9okpl-pkoijuhyt65rftgyh`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(401);
+                    done();
+                });
+        });
+
+        it('test with bad id', function(done) {
+            chai.request(`${URL}`)
+                .put(`/offer/apply/23233232`)
+                .set('Authorization', `Bearer ${tokenInf}`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(400);
+                    done();
+                });
+        });
+
+        it('normal request', function(done) {
+            chai.request(`${URL}`)
+                .put(`/offer/apply/${offerId}`)
+                .set('Authorization', `Bearer ${tokenInf}`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(200);
+                    done();
+                });
+        });
+    });
+
+    describe('GET /offer/apply/:id', () => {
+
+        it('test with bad token', function(done) {
+            chai.request(`${URL}`)
+                .get(`/offer/apply/${offerId}`)
+                .set('Authorization', `Bearer ghjhgfgh78j9okpl-pkoijuhyt65rftgyh`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(401);
+                    done();
+                });
+        });
+
+        it('normal request', function(done) {
+            chai.request(`${URL}`)
+                .get(`/offer/apply/${offerId}`)
+                .set('Authorization', `Bearer ${tokenInf}`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(200);
+                    done();
+                });
+        });
+    });
+
+    describe('GET inf/offer/applied/:id', () => {
+
+        it('test with bad token', function(done) {
+            chai.request(`${URL}`)
+                .get(`/inf/offer/applied/${idInf}`)
+                .set('Authorization', `Bearer ghjhgfgh78j9okpl-pkoijuhyt65rftgyh`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(401);
+                    done();
+                });
+        });
+
+        it('normal request', function(done) {
+            chai.request(`${URL}`)
+                .get(`/inf/offer/applied/${idInf}`)
+                .set('Authorization', `Bearer ${tokenInf}`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(200);
+                    done();
+                });
+        });
+    });
+
+    describe('DELETE /offer/noapply/:id', () => {
+
+        it('test with bad token', function(done) {
+            chai.request(`${URL}`)
+                .delete(`/offer/noapply/${offerId}`)
+                .set('Authorization', `Bearer ghjhgfgh78j9okpl-pkoijuhyt65rftgyh`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(401);
+                    done();
+                });
+        });
+
+        it('bad offer id', function(done) {
+            chai.request(`${URL}`)
+                .delete(`/offer/noapply/3333333`)
+                .set('Authorization', `Bearer ${tokenInf}`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(400);
+                    done();
+                });
+        });
+
+        it('normal request', function(done) {
+            chai.request(`${URL}`)
+                .delete(`/offer/noapply/${offerId}`)
+                .set('Authorization', `Bearer ${tokenInf}`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(200);
+                    done();
+                });
+        });
+    });
+
+    describe('DELETE /offer/:id', () => {
+
+        it('test with bad token', function(done) {
+            chai.request(`${URL}`)
+                .delete(`/offer/${offerId}`)
+                .set('Authorization', `Bearer ghjhgfgh78j9okpl-pkoijuhyt65rftgyh`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(401);
+                    done();
+                });
+        });
+
+        it('bad offer id', function(done) {
+            chai.request(`${URL}`)
+                .delete(`/offer/3333333`)
+                .set('Authorization', `Bearer ${token}`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(400);
+                    done();
+                });
+        });
+
+        it('normal request', function(done) {
+            chai.request(`${URL}`)
+                .delete(`/offer/${offerId}`)
+                .set('Authorization', `Bearer ${token}`)
+                .end(function(err, res) {
+                    expect(res).to.have.status(200);
+                    done();
+                });
+        });
     });
 
     describe('DELETE all account using for tests', () => {
