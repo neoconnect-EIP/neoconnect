@@ -89,7 +89,12 @@ async function reportUser(req) {
     let userId = jwtUtils.getUserId(headerAuth);
     if (userId < 0)
         return ({status: 401, message: "Bad Token"});
-
+    let userType = jwtUtils.getUserType(headerAuth);
+    let user;
+    if (userType === 'influencer')
+        user = await Inf.findOne({where: {id: userId}})
+    else
+        user = await Shop.findOne({where: {id: userId}})
     let userReported = await Inf.findOne({
             where: {id: req.params.id}
         });
@@ -117,8 +122,8 @@ async function reportUser(req) {
     var mailOptions = {
         from: "NeoConnect",
         to: 'contact.neoconnect@gmail.com',
-        subject: "Signalement d'un utilisateur",
-        text: "Signalement de " + pseudo + "\n" + "Sujet: " + subject + "\n" + "Message: " + message
+        subject: "[SIGNALEMENT UTILISATEUR]",
+        text: "Signalement de " + pseudo + " par " +  user.pseudo + "\n" + "Sujet: " + subject + "\n" + "Message: " + message
     };
 
     transporter.sendMail(mailOptions, function(error, info){
