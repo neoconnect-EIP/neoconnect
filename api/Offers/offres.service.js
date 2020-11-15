@@ -73,10 +73,17 @@ async function getMarkAverageUser(id) {
 async function paramOffer(req) {
     let list = undefined;
     if (req.hasOwnProperty('order')) {
-        var orderValue = req['order'];
+        let orderValue = req['order'];
         delete req['order'];
         list = await Offer.findAll({
             order: [['updatedAt', orderValue]],
+            where: req
+        })
+    } else if (req.hasOwnProperty('popularity')) {
+        let orderValue = req['popularity'];
+        delete req['popularity'];
+        list = await Offer.findAll({
+            order: [['visitNumber', orderValue]],
             where: req
         })
     } else {
