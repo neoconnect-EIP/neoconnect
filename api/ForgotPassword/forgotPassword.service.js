@@ -52,11 +52,13 @@ async function forgotPassword(params) {
     const mailOptions = {
         from: `neoconnect@gmail.com`,
         to: `${user.email}`,
-        subject: `Votre code d'accès temporaire`,
-        text: `Votre code d'accès temporaire.\n\n` +
-            `Ce code d'accès ne peut être utilisé qu'une fois et expire dans 60 minutes :\n\n` +
-            `${token}\n\n` +
-            `Si vous n'êtes pas à l'origine de cette requête, envoyer nous un message dans le menu conctact\n`,
+        subject: `Réinitialisation de mot de passe`,
+        text: `Bonjour,\n\n` +
+            `Voici votre code d'accès temporaire.\n` +
+            `Ce code d'accès ne peut être utilisé qu'une fois et expire dans 60 minutes :\n` +
+            `${token}\n` +
+            `Si vous n'êtes pas à l'origine de cette requête, ` +
+            `veuillez nous envoyer un email directement en réponse de celui-ci\n`,
     };
 
     transporter.sendMail(mailOptions, function (err, response) {

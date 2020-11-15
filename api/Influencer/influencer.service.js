@@ -37,7 +37,8 @@ async function getUserProfile(req) {
     let list = await User.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-           'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription', 'visitNumber']
+           'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription',
+            'visitNumber', 'countParrainage', 'codeParrainage']
     });
     if (list === null)
         return ({status: 400, message: "Bad Request, User doesn't exist"});
@@ -140,7 +141,7 @@ async function searchInf(req) {
     }
     let list = await User.findOne({
         where: { pseudo: req.body.pseudo},
-        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone']
+        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone', 'countParrainage', 'codeParrainage']
     });
     if (list === null)
         return (undefined);
