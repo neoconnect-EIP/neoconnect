@@ -12,6 +12,7 @@ const   jwt = require("jsonwebtoken"),
         UploadImage = require("../UploadImage/uploadImage.service"),
         GetImage = require("../UploadImage/uploadImage.service"),
         GetAllImage = require("../UploadImage/uploadImage.service"),
+        { URL } = process.env,
         commentService = require("../CommentMark/commentMark.service");
         nodemailer = require('nodemailer');
 
@@ -72,10 +73,17 @@ async function getMarkAverageUser(id) {
 async function paramOffer(req) {
     let list = undefined;
     if (req.hasOwnProperty('order')) {
-        var orderValue = req['order'];
+        let orderValue = req['order'];
         delete req['order'];
         list = await Offer.findAll({
             order: [['updatedAt', orderValue]],
+            where: req
+        })
+    } else if (req.hasOwnProperty('popularity')) {
+        let orderValue = req['popularity'];
+        delete req['popularity'];
+        list = await Offer.findAll({
+            order: [['visitNumber', orderValue]],
             where: req
         })
     } else {
@@ -184,7 +192,7 @@ async function insert(req) {
         color: req.body.color,
         visitNumber: 0
 	});
-    sendMailToFollowersOfShop(userId);
+    sendMailToFollowersOfShop(userId, user.get( { plain: true } ));
     if (req.body.productImg === undefined || isJson(req.body.productImg))
         return ({status: 200, message: user.get( { plain: true } )});
     const imageData = await UploadImage.uploadImage({
@@ -427,8 +435,8 @@ async function chooseApply(req) {
     var mailOptions = {
         from: "NeoConnect",
         to: inf["email"],
-        subject: `Offer apply ${status}`,
-        text: `Votre inscription a l'offre ${offer['productName']} a ete ${status}`
+        subject: `Candidature à l'offre ${offer['productName']}`,
+        text: `Bonjour ${inf['pseudo']},\nvotre candidature à l'offre ${offer['productName']} à été ${status}`
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -504,6 +512,12 @@ async function reportOffer(req) {
     let userId = jwtUtils.getUserId(headerAuth);
     if (userId < 0)
         return (undefined);
+    let userType = jwtUtils.getUserType(headerAuth);
+    let user;
+    if (userType === 'influencer')
+        user = await Inf.findOne({where: {id: userId}})
+    else
+        user = await Shop.findOne({where: {id: userId}})
 
     let offerReported = await Offer.findOne({
             where: {id: req.params.id}
@@ -524,8 +538,8 @@ async function reportOffer(req) {
     var mailOptions = {
         from: "NeoConnect",
         to: 'contact.neoconnect@gmail.com',
-        subject: "Signalement d'une offre",
-        text: "Signalement de l'offre " + offerName + "\n" + "Sujet: " + subject +  "\n" + "Message: " + message
+        subject: "[SIGNALEMENT OFFRE]",
+        text: "Signalement de l'offre " + offerName + " par " + user.pseudo + "\n" + "Sujet: " + subject +  "\n" + "Message: " + message
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -618,7 +632,7 @@ async function offerSuggestion(req) {
     return ({status: 200, message: newList});
 }
 
-async function sendMailToFollowersOfShop(idShop) {
+async function sendMailToFollowersOfShop(idShop, offer) {
     let follow = await Follow.findAll({
         where: { idFollow: idShop},
         attributes: ['idUser', 'idFollow']
@@ -642,12 +656,15 @@ async function sendMailToFollowersOfShop(idShop) {
                     rejectUnauthorized: false
                 }
             });
+            let tmp = await User.findOne({where:{id: follow[i].dataValues.idUser}, attributes: ['email']});
             let mailOptions = {
                 from: "NeoConnect",
                 to: follow[i].dataValues.email,
                 subject: `Nouvelle offre de ${shop.dataValues.pseudo}`,
-                text: `L'utilisateur ${shop.dataValues.pseudo} vient de poster une nouvelle Offre\n` +
-                    `Venez vite sur notre site pour en prendre connaissance`
+                text: `Bonjour ${tmp.pseudo},\n\n ` +
+                    `La boutique ${shop.dataValues.pseudo} vient de poster une nouvelle offre.\n` +
+                    `Vous pourrez la trouver sur les applications mobilea ou au lien suivant :\n`,
+                html: `${URL}/dashboard/item/${offer.id}`
             };
 
             transporter.sendMail(mailOptions, function(error, info){

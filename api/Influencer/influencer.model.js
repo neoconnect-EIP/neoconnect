@@ -82,6 +82,14 @@ module.exports = (sequelize, Sequelize) =>  {
             visitNumber: {
                 type: Sequelize.INTEGER,
                 default: 0
+            },
+            codeParrainage: {
+                type: Sequelize.STRING,
+                default: undefined
+            },
+            countParrainage: {
+                type: Sequelize.INTEGER,
+                default: 0
             }
         },
         { freezeTableName: true }

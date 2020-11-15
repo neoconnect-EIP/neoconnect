@@ -29,8 +29,8 @@ function contact (request, response) {
     var mailOptions = {
       from: pseudo,
       to: 'contact.neoconnect@gmail.com',
-      subject: subject,
-      text: "Pseudo: " + pseudo + "\n" + email + "\n\n" + message
+      subject: `[CONTACT] - ${subject}`,
+      text: pseudo + " " + email + " vous a contacté :" + "\n" + message
     };
     
     transporter.sendMail(mailOptions, function(error, info){
@@ -92,12 +92,12 @@ function userFeedback (req, res) {
             rejectUnauthorized: false
         }
     });
+
     var mailOptions = {
         from: `Feedback ${req.body.environnement}`,
         to: 'contact.neoconnect@gmail.com',
-        subject: req.body.type,
-        text: "Feedback from : " + req.body.environnement + "\n\n"
-            + "Type of Message : " + req.body.type + "\n\n" + message
+        subject: `[${req.body.type}][${req.body.environnement}]`,
+        text: `Retour de ${req.body.pseudo} - ${req.body.email}` + "\n\n" + message
     };
 
     transporter.sendMail(mailOptions, function(error, info){

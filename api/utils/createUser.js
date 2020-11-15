@@ -25,6 +25,15 @@ async function takeHighId() {
     return (valueInf);
 }
 
+function makeid(length) {
+    let result           = '';
+    let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 
 module.exports = {
     registerTestAccounts: async function () {
@@ -43,6 +52,8 @@ module.exports = {
             password: hash,
             userType: "influencer",
             email: TEST_EMAIL,
+            codeParrainage: makeid(5),
+            countParrainage: 0,
             visitNumber: 0
         });
         const shop = await Shop.create({
@@ -51,6 +62,8 @@ module.exports = {
             password: hash,
             userType: "shop",
             email: TEST_EMAIL,
+            codeParrainage: makeid(5),
+            countParrainage: 0,
             visitNumber: 0
         });
         return ("Users created");

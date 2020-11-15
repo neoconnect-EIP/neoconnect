@@ -3,6 +3,7 @@ const   db = require("../_helpers/db"),
         Inf = db.Influencer,
         Shop = db.Shop,
         Mark = db.Mark,
+        Follow = db.Follow,
         { URL_IA } = process.env,
         jwtUtils = require("../utils/jwt.utils"),
         fetch = require("../utils/fetch"),
@@ -89,7 +90,12 @@ async function reportUser(req) {
     let userId = jwtUtils.getUserId(headerAuth);
     if (userId < 0)
         return ({status: 401, message: "Bad Token"});
-
+    let userType = jwtUtils.getUserType(headerAuth);
+    let user;
+    if (userType === 'influencer')
+        user = await Inf.findOne({where: {id: userId}})
+    else
+        user = await Shop.findOne({where: {id: userId}})
     let userReported = await Inf.findOne({
             where: {id: req.params.id}
         });
@@ -117,8 +123,8 @@ async function reportUser(req) {
     var mailOptions = {
         from: "NeoConnect",
         to: 'contact.neoconnect@gmail.com',
-        subject: "Signalement d'un utilisateur",
-        text: "Signalement de " + pseudo + "\n" + "Sujet: " + subject + "\n" + "Message: " + message
+        subject: "[SIGNALEMENT UTILISATEUR]",
+        text: "Signalement de " + pseudo + " par " +  user.pseudo + "\n" + "Sujet: " + subject + "\n" + "Message: " + message
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -150,6 +156,8 @@ async function deleteUser(req) {
         })
     }
     if (user != null) {
+        let apply = await Follow.findAll({where: {idUser: userId}})
+        await apply.destroy();
         await user.destroy();
         return ({status: 200, message: "Utilisateur supprimer"});
     } else {
@@ -234,6 +242,16 @@ async function takeHighId() {
     return (valueInf);
 }
 
+function makeid(length) {
+    let result           = '';
+    let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 async function registerInf(params) {
     if (params === undefined ||
         params.pseudo === undefined ||
@@ -286,8 +304,10 @@ async function registerInf(params) {
             pinterest: params.pinterest,
             twitch: params.twitch,
             youtube: params.youtube,
-            visitNumber: 0
-        });
+            visitNumber: 0,
+            codeParrainage: makeid(5),
+            countParrainage: 0
+    });
     if (params.userPicture !== undefined) {
         const imageData = await UploadImage.uploadImage({
             idLink: user.id,
@@ -302,6 +322,19 @@ async function registerInf(params) {
             "token" : jwtUtils.generateTokenForUser(user)
         }
     }
+}
+
+async function addParrainage(req) {
+    if (!req.body || !req.body.codeParrainage)
+        return ({status: 400, message: "Bad Request, Please give a pseudo, email and a password"});
+    let user = await Inf.findOne({where: {codeParrainage: req.body.codeParrainage}})
+    if (!user)
+        user = await Shop.findOne({where: {codeParrainage: req.body.codeParrainage}})
+    if (!user)
+        return ({status: 400, message: "Code parrainage incorrect"});
+    user['countParrainage'] = user['countParrainage'] + 1;
+    user.save().then(() => {});
+    return ({status: 200, message: "Code parrainage soumis avec succès"});
 }
 
 async function registerShop(params) {
@@ -344,7 +377,9 @@ async function registerShop(params) {
         twitter: params.twitter,
         snapchat: params.snapchat,
         instagram: params.instagram,
-        visitNumber: 0
+        visitNumber: 0,
+        codeParrainage: makeid(5),
+        countParrainage: 0
     });
     if (params.userPicture !== undefined) {
         const imageData = await UploadImage.uploadImage({
@@ -369,5 +404,6 @@ module.exports = {
     userSuggestion,
     registerInf,
     registerShop,
-    getProfile
+    getProfile,
+    addParrainage,
 };

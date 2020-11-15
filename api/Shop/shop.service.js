@@ -83,7 +83,7 @@ async function getUserProfile(req) {
     const list = await Shop.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'userDescription', 'theme',
-            'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram', 'visitNumber']
+            'society', 'function', 'website', 'twitter', 'facebook', 'snapchat', 'instagram', 'visitNumber', 'countParrainage', 'codeParrainage']
     });
     if (list === null)
         return ({status: 400, message: "Bad Request, User doesn't exist"});
@@ -181,7 +181,7 @@ async function searchShop(req) {
 
     let list = await Shop.findOne({
         where: { pseudo: req.body.pseudo},
-        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone', 'visitNumber']
+        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone', 'visitNumber', 'countParrainage', 'codeParrainage']
     });
     if (list === null)
         return (undefined);
