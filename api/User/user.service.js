@@ -156,8 +156,9 @@ async function deleteUser(req) {
         })
     }
     if (user != null) {
-        let apply = await Follow.findAll({where: {idUser: userId}})
-        await apply.destroy();
+        await Follow.destroy({
+            where: {idUser: userId}
+        })
         await user.destroy();
         return ({status: 200, message: "Utilisateur supprimer"});
     } else {
