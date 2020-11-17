@@ -151,7 +151,8 @@ async function searchInf(req) {
     }
     let list = await User.findOne({
         where: { pseudo: req.body.pseudo},
-        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone', 'countParrainage', 'codeParrainage']
+        attributes: ['id', 'pseudo', 'userType','userDescription', 'theme', 'email', 'phone',
+        'countParrainage', 'codeParrainage']
     });
     if (list === null)
         return (undefined);
@@ -163,7 +164,7 @@ async function searchInf(req) {
     list.dataValues.comment = await CommentMark.getCommentByUserId(list.id.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(list.id.toString());
     let offerApplied = await OfferApply.findAll({
-        where: {idUser: list.id.toString()}
+        where: {idUser: list.id.toString(), status: "accepted"}
     });
     list.dataValues.nbOfferApplied = offerApplied.length;
     return (list);
