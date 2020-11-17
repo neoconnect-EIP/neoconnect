@@ -11,7 +11,8 @@ const   db = require("../_helpers/db"),
         commentService = require("../CommentMark/commentMark.service"),
         verifyDuplicateField = require("../utils/verifyDuplicateFieldUser"),
         ShopService = require("../Shop/shop.service"),
-        GetAllImage = require("../UploadImage/uploadImage.service");
+        GetAllImage = require("../UploadImage/uploadImage.service"),
+        OfferApply = db.OfferApply;
 
 async function getMyProfile(req) {
     let userId = jwtUtils.getUserId(req.headers['authorization']);
@@ -19,7 +20,8 @@ async function getMyProfile(req) {
     const list = await User.findOne({
         where: { id: userId },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-            'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription']
+            'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription',
+            'visitNumber', 'countParrainage', 'codeParrainage']
     });
     list.userPicture = await GetImage.getImage({
         idLink: userId.toString(),
@@ -28,6 +30,10 @@ async function getMyProfile(req) {
     list.dataValues.average = await statService.getMarkAverageUser(`${userId}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
+    let offerApplied = await OfferApply.findAll({
+        where: {idUser: userId}
+    });
+    list.dataValues.nbOfferApplied = offerApplied.length;
     return ({status: 200, message: list});
 }
 
@@ -51,6 +57,10 @@ async function getUserProfile(req) {
     list.dataValues.average = await statService.getMarkAverageUser(`${req.params.id}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(req.params.id.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(req.params.id.toString());
+    let offerApplied = await OfferApply.findAll({
+        where: {idUser: req.params.id}
+    });
+    list.dataValues.nbOfferApplied = offerApplied.length;
     return ({status:200, message: list});
 
 }
@@ -149,6 +159,13 @@ async function searchInf(req) {
         idLink: list.id.toString(),
         type: 'User'
     });
+    list.dataValues.average = await statService.getMarkAverageUser(`${list.id}`);
+    list.dataValues.comment = await CommentMark.getCommentByUserId(list.id.toString());
+    list.dataValues.mark = await CommentMark.getMarkByUserId(list.id.toString());
+    let offerApplied = await OfferApply.findAll({
+        where: {idUser: list.id.toString()}
+    });
+    list.dataValues.nbOfferApplied = offerApplied.length;
     return (list);
 }
 
