@@ -106,6 +106,11 @@ async function getUserProfile(req) {
         where: {idUser: req.params.id}
     });
     list.dataValues.nbOfferPosted = listShop.length;
+    let allFollow = await Follow.findAll({
+        where: { idFollow: req.params.id},
+        attributes: ['idUser', 'idFollow']
+    });
+    list.dataValues.nbFollows = allFollow.length;
     return ({status:200, message: list});
 }
 
@@ -215,6 +220,12 @@ async function searchShop(req) {
     } else {
         list.dataValues.follow = false
     }
+    
+    let allFollow = await Follow.findAll({
+        where: { idFollow: list.id},
+        attributes: ['idUser', 'idFollow']
+    });
+    list.dataValues.nbFollows = allFollow.length;
     return (list);
 }
 

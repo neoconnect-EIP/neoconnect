@@ -132,11 +132,18 @@ async function listShop(req) {
         attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
         'society', 'function', 'userDescription', 'website', 'twitter', 'facebook', 'snapchat', 'instagram']
     });
+    
     let newList = await GetImage.regroupImageData(list, 'User');
     for(let i = 0; i < newList.length; i++) {
         newList[i].dataValues.average = await statService.getMarkAverageUser(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByUserId(`${newList[i].id}`);
         newList[i].dataValues.follow = await ShopService.getFollow(newList[i].id, userId)
+        let listShop = await Offer.findAll({
+            where: {idUser: newList[i].id}
+        });
+        newList[i].dataValues.nbOfferPosted = listShop.length
+        
+        list.dataValues.nbOfferPosted = listShop.length;
     }
     return ({status: 200, message:newList});
 }
