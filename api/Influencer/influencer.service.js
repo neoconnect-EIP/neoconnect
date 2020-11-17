@@ -143,8 +143,6 @@ async function listShop(req) {
             where: {idUser: newList[i].id}
         });
         newList[i].dataValues.nbOfferPosted = listShop.length
-        
-        list.dataValues.nbOfferPosted = listShop.length;
     }
     return ({status: 200, message:newList});
 }
