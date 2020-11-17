@@ -72,7 +72,12 @@ async function getMyProfile(req) {
         }
         list.dataValues.average = avg / listOffer.length;
     }
+    list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
     list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
+    let listShop = await Offer.findAll({
+        where: {idUser: userId}
+    });
+    list.dataValues.nbOfferPosted = listShop.length;
     return ({status: 200, message: list});
 }
 
@@ -97,6 +102,10 @@ async function getUserProfile(req) {
     list.dataValues.comment = await CommentMark.getCommentByUserId(req.params.id.toString());
     list.dataValues.mark = await CommentMark.getMarkByUserId(req.params.id.toString());
     list.dataValues.follow = await getFollow(req.params.id, userId);
+    let listShop = await Offer.findAll({
+        where: {idUser: req.params.id}
+    });
+    list.dataValues.nbOfferPosted = listShop.length;
     return ({status:200, message: list});
 }
 
@@ -191,6 +200,13 @@ async function searchShop(req) {
         idLink: list.id.toString(),
         type: 'User'
     });
+    list.dataValues.average = await getMarkAverageUser(`${list.id}`);
+    list.dataValues.comment = await CommentMark.getCommentByUserId(list.id.toString());
+    list.dataValues.mark = await CommentMark.getMarkByUserId(list.id.toString());
+    let listShop = await Offer.findAll({
+        where: {idUser: list.id}
+    });
+    list.dataValues.nbOfferPosted = listShop.length;
     let follow = await Follow.findOne({
         where: { idUser: userId, idFollow: list.id}
     });

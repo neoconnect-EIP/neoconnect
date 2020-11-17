@@ -8,17 +8,17 @@ module.exports = {
             return (theme);
         switch (theme) {
             case '1':
-                return ('mode');
+                return ('Mode');
             case '2':
-                return ('cosmetique');
+                return ('Cosmétique');
             case '3':
-                return ('high tech');
+                return ('High tech');
             case '4':
-                return ('food');
+                return ('Nourriture');
             case '5':
-                return ('jeux video');
+                return ('Jeux Vidéo');
             case '6':
-                return ('sport/fitness');
+                return ('Sport/Fitness');
 
         }
     }

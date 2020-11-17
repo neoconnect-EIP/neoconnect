@@ -14,7 +14,8 @@ const   jwt = require("jsonwebtoken"),
         GetAllImage = require("../UploadImage/uploadImage.service"),
         { URL } = process.env,
         commentService = require("../CommentMark/commentMark.service");
-        nodemailer = require('nodemailer');
+        nodemailer = require('nodemailer'),
+        utils = require("../utils/themeSelection");
 
 
 module.exports = {
@@ -187,7 +188,7 @@ async function insert(req) {
 		productName: req.body.productName,
 		productSex: req.body.productSex,
 		productDesc: req.body.productDesc,
-		productSubject: req.body.productSubject,
+		productSubject: utils.themeSelection(req.body.productSubject),
         brand: req.body.brand,
         color: req.body.color,
         visitNumber: 0
@@ -367,7 +368,7 @@ async function getApplyUser(req) {
 
        apply[i].dataValues.productName = offer.productName;
        apply[i].dataValues.brand = offer.brand;
-       apply[i].dataValues.theme = offer.productSubject;
+       apply[i].dataValues.productSubject = offer.productSubject;
         apply[i].dataValues.productImg = await GetImage.getImage({
             idLink: apply[i].idOffer.toString(),
             type: 'Offer'
