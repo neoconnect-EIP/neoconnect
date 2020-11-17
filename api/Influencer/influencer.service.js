@@ -3,6 +3,7 @@ const   db = require("../_helpers/db"),
         User = db.Influencer,
         Shop = db.Shop,
         Offer = db.Offre,
+        Follow = db.Follow,
         CommentMark = require("../CommentMark/commentMark.service"),
         jwtUtils = require("../utils/jwt.utils"),
         utils = require("../utils/themeSelection"),
@@ -143,6 +144,11 @@ async function listShop(req) {
             where: {idUser: newList[i].id}
         });
         newList[i].dataValues.nbOfferPosted = listShop.length
+        let allFollow = await Follow.findAll({
+            where: { idFollow: newList[i].id},
+            attributes: ['idUser', 'idFollow']
+        });
+        newList[i].dataValues.nbFollows = allFollow.length;
     }
     return ({status: 200, message:newList});
 }
