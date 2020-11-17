@@ -11,7 +11,8 @@ const   db = require("../_helpers/db"),
         GetImage = require("../UploadImage/uploadImage.service"),
         commentService = require("../CommentMark/commentMark.service"),
         verifyDuplicateField = require("../utils/verifyDuplicateFieldUser"),
-        GetAllImage = require("../UploadImage/uploadImage.service");
+        GetAllImage = require("../UploadImage/uploadImage.service"),
+        OfferApply = db.OfferApply;
 
 async function getMarkAverageUser(id) {
     if (id === undefined)
@@ -179,6 +180,10 @@ async function listInf(req) {
     for(let i = 0; i < newList.length; i++) {
         newList[i].dataValues.average = await getMarkAverageUser(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByUserId(`${newList[i].id}`);
+        let offerApplied = await OfferApply.findAll({
+            where: {idUser: newList[i].id.toString(), status: "accepted"}
+        });
+        newList[i].dataValues.nbOfferApplied = offerApplied.length;
     }
     return ({status: 200, message:newList});
 }
