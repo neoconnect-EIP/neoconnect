@@ -2,6 +2,7 @@ const   db = require("../_helpers/db"),
         bcrypt = require("bcrypt"),
         User = db.Influencer,
         Shop = db.Shop,
+        Offer = db.Offre,
         CommentMark = require("../CommentMark/commentMark.service"),
         jwtUtils = require("../utils/jwt.utils"),
         utils = require("../utils/themeSelection"),
@@ -142,8 +143,6 @@ async function listShop(req) {
             where: {idUser: newList[i].id}
         });
         newList[i].dataValues.nbOfferPosted = listShop.length
-        
-        list.dataValues.nbOfferPosted = listShop.length;
     }
     return ({status: 200, message:newList});
 }
