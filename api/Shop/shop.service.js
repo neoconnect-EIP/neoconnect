@@ -190,7 +190,7 @@ async function searchShop(req) {
 
     let list = await Shop.findOne({
         where: { pseudo: req.body.pseudo},
-        attributes: ['id', 'pseudo', 'userType', 'theme', 'email', 'phone', 'visitNumber', 'countParrainage', 'codeParrainage']
+        attributes: ['id', 'pseudo', 'userType', 'userDescription', 'theme', 'email', 'phone', 'visitNumber', 'countParrainage', 'codeParrainage']
     });
     if (list === null)
         return (undefined);
