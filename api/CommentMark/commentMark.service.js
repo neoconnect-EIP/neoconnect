@@ -4,6 +4,7 @@ const   db = require("../_helpers/db"),
         Comment = db.Comment,
         Mark = db.Mark,
         Shop = db.Shop,
+        GetImage = require("../UploadImage/uploadImage.service"),
         jwtUtils = require("../utils/jwt.utils");
 
 async function getProfile(id) {
@@ -151,11 +152,12 @@ async function getCommentByOfferId(id) {
 }
 
 async function getMarkByUserId(id) {
-        let dataMark = await Mark.findAll({
+    let dataMark = await Mark.findAll({
         where: {
             idUser: id,
         }
     }).map(el => el.get({ plain: true }));
+    dataMark = await addUserInformation(dataMark);
     return (dataMark);
 }
 
@@ -165,7 +167,25 @@ async function getMarkByOfferId(id) {
             idOffer: id,
         }
     }).map(el => el.get({ plain: true }));
+    dataMark = await addUserInformation(dataMark);
     return (dataMark);
+}
+
+async function getMarkAverageUser(id) {
+    if (id === undefined)
+        return (undefined);
+    let allMark = await Mark.findAll({
+        where: { idUser : id.toString() },
+        attributes: ['mark']
+    });
+    if (allMark.length === 0)
+        return (null);
+    let array = [];
+    for (let i = 0; i < allMark.length; i++) {
+        array.push(parseInt(allMark[i].dataValues.mark))
+    }
+    let average = (array) => array.reduce((a, b) => a + b) / array.length;
+    return (average(array));
 }
 
 async function addUserInformation(allComment) {
@@ -174,17 +194,27 @@ async function addUserInformation(allComment) {
     for(let i = 0; i < allComment.length; i++) {
         let user = await Shop.findOne({
             where: { id: allComment[i].idPost },
-            attributes: ['pseudo']
+            attributes: ['id', 'pseudo']
         });
         if (user === null) {
             let user = await User.findOne({
                 where: { id: allComment[i].idPost },
-                attributes: ['pseudo']
+                attributes: ['id', 'pseudo']
             });
             allComment[i].pseudo = user.dataValues.pseudo
-        }
+            allComment[i].userPicture = await GetImage.getImage({
+                idLink: user.dataValues.id.toString(),
+                type: 'User'
+            });
+            allComment[i].average = await getMarkAverageUser(`${user.dataValues.id}`);
+         }
         else {
             allComment[i].pseudo = user.dataValues.pseudo
+            allComment[i].userPicture = await GetImage.getImage({
+                idLink: user.dataValues.id.toString(),
+                type: 'User'
+            });
+            allComment[i].average = await getMarkAverageUser(`${user.dataValues.id}`);
         }
     }
     return (allComment);
