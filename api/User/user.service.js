@@ -12,7 +12,8 @@ const   db = require("../_helpers/db"),
         statService = require("../Stat/stat.service"),
         verifyDuplicateField = require("../utils/verifyDuplicateFieldUser"),
         commentService = require("../CommentMark/commentMark.service");
-        UploadImage = require("../UploadImage/uploadImage.service");
+        UploadImage = require("../UploadImage/uploadImage.service"),
+        getFollowers = require('../utils/getFollowers');
 
 //Vérifie que le shop existe dans la bdd
 async function login(params) {
@@ -48,13 +49,14 @@ async function login(params) {
 
 async function verifyUser(params) {
     let obj = {
-        "instagram": "",
+        "insta": "",
         "twitter": "",
         "youtube": "",
         "facebook": "",
         "twitch": "",
         "snapchat": "",
-        "pinterest": ""
+        "pinterest": "",
+        "tiktok": ""
     };
 
     for (const property in obj) {
@@ -193,7 +195,7 @@ async function userSuggestion(req) {
         list = await Inf.findAll({
             where: {theme: user.theme},
             attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-                'facebook', 'sexe', 'pinterest', 'twitch', 'youtube', 'twitter', 'snapchat', 'instagram', 'userDescription'],
+                'facebook', 'sexe', 'titkok', 'pinterest', 'twitch', 'youtube', 'twitter', 'snapchat', 'instagram', 'userDescription'],
             limit: 5
         });
     }
@@ -267,7 +269,7 @@ async function registerInf(params) {
     if (!validation.checkRegex('^(\\w{4,24})$', params.pseudo))
         return ({status: 400, message: "Invalid Pseudo, the pseudo must be between 4 and 24 characters"});
 
-    let duplicate = await verifyDuplicateField.checkDuplicateField(params);
+    let duplicate = await verifyDuplicateField.checkDuplicateInfField(params);
     if (!duplicate)
         return ({status: 400, message: "Error, account already exists"});
 
@@ -277,14 +279,22 @@ async function registerInf(params) {
         params.snapchat !== undefined ||
         params.pinterest !== undefined ||
         params.twitch !== undefined ||
-        params.youtube !== undefined) {
-        if (await verifyUser(params))
+        params.youtube !== undefined ||
+        params.tiktok !== undefined) {
+        if (!verifyUser(params)) {
             return ({status: 400, message: "Invalid social network account"});
+        } else {
+        }
     }
 
     const idMax = await takeHighId();
-
     let hash = bcrypt.hashSync(params.password, 5);
+    let twitterNb = await getFollowers.setupTwitterFollowers(params);
+    let instagramNb = await getFollowers.setupInstagramFollowers(params);
+    let pinterestNb = await getFollowers.setupPinterestFollowers(params);
+    let twitchNb = await getFollowers.setupTwitchFollowers(params);
+    let youtubeNb = await getFollowers.setupYoutubeFollowers(params);
+    let tiktokNb = await getFollowers.setupTiktokFollowers(params);
     const user = await Inf.create({
             id: idMax + 1,
             pseudo: params.pseudo,
@@ -299,16 +309,24 @@ async function registerInf(params) {
             theme: utils.themeSelection(params.theme),
             facebook: params.facebook,
             twitter: params.twitter,
+            twitterNb: [twitterNb],
             snapchat: params.snapchat,
             instagram: params.instagram,
+            instagramNb: [instagramNb],
             sexe: params.sexe,
             pinterest: params.pinterest,
+            pinterestNb: [pinterestNb],
             twitch: params.twitch,
+            twitchNb: [twitchNb],
             youtube: params.youtube,
+            youtubeNb: [youtubeNb],
+            tiktok: params.tiktok,
+            tiktokNb: [tiktokNb],
             visitNumber: 0,
             codeParrainage: makeid(5),
             countParrainage: 0
     });
+
     if (params.userPicture !== undefined) {
         const imageData = await UploadImage.uploadImage({
             idLink: user.id,
@@ -352,7 +370,7 @@ async function registerShop(params) {
     if (!validation.checkRegex('^(\\w{4,24})$', params.pseudo))
         return ({status: 400, message: "Invalid Pseudo, the pseudo must be between 4 and 24 characters"});
 
-    let duplicate = await verifyDuplicateField.checkDuplicateField(params);
+    let duplicate = await verifyDuplicateField.checkDuplicateShopField(params);
     if (!duplicate)
         return ({status: 400, message: "Error, account already exists"});
 

@@ -122,7 +122,7 @@ async function modifyUserProfile(req) {
         where: {id: userId}
     });
 
-    let duplicate = await verifyDuplicateField.checkDuplicateField(req.body);
+    let duplicate = await verifyDuplicateField.checkDuplicateShopField(req.body);
     if (!duplicate)
         return ({status: 400, message: "Error, account already exists"});
 
@@ -144,10 +144,6 @@ async function modifyUserProfile(req) {
         user["function"] = req.body["function"];
         user["website"] = req.body["website"];
     });
-
-    if (req.body.password !== undefined) {
-        user['password'] = bcrypt.hashSync(req.body.password, 5);
-    }
 
     if (req.body.userPicture !== undefined) {
         await GetImage.editImage({
@@ -173,8 +169,8 @@ async function modifyUserProfile(req) {
 
 async function listInf(req) {
     const list = await User.findAll({
-        attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-        'facebook', 'sexe', 'pinterest', 'twitch', 'youtube', 'twitter', 'snapchat', 'instagram', 'userDescription']
+        attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme', 'sexe', 
+        'facebook', 'tiktok', 'pinterest', 'twitch', 'youtube', 'twitter', 'snapchat', 'instagram', 'userDescription']
     });
     let newList = await GetImage.regroupImageData(list, 'User');
     for(let i = 0; i < newList.length; i++) {
