@@ -51,16 +51,36 @@ module.exports = (sequelize, Sequelize) =>  {
                 type: Sequelize.STRING,
                 default: undefined
             },
+            tiktok: {
+                type: Sequelize.STRING,
+                default: undefined
+            },
+            tiktokNb: {
+                type: Sequelize.ARRAY(Sequelize.INTEGER),
+                default: undefined
+            },
             pinterest: {
                 type: Sequelize.STRING,
+                default: undefined
+            },
+            pinterestNb: {
+                type: Sequelize.ARRAY(Sequelize.INTEGER),
                 default: undefined
             },
             twitch: {
                 type: Sequelize.STRING,
                 default: undefined
             },
+            twitchNb: {
+                type: Sequelize.ARRAY(Sequelize.INTEGER),
+                default: undefined
+            },
             youtube: {
                 type: Sequelize.STRING,
+                default: undefined
+            },
+            youtubeNb: {
+                type: Sequelize.ARRAY(Sequelize.INTEGER),
                 default: undefined
             },
             facebook: {
@@ -71,12 +91,20 @@ module.exports = (sequelize, Sequelize) =>  {
                 type: Sequelize.STRING,
                 default: undefined
             },
+            twitterNb: {
+                type: Sequelize.ARRAY(Sequelize.INTEGER),
+                default: undefined
+            },
             snapchat: {
                 type: Sequelize.STRING,
                 default: undefined
             },
             instagram: {
                 type: Sequelize.STRING,
+                default: undefined
+            },
+            instagramNb: {
+                type: Sequelize.ARRAY(Sequelize.INTEGER),
                 default: undefined
             },
             visitNumber: {

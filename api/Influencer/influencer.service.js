@@ -8,6 +8,7 @@ const   db = require("../_helpers/db"),
         jwtUtils = require("../utils/jwt.utils"),
         utils = require("../utils/themeSelection"),
         validation = require('../utils/validation'),
+        getFollowers = require('../utils/getFollowers'),
         GetImage = require("../UploadImage/uploadImage.service"),
         statService = require("../Stat/stat.service"),
         commentService = require("../CommentMark/commentMark.service"),
@@ -16,14 +17,32 @@ const   db = require("../_helpers/db"),
         GetAllImage = require("../UploadImage/uploadImage.service"),
         OfferApply = db.OfferApply;
 
+async function getAdvancedStats() {
+    const list = await User.findAll({
+        attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
+        'facebook', 'sexe', 'pinterest', 'twitch', 'twitchNb', 'youtube', 'twitter', 'snapchat', 'instagram', 'userDescription']
+    });
+    for (let i = 0; i < list.length; i++) {
+        getFollowers.getTiktokFollowers(list[i]);
+        getFollowers.getPinterestFollowers(list[i]);
+        getFollowers.getTwitchFollowers(list[i]);
+        getFollowers.getInstagramFollowers(list[i]);
+        getFollowers.getTwitterFollowers(list[i]);
+        getFollowers.getYoutubeFollowers(list[i]);
+    }
+}
+
+setInterval(getAdvancedStats, 86400000); 
+
 async function getMyProfile(req) {
     let userId = jwtUtils.getUserId(req.headers['authorization']);
 
     const list = await User.findOne({
         where: { id: userId },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-            'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription',
-            'visitNumber', 'countParrainage', 'codeParrainage']
+            'sexe','pinterest', 'pinterestNb', 'twitch', 'twitchNb', 'youtube', 'youtubeNb', 'facebook', 
+            'twitter', 'twitterNb', 'snapchat', 'instagram', 'instagramNb', 'tiktok', 'tiktokNb',
+            'userDescription', 'visitNumber', 'countParrainage', 'codeParrainage']
     });
     list.userPicture = await GetImage.getImage({
         idLink: userId.toString(),
@@ -45,7 +64,7 @@ async function getUserProfile(req) {
     let list = await User.findOne({
         where: { id: req.params.id },
         attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-           'sexe','pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription',
+           'sexe', 'tiktok', 'pinterest','twitch','youtube','facebook', 'twitter', 'snapchat', 'instagram', 'userDescription',
             'visitNumber', 'countParrainage', 'codeParrainage']
     });
     if (list === null)
@@ -77,7 +96,7 @@ async function modifyUserProfile(req) {
     if (user === null)
         return ({status:400, message: "No User"});
 
-    let duplicate = await verifyDuplicateField.checkDuplicateField(req.body);
+    let duplicate = await verifyDuplicateField.checkDuplicateInfField(req.body);
     if (!duplicate)
         return ({status: 400, message: "Error, account already exists"});
 
@@ -91,6 +110,7 @@ async function modifyUserProfile(req) {
         user["theme"] = utils.themeSelection(req.body["theme"]);
         user["userDescription"] = req.body["userDescription"];
         user["sexe"] = req.body["sexe"];
+        user["tiktok"] = req.body["tiktok"];
         user["pinterest"] = req.body["pinterest"];
         user["twitch"] = req.body["twitch"];
         user["youtube"] = req.body["youtube"];
@@ -99,10 +119,6 @@ async function modifyUserProfile(req) {
         user["snapchat"] = req.body["snapchat"];
         user["instagram"] = req.body["instagram"];
     });
-
-    if (req.body.password !== undefined) {
-        user['password'] = bcrypt.hashSync(req.body.password, 5);
-    }
 
     if (req.body.userPicture !== undefined) {
         await GetImage.editImage({
