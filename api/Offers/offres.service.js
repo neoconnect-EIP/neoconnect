@@ -626,6 +626,8 @@ async function offerSuggestion(req) {
         return ({status: 200, message: "No Data"});
     let newList = await GetImage.regroupImageData(list, 'Offer');
     for(let i = 0; i < newList.length; i++) {
+        newList[i].dataValues.status = (await OfferApply.findOne({where:{idOffer: newList[i].id}})).status
+        newList[i].dataValues.follow = !!(await Follow.findOne({where: {idFollow: newList[i].idUser, idUser: userId}}))
         newList[i].dataValues.average = await getMarkAverageOffer(`${newList[i].id}`);
         newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
     }
