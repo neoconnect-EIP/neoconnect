@@ -143,32 +143,40 @@ async function getByShop(req) {
         return ({status: 200, message: listShop});
     if (listShop === undefined || listShop.length === 0)
         return ({status: 400, message: "No shop"});
+    let userType = jwtUtils.getUserType(req.headers['authorization']);
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
     let newList = await GetImage.regroupImageData(listShop, 'Offer');
-    for(let i = 0; i < newList.length; i++) {
-        newList[i].dataValues.average = await getMarkAverageOffer(`${newList[i].id}`);
-        newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
-        newList[i].dataValues.apply = await OfferApply.findAll({
-            where: {idOffer: `${newList[i].id}`}
-        });
-        for (let j = 0; j < newList[i].dataValues.apply.length; j++) {
-            let user = await User.findOne({where: {id: newList[i].dataValues.apply[j]['idUser']}});
-            newList[i].dataValues.apply[j]['pseudoUser'] = user.pseudo;
-            newList[i].dataValues.apply[j].dataValues['pseudo'] = user.pseudo;
-            newList[i].dataValues.apply[j].dataValues['average'] = await getMarkAverageUser(newList[i].dataValues.apply[j]['idUser']);
-            newList[i].dataValues.apply[j].dataValues['userPicture'] = await GetImage.getImage({
-                idLink: newList[i].dataValues.apply[j]['idUser'].toString(),
-                type: 'User'
-            })
-            newList[i].dataValues.apply[j].dataValues['facebook'] = user.facebook;
-            newList[i].dataValues.apply[j].dataValues['twitter'] = user.twitter;
-            newList[i].dataValues.apply[j].dataValues['instagram'] = user.instagram;
-            newList[i].dataValues.apply[j].dataValues['snapchat'] = user.snapchat;
-            newList[i].dataValues.apply[j].dataValues['twitch'] = user.twitch;
-            newList[i].dataValues.apply[j].dataValues['pinterest'] = user.pinterest;
-            newList[i].dataValues.apply[j].dataValues['youtube'] = user.youtube;
-            newList[i].dataValues.apply[j].dataValues['tiktok'] = user.tiktok;
+        for(let i = 0; i < newList.length; i++) {
+            newList[i].dataValues.average = await getMarkAverageOffer(`${newList[i].id}`);
+            newList[i].dataValues.comment = await commentService.getCommentByOfferId(`${newList[i].id}`);
+            if (userType === 'shop') {
+                newList[i].dataValues.apply = await OfferApply.findAll({
+                    where: {idOffer: `${newList[i].id}`}
+                });
+            } else {
+                newList[i].dataValues.apply = await OfferApply.findAll({
+                    where: {idOffer: `${newList[i].id}`, idUser: userId}
+                });
+            }
+            for (let j = 0; j < newList[i].dataValues.apply.length; j++) {
+                let user = await User.findOne({where: {id: newList[i].dataValues.apply[j]['idUser']}});
+                newList[i].dataValues.apply[j]['pseudoUser'] = user.pseudo;
+                newList[i].dataValues.apply[j].dataValues['pseudo'] = user.pseudo;
+                newList[i].dataValues.apply[j].dataValues['average'] = await getMarkAverageUser(newList[i].dataValues.apply[j]['idUser']);
+                newList[i].dataValues.apply[j].dataValues['userPicture'] = await GetImage.getImage({
+                    idLink: newList[i].dataValues.apply[j]['idUser'].toString(),
+                    type: 'User'
+                })
+                newList[i].dataValues.apply[j].dataValues['facebook'] = user.facebook;
+                newList[i].dataValues.apply[j].dataValues['twitter'] = user.twitter;
+                newList[i].dataValues.apply[j].dataValues['instagram'] = user.instagram;
+                newList[i].dataValues.apply[j].dataValues['snapchat'] = user.snapchat;
+                newList[i].dataValues.apply[j].dataValues['twitch'] = user.twitch;
+                newList[i].dataValues.apply[j].dataValues['pinterest'] = user.pinterest;
+                newList[i].dataValues.apply[j].dataValues['youtube'] = user.youtube;
+                newList[i].dataValues.apply[j].dataValues['tiktok'] = user.tiktok;
+            }
         }
-    }
     return ({status: 200, message: newList});
 }
 
