@@ -273,6 +273,7 @@ async function registerInf(params) {
     if (!duplicate)
         return ({status: 400, message: "Error, account already exists"});
 
+    let twitterNb, instagramNb, pinterestNb, twitchNb, youtubeNb, tiktokNb;
     if (params.instagram !== undefined ||
         params.twitter !== undefined ||
         params.facebook !== undefined ||
@@ -284,17 +285,18 @@ async function registerInf(params) {
         if (!verifyUser(params)) {
             return ({status: 400, message: "Invalid social network account"});
         } else {
+            twitterNb = await getFollowers.setupTwitterFollowers(params);
+            /* instagramNb = await getFollowers.setupInstagramFollowers(params); */
+            /* pinterestNb = await getFollowers.setupPinterestFollowers(params); */
+            twitchNb = await getFollowers.setupTwitchFollowers(params);
+            youtubeNb = await getFollowers.setupYoutubeFollowers(params);
+            tiktokNb = await getFollowers.setupTiktokFollowers(params);
         }
     }
 
     const idMax = await takeHighId();
     let hash = bcrypt.hashSync(params.password, 5);
-    let twitterNb = await getFollowers.setupTwitterFollowers(params);
-    let instagramNb = await getFollowers.setupInstagramFollowers(params);
-    let pinterestNb = await getFollowers.setupPinterestFollowers(params);
-    let twitchNb = await getFollowers.setupTwitchFollowers(params);
-    let youtubeNb = await getFollowers.setupYoutubeFollowers(params);
-    let tiktokNb = await getFollowers.setupTiktokFollowers(params);
+    
     const user = await Inf.create({
             id: idMax + 1,
             pseudo: params.pseudo,
