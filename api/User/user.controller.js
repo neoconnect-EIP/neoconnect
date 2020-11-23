@@ -11,6 +11,7 @@ router.get("/user/suggestion", userSuggestion);
 router.post("/inf/register", registerInf);
 router.post("/shop/register", registerShop);
 router.post("/insertParrainage", addParrainage);
+router.post("/user/checkField", checkField);
 
 module.exports = router;
 
@@ -74,6 +75,15 @@ function registerShop(req, res, next) {
 function addParrainage(req, res, next) {
     userService
         .addParrainage(req)
+        .then(user => {
+            res.status(user.status).json(user.message);
+        })
+        .catch(err => next(err));
+}
+
+function checkField(req, res, next) {
+    userService
+        .checkField(req.headers, req.body)
         .then(user => {
             res.status(user.status).json(user.message);
         })
