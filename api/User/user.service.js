@@ -432,6 +432,8 @@ async function checkField(header, body) {
         }
         if (await Shop.findOne({where: {[prop]: body[prop]}}))
             return ({status: 200, message: true});
+        if (await Inf.findOne({where: {[prop]: body[prop]}}))
+            return ({status: 200, message: true});
         return ({status: 200, message: false});
     } else {
         if (!body.pseudo && !body.email && !body.twitter && !body.facebook && !body.snapchat &&
@@ -443,6 +445,8 @@ async function checkField(header, body) {
             break;
         }
         if (await Inf.findOne({where: {[prop]: body[prop]}}))
+            return ({status: 200, message: true});
+        if (await Shop.findOne({where: {[prop]: body[prop]}}))
             return ({status: 200, message: true});
         return ({status: 200, message: false});
     }
