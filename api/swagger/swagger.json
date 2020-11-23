@@ -299,6 +299,46 @@
         }
       }
     },
+    "/user/checkField": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Permet de check si le field est existant ou non",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/checkField"
+              },
+              "examples": {
+                "Minimum Required": {
+                  "value": {
+                    "facebook": "sardoche"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "description": "Request Body Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user/comment/{id}": {
       "post": {
         "tags": [
@@ -3750,7 +3790,19 @@
         "required": [
           "codeParrainage"
         ]
+      },
+      "checkField": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "field"
+        ]
       }
+
     }
   }
 }
