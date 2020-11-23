@@ -399,39 +399,18 @@ async function registerShop(params) {
 }
 
 async function checkField(header, body) {
-    let userType = jwtUtils.getUserType(header['authorization']);
     if (!body)
         return ({status: 400, message: "Requete Erreur"});
-    if (userType === 'shop') {
-        if (!body.pseudo && !body.email && !body.twitter && !body.facebook && !body.snapchat && !body.instagram)
-            return ({status: 400, message: "Mauvaise rêquete"});
-        let prop;
-        for (const property in body) {
-            prop = property;
-            break;
-        }
-        if (await Shop.findOne({where: {[prop]: body[prop]}}))
-            return ({status: 200, message: true});
-        if (await Inf.findOne({where: {[prop]: body[prop]}}))
-            return ({status: 200, message: true});
-        return ({status: 200, message: false});
-    } else {
-        if (!body.pseudo && !body.email && !body.twitter && !body.facebook && !body.snapchat &&
-            !body.instagram && !body.pinterest && !body.twitch && !body.youtube)
-            return ({status: 400, message: "Mauvaise rêquete"});
-        let prop;
-        for (const property in body) {
-            prop = property;
-            break;
-        }
-        if (await Inf.findOne({where: {[prop]: body[prop]}}))
-            return ({status: 200, message: true});
-        if (await Shop.findOne({where: {[prop]: body[prop]}}))
-            return ({status: 200, message: true});
-        return ({status: 200, message: false});
+    let prop;
+    for (const property in body) {
+        prop = property;
+        break;
     }
-    //if (!body.pseudo && !body.email && !body.)
-    return ({status: 200, message: "response ok"})
+    if (await Inf.findOne({where: {[prop]: body[prop]}}))
+        return ({status: 200, message: true});
+    if (await Shop.findOne({where: {[prop]: body[prop]}}))
+        return ({status: 200, message: true});
+    return ({status: 200, message: false});
 }
 
 module.exports = {
