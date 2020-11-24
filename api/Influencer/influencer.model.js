@@ -59,12 +59,20 @@ module.exports = (sequelize, Sequelize) =>  {
                 type: Sequelize.ARRAY(Sequelize.INTEGER),
                 default: undefined
             },
+            tiktokUpdateDate: {
+                type: Sequelize.ARRAY(Sequelize.STRING),
+                default: undefined
+            },
             pinterest: {
                 type: Sequelize.STRING,
                 default: undefined
             },
             pinterestNb: {
                 type: Sequelize.ARRAY(Sequelize.INTEGER),
+                default: undefined
+            },
+            pinterestUpdateDate: {
+                type: Sequelize.ARRAY(Sequelize.STRING),
                 default: undefined
             },
             twitch: {
@@ -75,12 +83,20 @@ module.exports = (sequelize, Sequelize) =>  {
                 type: Sequelize.ARRAY(Sequelize.INTEGER),
                 default: undefined
             },
+            twitchUpdateDate: {
+                type: Sequelize.ARRAY(Sequelize.STRING),
+                default: undefined
+            },
             youtube: {
                 type: Sequelize.STRING,
                 default: undefined
             },
             youtubeNb: {
                 type: Sequelize.ARRAY(Sequelize.INTEGER),
+                default: undefined
+            },
+            youtubeUpdateDate: {
+                type: Sequelize.ARRAY(Sequelize.STRING),
                 default: undefined
             },
             facebook: {
@@ -95,6 +111,10 @@ module.exports = (sequelize, Sequelize) =>  {
                 type: Sequelize.ARRAY(Sequelize.INTEGER),
                 default: undefined
             },
+            twitterUpdateDate: {
+                type: Sequelize.ARRAY(Sequelize.STRING),
+                default: undefined
+            },
             snapchat: {
                 type: Sequelize.STRING,
                 default: undefined
@@ -105,6 +125,10 @@ module.exports = (sequelize, Sequelize) =>  {
             },
             instagramNb: {
                 type: Sequelize.ARRAY(Sequelize.INTEGER),
+                default: undefined
+            },
+            instagramUpdateDate: {
+                type: Sequelize.ARRAY(Sequelize.STRING),
                 default: undefined
             },
             visitNumber: {

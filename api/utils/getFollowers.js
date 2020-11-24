@@ -41,13 +41,23 @@ async function getTiktokFollowers(user) {
             let response = await fetch.postFetch(`${URL_IA}/followersTiktok`, tiktokObj, undefined);
             if (response.status == 200) {
                 if (response.body.success == true) {
+                    let date = new Date();
+                    let dateUpdate = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "-" + date.getHours().toString() + "H";
                     let tiktokArray = [];
+                    let tiktokArrayDate = [];
                     if (user.tiktokNb != null) {
-                        tiktokArray.push(Object.values(user.tiktokNb)[Object.values(user.tiktokNb).length - 1]);
+                        tiktokArray = Object.values(user.tiktokNb);
+                        tiktokArrayDate = Object.values(user.tiktokUpdateDate);
                     }
                     tiktokArray.push(response.body.tiktok.followers);
+                    tiktokArrayDate.push(dateUpdate);
+                    if (tiktokArray.length >= 10) {
+                        tiktokArray.remove[0];
+                        tiktokArrayDate.remove[0];
+                    }
                     user.update({
-                        tiktokNb: tiktokArray
+                        tiktokNb: tiktokArray,
+                        tiktokUpdateDate: tiktokArrayDate
                     });
                 }
             }
@@ -84,13 +94,23 @@ async function getTwitchFollowers(user) {
             let response = await fetch.postFetch(`${URL_IA}/followersTwitch`, twitchObj, undefined);
             if (response.status == 200) {
                 if (response.body.success == true) {
+                    let date = new Date();
+                    let dateUpdate = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "-" + date.getHours().toString() + "H";
                     let twitchArray = [];
+                    let twitchArrayDate = [];
                     if (user.twitchNb != null) {
-                        twitchArray.push(Object.values(user.twitchNb)[Object.values(user.twitchNb).length - 1]);
+                        twitchArray = Object.values(user.twitchNb);
+                        twitchArrayDate = Object.values(user.twitchUpdateDate);
                     }
                     twitchArray.push(response.body.twitch.followers);
+                    twitchArrayDate.push(dateUpdate);
+                    if(twitchArray.length >= 10) {
+                        twitchArray.remove[0];
+                        twitchArrayDate.remove[0];
+                    }
                     user.update({
-                        twitchNb: twitchArray
+                        twitchNb: twitchArray,
+                        twitchUpdateDate: twitchArrayDate
                     });
                 }
             }
@@ -127,13 +147,23 @@ async function getPinterestFollowers(user) {
             let response = await fetch.postFetch(`${URL_IA}/followersPinterest`, pinterestObj, undefined);
             if (response.status == 200) {
                 if (response.body.success == true) {
+                    let date = new Date();
+                    let dateUpdate = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "-" + date.getHours().toString() + "H";
                     let pinterestArray = [];
+                    let pinterestArrayDate = [];
                     if (user.pinterestNb != null) {
-                        pinterestArray.push(Object.values(user.pinterestNb)[Object.values(user.pinterestNb).length - 1]);
+                        pinterestArray = Object.values(user.pinterestNb);
+                        pinterestArrayDate = Object.values(user.pinterestUpdateDate);
                     }
                     pinterestArray.push(response.body.pinterest.followers);
+                    pinterestArrayDate.push(dateUpdate);
+                    if (pinterestArray.length >= 10) {
+                        pinterestArray.remove[0];
+                        pinterestArrayDate.remove[0];
+                    }
                     user.update({
-                        pinterestNb: pinterestArray
+                        pinterestNb: pinterestArray,
+                        pinterestUpdateDate: pinterestArrayDate
                     });
                 }
             }
@@ -170,13 +200,23 @@ async function getInstagramFollowers(user) {
             let response = await fetch.postFetch(`${URL_IA}/followersInstagram`, instagramObj, undefined);
             if (response.status == 200) {
                 if (response.body.success == true) {
+                    let date = new Date();
+                    let dateUpdate = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "-" + date.getHours().toString() + "H";
                     let instagramArray = [];
+                    let instagramArrayDate = [];
                     if (user.instagramNb != null) {
-                        instagramArray.push(Object.values(user.instagramNb)[Object.values(user.instagramNb).length - 1]);
+                        instagramArray = Object.values(user.instagramNb);
+                        instagramArrayDate = Object.values(user.instagramUpdateDate);
                     }
                     instagramArray.push(response.body.instagram.followers);
+                    instagramArrayDate.push(dateUpdate);
+                    if (instagramArray.length >= 10) {
+                        instagramArray.remove[0];
+                        instagramArrayDate.remove[0];
+                    }
                     user.update({
-                        instagramNb: instagramArray
+                        instagramNb: instagramArray,
+                        instagramUpdateDate: instagramArrayDate
                     });
                 }
             }
@@ -214,13 +254,23 @@ async function getTwitterFollowers(user) {
             let response = await fetch.postFetch(`${URL_IA}/followersTwitter`, twitterObj, undefined);
             if (response.status == 200) {
                 if (response.body.success == true) {
+                    let date = new Date();
+                    let dateUpdate = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "-" + date.getHours().toString() + "H";
                     let twitterArray = [];
+                    let twitterArrayDate = [];
                     if (user.twitterNb != null) {
-                        twitterArray.push(Object.values(user.twitterNb)[Object.values(user.twitterNb).length - 1]);
+                        twitterArray = Object.values(user.twitterNb);
+                        twitterArrayDate = Object.values(user.twitterUpdateDate);
                     }
                     twitterArray.push(response.body.twitter.followers);
+                    twitterArrayDate.push(dateUpdate)
+                    if (twitterArray.length >= 10) {
+                        twitterArray.remove[0];
+                        twitterArrayDate.remove[0];
+                    }
                     user.update({
-                        twitterNb: twitterArray
+                        twitterNb: twitterArray,
+                        twitterUpdateDate: twitterArrayDate
                     });
                 }
             }
@@ -257,13 +307,23 @@ async function getYoutubeFollowers(user) {
             let response = await fetch.postFetch(`${URL_IA}/followersYoutube`, youtubeObj, undefined);
             if (response.status == 200) {
                 if (response.body.success == true) {
+                    let date = new Date();
+                    let dateUpdate = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "-" + date.getHours().toString() + "H";
                     let youtubeArray = [];
+                    let youtubeArrayDate = [];
                     if (user.youtubeNb != null) {
-                        youtubeArray.push(Object.values(user.youtubeNb)[Object.values(user.youtubeNb).length - 1]);
+                        youtubeArray = Object.values(user.youtubeNb);
+                        youtubeArrayDate = Object.values(user.youtubeUpdateDate);
                     }
                     youtubeArray.push(response.body.youtube.followers);
+                    youtubeArrayDate.push(dateUpdate);
+                    if (youtubeArray >= 10) {
+                        youtubeArray.remove[0];
+                        youtubeArrayDate.remove[0];                    
+                    }
                     user.update({
-                        youtubeNb: youtubeArray
+                        youtubeNb: youtubeArray,
+                        youtubeUpdateDate: youtubeArrayDate
                     });
                 }
             }
