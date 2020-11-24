@@ -274,6 +274,7 @@ async function registerInf(params) {
         return ({status: 400, message: "Error, account already exists"});
 
     let twitterNb, instagramNb, pinterestNb, twitchNb, youtubeNb, tiktokNb;
+    let twitterUpdateDate, instagramUpdateDate, pinterestUpdateDate, twitchUpdateDate, youtubeUpdateDate, tiktokUpdateDate = null;
     if (params.instagram !== undefined ||
         params.twitter !== undefined ||
         params.facebook !== undefined ||
@@ -286,11 +287,26 @@ async function registerInf(params) {
             return ({status: 400, message: "Invalid social network account"});
         } else {
             twitterNb = await getFollowers.setupTwitterFollowers(params);
+            let date = new Date();
+            let dateUpdate = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "-" + date.getHours().toString() + "H";
+            if (twitterNb != null || twitchNb != undefined) {
+                twitterUpdateDate = dateUpdate
+            }
             /* instagramNb = await getFollowers.setupInstagramFollowers(params); */
             /* pinterestNb = await getFollowers.setupPinterestFollowers(params); */
             twitchNb = await getFollowers.setupTwitchFollowers(params);
+            if (twitchNb != null || twitchNb != undefined) {
+                twitchUpdateDate = dateUpdate
+            }
             youtubeNb = await getFollowers.setupYoutubeFollowers(params);
+            if (youtubeNb != null || youtubeNb != undefined) {
+                youtubeUpdateDate = dateUpdate
+            }
             tiktokNb = await getFollowers.setupTiktokFollowers(params);
+            console.log(tiktokNb);
+            if (tiktokNb != null || tiktokNb != undefined) {
+                tiktokUpdateDate = dateUpdate
+            }
         }
     }
 
@@ -312,18 +328,24 @@ async function registerInf(params) {
             facebook: params.facebook,
             twitter: params.twitter,
             twitterNb: [twitterNb],
+            twitterUpdateDate: [twitterUpdateDate],
             snapchat: params.snapchat,
             instagram: params.instagram,
             instagramNb: [instagramNb],
+            instagramUpdateDate: [instagramUpdateDate],
             sexe: params.sexe,
             pinterest: params.pinterest,
             pinterestNb: [pinterestNb],
+            pinterestUpdateDate: [pinterestUpdateDate],
             twitch: params.twitch,
             twitchNb: [twitchNb],
+            twitchUpdateDate: [twitchUpdateDate],
             youtube: params.youtube,
             youtubeNb: [youtubeNb],
+            youtubeUpdateDate: [youtubeUpdateDate],
             tiktok: params.tiktok,
             tiktokNb: [tiktokNb],
+            tiktokUpdateDate: [tiktokUpdateDate],
             visitNumber: 0,
             codeParrainage: makeid(5),
             countParrainage: 0
