@@ -100,16 +100,16 @@ async function modifyUserProfile(req) {
     if (!duplicate)
         return ({status: 400, message: "Error, account already exists"});
 
-    if (user["youtube"] != req.body["youtube"]) {
+    if (user["youtube"] != req.body["youtube"] && req.body["youtube"]) {
         user["youtubeNb"] = [await getFollowers.setupYoutubeFollowers(req.body)]
     }
-    if (user["twitter"] != req.body["twitter"]) {
+    if (user["twitter"] != req.body["twitter"] && req.body["twitter"]) {
         user["twitterNb"] = [await getFollowers.setupTwitterFollowers(req.body)]
     }
-    if (user["tiktok"] != req.body["tiktok"]) {
+    if (user["tiktok"] != req.body["tiktok"] && req.body["tiktok"]) {
         user["tiktokNb"] = [await getFollowers.setupTiktokFollowers(req.body)]
     }
-    if (user["twitch"] != req.body["twitch"]) {
+    if (user["twitch"] != req.body["twitch"] && req.body["twitch"]) {
         user["twitchNb"] = [await getFollowers.setupTwitchFollowers(req.body)]
     }
     Object.keys(req.body).forEach(function (item) {
