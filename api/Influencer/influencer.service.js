@@ -18,11 +18,7 @@ const   db = require("../_helpers/db"),
         OfferApply = db.OfferApply;
 
 async function updateFollowers() {
-    const list = await User.findAll({
-        attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-        'facebook', 'sexe', 'pinterest', 'pinterestNb', 'twitch', 'twitchNb', 'youtube', 'youtubeNb',
-        'twitter', 'twitterNb', 'snapchat', 'instagram', 'instagramNb', 'userDescription']
-    });
+    const list = await User.findAll();
     for (let i = 0; i < list.length; i++) {
         getFollowers.getTiktokFollowers(list[i]);
         getFollowers.getPinterestFollowers(list[i]);
@@ -40,10 +36,7 @@ async function getMyProfile(req) {
 
     const list = await User.findOne({
         where: { id: userId },
-        attributes: ['id', 'pseudo', 'userType', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-            'sexe','pinterest', 'pinterestNb', 'twitch', 'twitchNb', 'youtube', 'youtubeNb', 'facebook', 
-            'twitter', 'twitterNb', 'snapchat', 'instagram', 'instagramNb', 'tiktok', 'tiktokNb',
-            'userDescription', 'visitNumber', 'countParrainage', 'codeParrainage']
+        attributes: {exclude: ['password']}
     });
     list.userPicture = await GetImage.getImage({
         idLink: userId.toString(),
@@ -101,17 +94,23 @@ async function modifyUserProfile(req) {
     if (!duplicate)
         return ({status: 400, message: "Error, account already exists"});
 
+    let date = new Date();
+    let dateUpdate = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "-" + date.getHours().toString() + "H";
     if (user["youtube"] != req.body["youtube"] && req.body["youtube"]) {
         user["youtubeNb"] = [await getFollowers.setupYoutubeFollowers(req.body)]
+        user["youtubeUpdateDate"] = [dateUpdate]
     }
     if (user["twitter"] != req.body["twitter"] && req.body["twitter"]) {
         user["twitterNb"] = [await getFollowers.setupTwitterFollowers(req.body)]
+        user["twitterUpdateDate"] = [dateUpdate]
     }
     if (user["tiktok"] != req.body["tiktok"] && req.body["tiktok"]) {
         user["tiktokNb"] = [await getFollowers.setupTiktokFollowers(req.body)]
+        user["tiktokUpdateDate"] = [dateUpdate]
     }
     if (user["twitch"] != req.body["twitch"] && req.body["twitch"]) {
         user["twitchNb"] = [await getFollowers.setupTwitchFollowers(req.body)]
+        user["twitchUpdateDate"] = [dateUpdate]
     }
     Object.keys(req.body).forEach(function (item) {
         user["pseudo"] = req.body["pseudo"];
