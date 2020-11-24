@@ -17,10 +17,11 @@ const   db = require("../_helpers/db"),
         GetAllImage = require("../UploadImage/uploadImage.service"),
         OfferApply = db.OfferApply;
 
-async function getAdvancedStats() {
+async function updateFollowers() {
     const list = await User.findAll({
         attributes: ['id', 'pseudo', 'full_name', 'email', 'phone', 'postal', 'city', 'theme',
-        'facebook', 'sexe', 'pinterest', 'twitch', 'twitchNb', 'youtube', 'twitter', 'snapchat', 'instagram', 'userDescription']
+        'facebook', 'sexe', 'pinterest', 'pinterestNb', 'twitch', 'twitchNb', 'youtube', 'youtubeNb',
+        'twitter', 'twitterNb', 'snapchat', 'instagram', 'instagramNb', 'userDescription']
     });
     for (let i = 0; i < list.length; i++) {
         getFollowers.getTiktokFollowers(list[i]);
@@ -32,7 +33,7 @@ async function getAdvancedStats() {
     }
 }
 
-setInterval(getAdvancedStats, 86400000); 
+setInterval(updateFollowers, 3600000); 
 
 async function getMyProfile(req) {
     let userId = jwtUtils.getUserId(req.headers['authorization']);
@@ -215,5 +216,6 @@ module.exports = {
     getUserProfile,
     modifyUserProfile,
     listShop,
-    searchInf
+    searchInf,
+    updateFollowers
 };

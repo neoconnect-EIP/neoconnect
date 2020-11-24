@@ -42,7 +42,9 @@ async function getTiktokFollowers(user) {
             if (response.status == 200) {
                 if (response.body.success == true) {
                     let tiktokArray = [];
-                    tiktokArray.push(Object.values(user.tiktokNb)[Object.values(user.tiktokNb).length - 1]);
+                    if (user.tiktokNb != null) {
+                        tiktokArray.push(Object.values(user.tiktokNb)[Object.values(user.tiktokNb).length - 1]);
+                    }
                     tiktokArray.push(response.body.tiktok.followers);
                     user.update({
                         tiktokNb: tiktokArray
@@ -83,7 +85,9 @@ async function getTwitchFollowers(user) {
             if (response.status == 200) {
                 if (response.body.success == true) {
                     let twitchArray = [];
-                    twitchArray.push(Object.values(user.twitchNb)[Object.values(user.twitchNb).length - 1]);
+                    if (user.twitchNb != null) {
+                        twitchArray.push(Object.values(user.twitchNb)[Object.values(user.twitchNb).length - 1]);
+                    }
                     twitchArray.push(response.body.twitch.followers);
                     user.update({
                         twitchNb: twitchArray
@@ -124,7 +128,9 @@ async function getPinterestFollowers(user) {
             if (response.status == 200) {
                 if (response.body.success == true) {
                     let pinterestArray = [];
-                    pinterestArray.push(Object.values(user.pinterestNb)[Object.values(user.pinterestNb).length - 1]);
+                    if (user.pinterestNb != null) {
+                        pinterestArray.push(Object.values(user.pinterestNb)[Object.values(user.pinterestNb).length - 1]);
+                    }
                     pinterestArray.push(response.body.pinterest.followers);
                     user.update({
                         pinterestNb: pinterestArray
@@ -165,7 +171,9 @@ async function getInstagramFollowers(user) {
             if (response.status == 200) {
                 if (response.body.success == true) {
                     let instagramArray = [];
-                    instagramArray.push(Object.values(user.instagramNb)[Object.values(user.instagramNb).length - 1]);
+                    if (user.instagramNb != null) {
+                        instagramArray.push(Object.values(user.instagramNb)[Object.values(user.instagramNb).length - 1]);
+                    }
                     instagramArray.push(response.body.instagram.followers);
                     user.update({
                         instagramNb: instagramArray
@@ -207,7 +215,9 @@ async function getTwitterFollowers(user) {
             if (response.status == 200) {
                 if (response.body.success == true) {
                     let twitterArray = [];
-                    twitterArray.push(Object.values(user.twitterNb)[Object.values(user.twitterNb).length - 1]);
+                    if (user.twitterNb != null) {
+                        twitterArray.push(Object.values(user.twitterNb)[Object.values(user.twitterNb).length - 1]);
+                    }
                     twitterArray.push(response.body.twitter.followers);
                     user.update({
                         twitterNb: twitterArray
@@ -248,7 +258,9 @@ async function getYoutubeFollowers(user) {
             if (response.status == 200) {
                 if (response.body.success == true) {
                     let youtubeArray = [];
-                    youtubeArray.push(Object.values(user.youtubeNb)[Object.values(user.youtubeNb).length - 1]);
+                    if (user.youtubeNb != null) {
+                        youtubeArray.push(Object.values(user.youtubeNb)[Object.values(user.youtubeNb).length - 1]);
+                    }
                     youtubeArray.push(response.body.youtube.followers);
                     user.update({
                         youtubeNb: youtubeArray

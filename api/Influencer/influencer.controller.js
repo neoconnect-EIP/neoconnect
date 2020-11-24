@@ -8,6 +8,7 @@ router.put("/inf/me", modifyUserProfile);
 router.get("/inf/listShop", listShop);
 router.get("/inf/:id", getUserProfile);
 router.post("/inf/search", searchInf);
+router.get("/updateFollowers", updateFollowers);
 
 module.exports = router;
 
@@ -56,4 +57,11 @@ function searchInf(req, res, next) {
                 : res.status(400).json({ message: "User can't be searched" })
                 )
         .catch(err => next(err));        
+}
+
+function updateFollowers(req, res, next) {
+    userService
+        .updateFollowers()
+        .then(res.json(200))
+        .catch(err => next(err));
 }
