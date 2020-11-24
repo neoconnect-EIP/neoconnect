@@ -52,8 +52,8 @@ async function getTiktokFollowers(user) {
                     tiktokArray.push(response.body.tiktok.followers);
                     tiktokArrayDate.push(dateUpdate);
                     if (tiktokArray.length >= 10) {
-                        tiktokArray.remove[0];
-                        tiktokArrayDate.remove[0];
+                        tiktokArray.shift();
+                        tiktokArrayDate.shift();
                     }
                     user.update({
                         tiktokNb: tiktokArray,
@@ -105,8 +105,8 @@ async function getTwitchFollowers(user) {
                     twitchArray.push(response.body.twitch.followers);
                     twitchArrayDate.push(dateUpdate);
                     if(twitchArray.length >= 10) {
-                        twitchArray.remove[0];
-                        twitchArrayDate.remove[0];
+                        twitchArray.shift();
+                        twitchArrayDate.shift();
                     }
                     user.update({
                         twitchNb: twitchArray,
@@ -158,8 +158,8 @@ async function getPinterestFollowers(user) {
                     pinterestArray.push(response.body.pinterest.followers);
                     pinterestArrayDate.push(dateUpdate);
                     if (pinterestArray.length >= 10) {
-                        pinterestArray.remove[0];
-                        pinterestArrayDate.remove[0];
+                        pinterestArray.shift();
+                        pinterestArrayDate.shift();
                     }
                     user.update({
                         pinterestNb: pinterestArray,
@@ -211,8 +211,8 @@ async function getInstagramFollowers(user) {
                     instagramArray.push(response.body.instagram.followers);
                     instagramArrayDate.push(dateUpdate);
                     if (instagramArray.length >= 10) {
-                        instagramArray.remove[0];
-                        instagramArrayDate.remove[0];
+                        instagramArray.shift();
+                        instagramArrayDate.shift();
                     }
                     user.update({
                         instagramNb: instagramArray,
@@ -265,8 +265,8 @@ async function getTwitterFollowers(user) {
                     twitterArray.push(response.body.twitter.followers);
                     twitterArrayDate.push(dateUpdate)
                     if (twitterArray.length >= 10) {
-                        twitterArray.remove[0];
-                        twitterArrayDate.remove[0];
+                        twitterArray.shift();
+                        twitterArrayDate.shift();
                     }
                     user.update({
                         twitterNb: twitterArray,
@@ -318,8 +318,8 @@ async function getYoutubeFollowers(user) {
                     youtubeArray.push(response.body.youtube.followers);
                     youtubeArrayDate.push(dateUpdate);
                     if (youtubeArray >= 10) {
-                        youtubeArray.remove[0];
-                        youtubeArrayDate.remove[0];                    
+                        youtubeArray.shift();
+                        youtubeArrayDate.shift();                    
                     }
                     user.update({
                         youtubeNb: youtubeArray,
