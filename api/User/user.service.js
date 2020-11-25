@@ -309,10 +309,7 @@ async function registerInf(params) {
             if (tiktokNb != null || tiktokNb != undefined) {
                 tiktokUpdateDate = dateUpdate
             }
-            console.log(tiktokNb);
-            if (tiktokNb != null || tiktokNb != undefined) {
-                tiktokUpdateDate = dateUpdate
-            }
+            
         }
     }
 
