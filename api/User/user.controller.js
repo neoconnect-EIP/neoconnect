@@ -12,6 +12,7 @@ router.post("/inf/register", registerInf);
 router.post("/shop/register", registerShop);
 router.post("/insertParrainage", addParrainage);
 router.post("/user/checkField", checkField);
+router.get("/user/profilPicture", getProfilPicture);
 
 module.exports = router;
 
@@ -86,6 +87,15 @@ function checkField(req, res, next) {
         .checkField(req.headers, req.body)
         .then(user => {
             res.status(user.status).json(user.message);
+        })
+        .catch(err => next(err));
+}
+
+function getProfilPicture(req, res, next) {
+    userService
+        .getProfilPicture(req)
+        .then(user => {
+             res.status(user.status).json(user.message)
         })
         .catch(err => next(err));
 }

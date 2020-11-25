@@ -142,6 +142,10 @@ module.exports = (sequelize, Sequelize) =>  {
             countParrainage: {
                 type: Sequelize.INTEGER,
                 default: 0
+            },
+            isParraine: {
+                type: Sequelize.BOOLEAN,
+                default: false
             }
         },
         { freezeTableName: true }

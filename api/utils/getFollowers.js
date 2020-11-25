@@ -182,7 +182,7 @@ async function setupInstagramFollowers(user) {
             let response = await fetch.postFetch(`${URL_IA}/followersInstagram`, instagramObj, undefined);
             if (response.status == 200) {
                 if (response.body.success == true) {
-                    return response.body.instagram.followers;
+                    return response.body.ig.followers;
                 }
             }
         } catch (e) { 
@@ -208,7 +208,7 @@ async function getInstagramFollowers(user) {
                         instagramArray = Object.values(user.instagramNb);
                         instagramArrayDate = Object.values(user.instagramUpdateDate);
                     }
-                    instagramArray.push(response.body.instagram.followers);
+                    instagramArray.push(response.body.ig.followers);
                     instagramArrayDate.push(dateUpdate);
                     if (instagramArray.length >= 10) {
                         instagramArray.shift();
