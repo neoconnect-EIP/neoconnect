@@ -292,7 +292,10 @@ async function registerInf(params) {
             if (twitterNb != null || twitchNb != undefined) {
                 twitterUpdateDate = dateUpdate
             }
-            /* instagramNb = await getFollowers.setupInstagramFollowers(params); */
+            instagramNb = await getFollowers.setupInstagramFollowers(params);
+            if (instagramNb != null || instagramNb != undefined) {
+                instagramUpdateDate = dateUpdate
+            }
             /* pinterestNb = await getFollowers.setupPinterestFollowers(params); */
             twitchNb = await getFollowers.setupTwitchFollowers(params);
             if (twitchNb != null || twitchNb != undefined) {
@@ -303,6 +306,9 @@ async function registerInf(params) {
                 youtubeUpdateDate = dateUpdate
             }
             tiktokNb = await getFollowers.setupTiktokFollowers(params);
+            if (tiktokNb != null || tiktokNb != undefined) {
+                tiktokUpdateDate = dateUpdate
+            }
             console.log(tiktokNb);
             if (tiktokNb != null || tiktokNb != undefined) {
                 tiktokUpdateDate = dateUpdate
@@ -348,7 +354,8 @@ async function registerInf(params) {
             tiktokUpdateDate: [tiktokUpdateDate],
             visitNumber: 0,
             codeParrainage: makeid(5),
-            countParrainage: 0
+            countParrainage: 0,
+            isParraine: false
     });
 
     if (params.userPicture !== undefined) {
@@ -368,15 +375,30 @@ async function registerInf(params) {
 }
 
 async function addParrainage(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    const userLogged = await Inf.findOne({
+        where: { id: userId},
+    });
+    if (userLogged === null) {
+        return ({status: 401, message: "Utilisateur introuvable"})
+    }
     if (!req.body || !req.body.codeParrainage)
-        return ({status: 400, message: "Bad Request, Please give a pseudo, email and a password"});
+        return ({status: 400, message: "Bad Request, Please give a parrainage code"});
     let user = await Inf.findOne({where: {codeParrainage: req.body.codeParrainage}})
     if (!user)
         user = await Shop.findOne({where: {codeParrainage: req.body.codeParrainage}})
     if (!user)
         return ({status: 400, message: "Code parrainage incorrect"});
+    if (req.body.codeParrainage == userLogged.codeParrainage) {
+        return ({status: 400, message: "Vous ne pouvez pas entrer votre code"});
+    }
+    if (userLogged.isParraine == true) {
+        return ({status: 400, message: "Vous avez déjà été parrainé"});
+    }
     user['countParrainage'] = user['countParrainage'] + 1;
     user.save().then(() => {});
+    userLogged['isParraine'] = true;
+    userLogged.save().then(() => {});
     return ({status: 200, message: "Code parrainage soumis avec succès"});
 }
 
@@ -455,6 +477,19 @@ async function checkField(header, body) {
     return ({status: 200, message: false});
 }
 
+async function getProfilPicture(req) {
+    let userId = jwtUtils.getUserId(req.headers['authorization']);
+    let profilPicture = await UploadImage.getImage({
+        idLink: userId.toString(),
+        type: 'User'
+    });
+    if (profilPicture) {
+        return ({status: 200, message: profilPicture[0]});
+    } else {
+        return ({status: 400, message: "Cet utilisateur n'a pas de photo de profil"});
+    }
+}
+
 module.exports = {
     login,
     reportUser,
@@ -464,5 +499,6 @@ module.exports = {
     registerShop,
     getProfile,
     addParrainage,
-    checkField
+    checkField,
+    getProfilPicture
 };

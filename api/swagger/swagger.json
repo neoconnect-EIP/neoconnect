@@ -214,6 +214,11 @@
           "User"
         ],
         "summary": "Rajoute +1 au parrainage d'un account",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -241,6 +246,42 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/profilPicture": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Récupération de la photo de profil d'un utilisateur",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idLink": {
+                      "type": "string"
+                    },
+                    "imageName": {
+                      "type": "string"
+                    },
+                    "imageData": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -620,6 +661,19 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/updateFollowers": {
+      "post": {
+        "tags": [
+          "Influencers"
+        ],
+        "summary": "Mettre à jour manuellement le nombre d'abonnées pour chaque Influenceur",
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }

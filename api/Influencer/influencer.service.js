@@ -112,6 +112,14 @@ async function modifyUserProfile(req) {
         user["twitchNb"] = [await getFollowers.setupTwitchFollowers(req.body)]
         user["twitchUpdateDate"] = [dateUpdate]
     }
+    if (user["instagram"] != req.body["instagram"] && req.body["instagram"]) {
+        user["instagramNb"] = [await getFollowers.setupInstagramFollowers(req.body)]
+        user["instagramUpdateDate"] = [dateUpdate]
+    }
+    if (user["tiktok"] != req.body["tiktok"] && req.body["tiktok"]) {
+        user["tiktokNb"] = [await getFollowers.setupTiktokFollowers(req.body)]
+        user["tiktokUpdateDate"] = [dateUpdate]
+    }
     Object.keys(req.body).forEach(function (item) {
         user["pseudo"] = req.body["pseudo"];
         user["email"] = req.body["email"];
