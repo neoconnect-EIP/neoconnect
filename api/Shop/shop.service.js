@@ -61,18 +61,6 @@ async function getMyProfile(req) {
         type: 'User'
     });
     list.dataValues.average = await getMarkAverageUser(`${userId}`);
-    let listOffer = await Offer.findAll({
-        where: {idUser: userId.toString()}
-    });
-    if (listOffer === undefined || listOffer.length === 0) {
-        list.dataValues.average = 0;
-    } else {
-        let avg = 0;
-        for (let i = 0; i < listOffer.length; i++) {
-            avg += await getMarkAverageOffer(`${listOffer[i].id}`)
-        }
-        list.dataValues.average = avg / listOffer.length;
-    }
     list.dataValues.mark = await CommentMark.getMarkByUserId(userId.toString());
     list.dataValues.comment = await CommentMark.getCommentByUserId(userId.toString());
     let listShop = await Offer.findAll({
