@@ -524,7 +524,7 @@ async function reportOffer(req) {
     let userType = jwtUtils.getUserType(headerAuth);
     let user;
     if (userType === 'influencer')
-        user = await Inf.findOne({where: {id: userId}})
+        user = await User.findOne({where: {id: userId}})
     else
         user = await Shop.findOne({where: {id: userId}})
 
