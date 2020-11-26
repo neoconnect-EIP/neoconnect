@@ -259,7 +259,7 @@ async function getShopProfile(id) {
     });
     list.dataValues.average = await getMarkAverageUser(`${id}`);
     list.dataValues.comment = await CommentMark.getCommentByUserId(id.toString());
-    list.dataValues.comment = await CommentMark.getCommentByUserId(id.toString());
+    list.dataValues.mark = await CommentMark.getMarkByUserId(id.toString());
     return (list);
 }
 
