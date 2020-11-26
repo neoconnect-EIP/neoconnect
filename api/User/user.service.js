@@ -292,7 +292,7 @@ async function registerInf(params) {
             if (twitterNb != null || twitchNb != undefined) {
                 twitterUpdateDate = dateUpdate
             }
-            instagramNb = await getFollowers.setupInstagramFollowers(params);
+            /* instagramNb = await getFollowers.setupInstagramFollowers(params); */
             if (instagramNb != null || instagramNb != undefined) {
                 instagramUpdateDate = dateUpdate
             }
