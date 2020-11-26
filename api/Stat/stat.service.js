@@ -257,18 +257,8 @@ async function getShopProfile(id) {
         idLink: id.toString(),
         type: 'User'
     });
-    let listOffer = await Offer.findAll({
-        where: {idUser: id}
-    });
-    if (listOffer === undefined || listOffer.length === 0) {
-        list.dataValues.average = 0;
-    } else {
-        let avg = 0;
-        for (let i = 0; i < listOffer.length; i++) {
-            avg += await getMarkAverageOffer(`${listOffer[i].id}`)
-        }
-        list.dataValues.average = avg / listOffer.length;
-    }
+    list.dataValues.average = await getMarkAverageUser(`${id}`);
+    list.dataValues.comment = await CommentMark.getCommentByUserId(id.toString());
     list.dataValues.comment = await CommentMark.getCommentByUserId(id.toString());
     return (list);
 }
