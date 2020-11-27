@@ -201,12 +201,16 @@ async function addUserInformation(allComment) {
                 where: { id: allComment[i].idPost },
                 attributes: ['id', 'pseudo']
             });
-            allComment[i].pseudo = user.dataValues.pseudo
-            allComment[i].userPicture = await GetImage.getImage({
-                idLink: user.dataValues.id.toString(),
-                type: 'User'
-            });
-            allComment[i].average = await getMarkAverageUser(`${user.dataValues.id}`);
+            if (user !== null) {
+                allComment[i].pseudo = user.dataValues.pseudo
+                allComment[i].userPicture = await GetImage.getImage({
+                    idLink: user.dataValues.id.toString(),
+                    type: 'User'
+                });
+                allComment[i].average = await getMarkAverageUser(`${user.dataValues.id}`);   
+            } else {
+                allComment[i].pseudo = "Utilisateur supprimé"
+            }
          }
         else {
             allComment[i].pseudo = user.dataValues.pseudo
