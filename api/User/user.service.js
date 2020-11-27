@@ -1,10 +1,9 @@
-const { OfferApply } = require("../_helpers/db");
-
 const   db = require("../_helpers/db"),
         bcrypt = require("bcrypt"),
         Inf = db.Influencer,
         Shop = db.Shop,
         Offre = db.Offre,
+        OfferApply = db.OfferApply,
         Mark = db.Mark,
         Follow = db.Follow,
         { URL_IA } = process.env,
