@@ -2,6 +2,8 @@ const   db = require("../_helpers/db"),
         bcrypt = require("bcrypt"),
         Inf = db.Influencer,
         Shop = db.Shop,
+        Offre = db.Offre,
+        OfferApply = db.OfferApply,
         Mark = db.Mark,
         Follow = db.Follow,
         { URL_IA } = process.env,
@@ -161,6 +163,18 @@ async function deleteUser(req) {
         await Follow.destroy({
             where: {idUser: userId}
         })
+        let listOffer = await Offre.findAll({
+            where: {idUser: userId}
+        })
+        for (const i = 0; i < listOffer.length; i++) {
+            await OfferApply.destroy({
+                where: {idOffer: listOffer[i].id}
+            })
+        }
+        await Offre.destroy({
+            where: {idUser: userId}
+        })
+    
         await user.destroy();
         return ({status: 200, message: "Utilisateur supprimer"});
     } else {
